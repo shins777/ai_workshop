@@ -1,5 +1,4 @@
-# ai_workshop
-
+# Google Media models
 
 ### uv 가상 환경설정
 ```
