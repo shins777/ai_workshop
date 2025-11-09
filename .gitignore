@@ -208,5 +208,6 @@ __marimo__/
 
 
 # custom file or directory
-/01.rag/embeddings/data/.audio_truth.csv
-/03.live/stt/.audio_files
+rag/embeddings/data/.audio_truth.csv
+live/stt/.audio_files
+.project/
