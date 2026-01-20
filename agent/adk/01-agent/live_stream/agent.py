@@ -19,13 +19,13 @@ from google.adk.agents import Agent
 load_dotenv()
 
 INSTRUCTION = """
-    You are an agent that answers user questions.    
-    You should answer just short sentence if possible.
+    당신은 사용자의 질문에 답변하는 에이전트입니다.
+    가능하면 짧은 문장으로 답변해야 합니다.
 """
 
 root_agent = Agent(
     name = "basic_agent",
     model = os.getenv("GOOGLE_GENAI_LIVE_MODEL"),
-    description = "Agents that answer user questions",
+    description = "사용자의 질문에 답변하는 에이전트",
     instruction = INSTRUCTION,
 )

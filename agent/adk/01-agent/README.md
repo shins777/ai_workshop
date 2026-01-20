@@ -1,31 +1,31 @@
-# ADK 01-Agent Example
+# ADK 01-Agent 예제
 
-This directory contains example implementations of agents using the Agent Development Kit (ADK). Each subfolder demonstrates a different approach, from basic setup to advanced runtime and search-enabled agents.
+이 디렉터리는 ADK(에이전트 개발 키트)를 사용한 에이전트 구현 예제를 포함하고 있습니다. 각 하위 폴더는 기본 설정부터 고급 런타임 및 검색 지원 에이전트까지 다양한 접근 방식을 보여줍니다.
 
-## ADK Components
-The image below illustrates the main components of the ADK framework:  
+## ADK 구성 요소
+아래 이미지는 ADK 프레임워크의 주요 구성 요소를 보여줍니다:
 ![adk component](https://github.com/ForusOne/adk_agent/blob/main/images/adk_components.png?raw=true)
 
-## Agent Hierarchy
-ADK allows you to build multi-agent systems **within a single process**. You can combine multiple sub-agents and tools to create a multi-agent system, but all processing is handled monolithically within one process.  
+## 에이전트 계층 구조 (Hierarchy)
+ADK를 사용하면 **단일 프로세스 내**에서 멀티 에이전트 시스템을 구축할 수 있습니다. 여러 하위 에이전트와 도구를 결합하여 멀티 에이전트 시스템을 만들 수 있지만, 모든 처리는 하나의 프로세스 내에서 모놀리식으로 처리됩니다.
 ![Agent Hierarchy](https://github.com/ForusOne/adk_agent/blob/main/images/multi-agent.png?raw=true)
 
 
-## 01-agent Logic and Structure
+## 01-agent 로직 및 구조
 
-The `01-agent` examples demonstrate the fundamental logic and structure of an ADK-based agent system:
+`01-agent` 예제는 ADK 기반 에이전트 시스템의 기본 로직과 구조를 보여줍니다:
 
-- **Agent Initialization**: Define and initialize a root agent and multiple sub-agents using ADK.
-- **Message Routing**: User input is received by the root agent, which routes the message to the appropriate sub-agent or tool for processing.
-- **Role Assignment**: Each sub-agent is responsible for a specific task (e.g., critique, information retrieval), and the root agent combines their outputs to generate the final response.
-- **Monolithic Execution**: All agents and tools run within a single process, making management and deployment straightforward.
+- **에이전트 초기화**: ADK를 사용하여 루트 에이전트와 여러 하위 에이전트를 정의하고 초기화합니다.
+- **메시지 라우팅**: 사용자 입력은 루트 에이전트가 받으며, 루트 에이전트는 처리를 위해 적절한 하위 에이전트나 도구로 메시지를 라우팅합니다.
+- **역할 할당**: 각 하위 에이전트는 특정 작업(예: 비평, 정보 검색)을 담당하며, 루트 에이전트는 이들의 출력을 결합하여 최종 응답을 생성합니다.
+- **모놀리식 실행**: 모든 에이전트와 도구가 단일 프로세스 내에서 실행되므로 관리와 배포가 간단합니다.
 
-## .env Configuration
+## .env 구성
 
-For environment variable setup, refer to the following URL:  
+환경 변수 설정에 대해서는 다음 URL을 참조하세요:
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model 
 
-Below is an example configuration for enterprise use with Vertex AI:
+다음은 Vertex AI를 사용하는 엔터프라이즈 환경을 위한 예제 구성입니다:
 
 ```
 GOOGLE_GENAI_USE_VERTEXAI=TRUE
@@ -34,22 +34,22 @@ GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"
 GOOGLE_GENAI_MODEL="gemini-2.5-flash"
 ```
 
-For general users with AI Studio, set the `GOOGLE_API_KEY` as follows:
+AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 `GOOGLE_API_KEY`를 설정하세요:
 
 ```
 GOOGLE_GENAI_USE_VERTEXAI=FALSE
 GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
 ```
 
-## Getting Started
+## 시작하기
 
-1. Choose one of the subfolders as needed.
-2. Review the README file in the selected subfolder for specific setup and usage instructions.
-3. Place the `.env` file in the parent folder as described above.
-4. Run the agent using the recommended command for the chosen example.
+1. 필요에 따라 하위 폴더 중 하나를 선택하세요.
+2. 구체적인 설정 및 사용 지침은 선택한 하위 폴더의 README 파일을 검토하세요.
+3. 위에서 설명한 대로 상위 폴더에 `.env` 파일을 배치하세요.
+4. 선택한 예제에 권장되는 명령어를 사용하여 에이전트를 실행하세요.
 
-For more details, refer to the individual README files in each subfolder.
+자세한 내용은 각 하위 폴더의 개별 README 파일을 참조하세요.
 
-## License
+## 라이선스
 
-This project is licensed under the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+이 프로젝트는 Apache License 2.0에 따라 라이선스가 부여됩니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne** (shins777@gmail.com)에 있습니다.

@@ -21,20 +21,20 @@ from google.adk.agents import Agent
 load_dotenv()
 
 agentops.init(
-    api_key=os.getenv("AGENTOPS_API_KEY"), # Your AgentOps API Key
-    trace_name="adk-app-trace"  # Optional: A name for your trace
-    # auto_start_session=True is the default. 
-    # Set to False if you want to manually control session start/end.
+    api_key=os.getenv("AGENTOPS_API_KEY"), # AgentOps API 키
+    trace_name="adk-app-trace"  # 선택 사항: 추적 이름
+    # auto_start_session=True가 기본값입니다.
+    # 세션 시작/종료를 수동으로 제어하려면 False로 설정하세요.
 )
 
 INSTRUCTION = """
-You are an AI agent answering users' questions.
-When providing answers, explain your understanding of the question and respond concisely and clearly
+당신은 사용자의 질문에 답변하는 AI 에이전트입니다.
+답변을 제공할 때는 질문에 대한 이해한 내용을 설명하고 간결하고 명확하게 답변하세요.
 """
 
 root_agent = Agent(
     name = "basic_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer user questions",
+    description = "사용자의 질문에 답변하는 에이전트",
     instruction = INSTRUCTION,
 )
