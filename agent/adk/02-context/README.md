@@ -1,4 +1,4 @@
-# ADK 02 - 대화 통합 가이드
+# ADK 02 - Context management
 
 이 디렉터리는 세션(session), 메모리(memory), 이벤트(event), 상태 관리(state management) 등 ADK(에이전트 개발 키트)의 대화형 기능과 관련된 예제를 통합합니다. 자세한 설정 및 실행 지침은 각 하위 폴더의 README를 참조하세요.
 
