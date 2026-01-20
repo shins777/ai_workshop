@@ -1,28 +1,12 @@
-# ADK 02 - Conversations Integration Guide
+# ADK 02 - 대화 통합 가이드
 
-This directory consolidates examples related to conversational features of the ADK (Agent Development Kit), such as sessions, memory, events, and state management. Refer to each subfolder's README for detailed setup and execution instructions.
+이 디렉터리는 세션(session), 메모리(memory), 이벤트(event), 상태 관리(state management) 등 ADK(에이전트 개발 키트)의 대화형 기능과 관련된 예제를 통합합니다. 자세한 설정 및 실행 지침은 각 하위 폴더의 README를 참조하세요.
 
-## Overview
-- Purpose: Provide examples and patterns for conversational agent context management (memory, sessions, events, state, etc.).
-- Primary use cases: maintaining long-term conversations, flow control based on state transitions, event-driven responses, memory-based retrieval and recall.
+## 개요
+- 목적: 대화형 에이전트 문맥 관리(메모리, 세션, 이벤트, 상태 등)를 위한 예제 및 패턴 제공.
+- 주요 사용 사례: 장기 대화 유지, 상태 전이에 따른 흐름 제어, 이벤트 기반 응답, 메모리 기반 검색 및 회상.
 
-## Subfolder Summary
-### memory (memory-based examples)  
-  - Description: Examples for storing and retrieving memory, search integration, and usage with Vertex AI AgentEngine and in-memory backends.
+## 라이선스
+이 프로젝트는 Apache License 2.0에 따라 라이선스가 부여됩니다. 
 
-### event (event-based examples)  
-  - Description: Examples demonstrating flow control and output extension using events generated during user-agent interactions.
-
-### session (session-aware examples)  
-  - Description: Examples for maintaining session state and history, supporting in-memory, SQLite, and Agent Engine session backends, with per-turn detailed output and event examples.
-
-### state (state-based examples)  
-  - Description: Examples implementing state transitions and state-based control logic within a session (managing complex conversation flows).
-
-## How to run
-
-Check the README and source files inside each workflow subfolder for details about that example and how to run the specific agent or server.
-
-## License
-This project is licensed under the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
 

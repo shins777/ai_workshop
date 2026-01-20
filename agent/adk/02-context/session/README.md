@@ -1,19 +1,19 @@
-# ADK Conversation Agent - Session
+# ADK 대화형 에이전트 - 세션(Session)
 
-This folder demonstrates how to build and operate a session-aware conversational AI agent using the Agent Development Kit (ADK). The example shows how to maintain session state across multiple user interactions while answering questions using Google Search.
+이 폴더는 ADK(에이전트 개발 키트)를 사용하여 세션 인식형 대화형 AI 에이전트를 구축하고 운영하는 방법을 보여줍니다. 이 예제는 Google 검색을 사용하여 질문에 답변하는 동안 다중 사용자 상호작용 전반에 걸쳐 세션 상태를 유지하는 방법을 보여줍니다.
 
-Key features of the session conversation agent:
-- Answers user questions using both its internal knowledge and live Google search results
-- Maintains session state and event history across multiple turns
-- Supports multiple session backends: in-memory, SQLite (database), and Agent Engine (Vertex AI)
-- Prints detailed session properties and events after each turn
+세션 대화 에이전트의 주요 기능:
+- 내부 기술 자료와 실시간 Google 검색 결과를 모두 사용하여 사용자 질문에 답변
+- 여러 턴에 걸쳐 세션 상태 및 이벤트 기록 유지
+- 다양한 세션 백엔드 지원: 인메모리(in-memory), SQLite(데이터베이스), Agent Engine(Vertex AI)
+- 각 턴 이후 상세 세션 속성 및 이벤트 출력
 
-## .env configuration
+## .env 구성
 
-Create a `.env` file in the parent folder (`02-context`). See the ADK quickstart for recommended environment variables and authentication instructions:
+`.env` 파일을 상위 폴더(`02-context`)에 생성하세요. 권장되는 환경 변수 및 인증 지침은 ADK 퀵스타트를 참조하세요:
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
 
-The example below shows environment variables used when running ADK with Vertex AI / Agent Engine in an enterprise environment. Note: the Gemini endpoint location and Agent Engine location can be configured independently.
+아래 예제는 엔터프라이즈 환경에서 ADK를 Vertex AI / Agent Engine과 함께 실행할 때 사용되는 환경 변수를 보여줍니다. 참고: Gemini 엔드포인트 위치와 Agent Engine 위치는 독립적으로 구성할 수 있습니다.
 
 ```
 GOOGLE_GENAI_USE_VERTEXAI = TRUE
@@ -24,72 +24,72 @@ GOOGLE_GENAI_MODEL = "gemini-2.5-flash"
 AGENT_ENGINE_ID = "YOUR_AGENT_ENGINE_ID"
 ```
 
-For individual users using AI Studio, set the API key like this:
+AI Studio를 사용하는 개인 사용자의 경우 API 키를 다음과 같이 설정하세요:
 
 ```
 GOOGLE_GENAI_USE_VERTEXAI = FALSE
 GOOGLE_API_KEY = PASTE_YOUR_ACTUAL_API_KEY_HERE
 ```
 
-## Example: run the demo
+## 예제: 데모 실행
 
-Authenticate your environment with Google Cloud:
+Google Cloud로 환경 인증:
 
 ```
 adk_workshop/adk/02-context$gcloud auth application-default login
 ```
 
-Run the session agent with one of the supported session backends:
+지원되는 세션 백엔드 중 하나로 세션 에이전트를 실행하세요:
 
 ```
 adk_workshop/adk/02-context$ uv run -m session.runner --type <session_type> --app_name <app_name> --user_id <user_id> --session_id <session_id>
 ```
 
-Available session types: `in_memory`, `database`, `agent_engine`
+사용 가능한 세션 유형: `in_memory`, `database`, `agent_engine`
 
-The server will create a session automatically on first run. While the session exists, subsequent interactions can reference the conversation history and session state. When using `database` or `agent_engine`, session data persists across process restarts as long as you reuse the same app name, user id, and session id.
+서버는 첫 실행 시 자동으로 세션을 생성합니다. 세션이 존재하는 동안 후속 상호작용은 대화 기록 및 세션 상태를 참조할 수 있습니다. `database` 또는 `agent_engine`을 사용할 때 동일한 앱 이름, 사용자 ID 및 세션 ID를 재사용하는 한 세션 데이터는 프로세스 재시작 시에도 유지됩니다.
 
-### 1) in_memory session type
+### 1) 인메모리(in_memory) 세션 유형
 
-This mode stores sessions only in memory. All session data is lost when the process exits. Use this mode for quick local testing.
+이 모드는 세션을 메모리에만 저장합니다. 프로세스가 종료되면 모든 세션 데이터가 손실됩니다. 빠른 로컬 테스트에 이 모드를 사용하세요.
 
-Example:
+예제:
 
 ```
 adk_workshop/adk/02-context$ uv run -m session.runner --type in_memory --app_name ai_assist --user_id forus --session_id forus_sess_001
 ```
 
-### 2) database session type
+### 2) 데이터베이스(database) 세션 유형
 
-This mode persists sessions to a relational database (example uses SQLite). Session state survives process restarts.
+이 모드는 세션을 관계형 데이터베이스(예제는 SQLite 사용)에 유지합니다. 세션 상태는 프로세스 재시작 후에도 유지됩니다.
 
-Example:
+예제:
 
 ```
 adk_workshop/adk/02-context$ uv run -m session.runner --type database --app_name ai_assist --user_id forus --session_id forus_sess_001
 ```
 
-If using SQLite, a file (e.g., `adk_database.db`) will be created. You can inspect it with a SQLite viewer or VS Code extension.
+SQLite를 사용하는 경우 파일(예: `adk_database.db`)이 생성됩니다. SQLite 뷰어 또는 VS Code 확장을 사용하여 검사할 수 있습니다.
 
-### 3) agent_engine (Vertex AI) session type
+### 3) Agent Engine (Vertex AI) 세션 유형
 
-This mode stores sessions in a Vertex AI Agent Engine instance. Agent Engine is a separately deployed service (e.g., Cloud Run) designed to host agents and their sessions. To use this mode, create an Agent Engine and set its ID in your `.env` file:
+이 모드는 세션을 Vertex AI Agent Engine 인스턴스에 저장합니다. Agent Engine은 에이전트와 해당 세션을 호스팅하도록 설계된 별도로 배포된 서비스(예: Cloud Run)입니다. 이 모드를 사용하려면 Agent Engine을 생성하고 `.env` 파일에 ID를 설정하세요:
 
 ```
 AGENT_ENGINE_ID = "1769934533233804800"
 ```
 
-Example run command:
+실행 명령 예제:
 
 ```
 adk_workshop/adk/02-context$ uv run -m session.runner --type agent_engine --app_name ai_assist --user_id forus --session_id forus_sess_001
 ```
 
-Notes when using VertexAiSessionService (as of Aug 2025, google-adk==1.12.0):
-- VertexAiSessionService supports creating sessions based on session id.
-- Sessions can be queried and resumed using `app_name`, `user_id`, and `session_id`.
-- Session id is automatically generated by the example if not supplied.
+VertexAiSessionService 사용 시 참고 사항 (2025년 8월 기준, google-adk==1.12.0):
+- VertexAiSessionService는 세션 ID를 기반으로 세션 생성을 지원합니다.
+- 세션은 `app_name`, `user_id`, `session_id`를 사용하여 쿼리하고 재개할 수 있습니다.
+- 세션 ID가 제공되지 않으면 예제에서 자동으로 생성됩니다.
 
-## License
+## 라이선스
 
-This project is licensed under the Apache License 2.0. All code and content copyright
+이 프로젝트는 Apache License 2.0에 따라 라이선스가 부여됩니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne** (shins777@gmail.com)에 있습니다.

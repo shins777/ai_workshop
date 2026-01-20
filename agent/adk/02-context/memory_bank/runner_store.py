@@ -72,10 +72,10 @@ async def run_search_agent( session_service: BaseSessionService,
                                                     user_id=session.user_id, 
                                                     session_id=session.id)
 
-    print("\n-- Adding search session to Memory ---")
+    print("\n-- 검색 세션을 메모리에 추가 중 ---")
     await memory_service.add_session_to_memory(completed_session)
     
-    print("\t Session added to memory.")
+    print("\t 세션이 메모리에 추가되었습니다.")
 
 
 #--------------------------------[__name__]----------------------------------
@@ -84,12 +84,12 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    print("Running the agent...")
-    print("Usage: uv run -m memory_bank.runner_store --app_name <app_name> --user_id <user_id>")
+    print("에이전트 실행 중...")
+    print("사용법: uv run -m memory_bank.runner_store --app_name <app_name> --user_id <user_id>")
 
-    parser = argparse.ArgumentParser(description="Run the ADK agent with a user query.")
-    parser.add_argument("--app_name",type=str,help="The application name for this agent.",)
-    parser.add_argument("--user_id",type=str,help="The user interacting with this agent.",)    
+    parser = argparse.ArgumentParser(description="사용자 쿼리로 ADK 에이전트를 실행합니다.")
+    parser.add_argument("--app_name",type=str,help="이 에이전트의 애플리케이션 이름입니다.",)
+    parser.add_argument("--user_id",type=str,help="이 에이전트와 상호 작용하는 사용자입니다.",)    
     args = parser.parse_args()
     
     session_service = InMemorySessionService()

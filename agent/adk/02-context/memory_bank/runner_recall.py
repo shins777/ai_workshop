@@ -64,12 +64,12 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    print("Running the agent...")
-    print("Usage: uv run -m memory_bank.runner_recall --app_name <app_name> --user_id <user_id>")
+    print("에이전트 실행 중...")
+    print("사용법: uv run -m memory_bank.runner_recall --app_name <app_name> --user_id <user_id>")
 
-    parser = argparse.ArgumentParser(description="Run the ADK agent with a user query.")
-    parser.add_argument("--app_name",type=str,help="The application name for this agent.",)
-    parser.add_argument("--user_id",type=str,help="The user interacting with this agent.",)    
+    parser = argparse.ArgumentParser(description="사용자 쿼리로 ADK 에이전트를 실행합니다.")
+    parser.add_argument("--app_name",type=str,help="이 에이전트의 애플리케이션 이름입니다.",)
+    parser.add_argument("--user_id",type=str,help="이 에이전트와 상호 작용하는 사용자입니다.",)    
     args = parser.parse_args()
     
     session_service = InMemorySessionService()
