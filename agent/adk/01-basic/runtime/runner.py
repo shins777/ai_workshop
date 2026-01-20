@@ -15,6 +15,15 @@
 from google.genai import types
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
+import warnings
+
+import logging
+
+# 경고 메시지 숨기기
+warnings.filterwarnings("ignore")
+# 라이브러리 로깅 레벨 조정 : google.adk 및 google.genai 라이브러리의 로그 레벨을 에러 이상으로 높여, 일반적인 경고 메시지(non-text response 등)가 출력되지 않도록 처리.
+logging.getLogger("google.adk").setLevel(logging.ERROR)
+logging.getLogger("google.genai").setLevel(logging.ERROR)
 
 from runtime import agent
 

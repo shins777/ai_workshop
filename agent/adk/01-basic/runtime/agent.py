@@ -27,6 +27,8 @@ INSTRUCTION = """
 1. 사용자가 긍정적인 리뷰를 요청하면 positive_critic 에이전트를 사용하세요.
 2. 사용자가 부정적인 리뷰를 요청하면 negative_critic 에이전트를 사용하세요.
 
+만일 root_agent가 답변할 때는 "## 일반적인 질문에 대한 Root Agent의 답변 ## "로 시작하여 답변해주세요.
+ 
 """
 
 root_agent = Agent(

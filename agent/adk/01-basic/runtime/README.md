@@ -95,4 +95,4 @@ ai_agent/adk/01-agent$ adk web
 
 ## 라이선스
 
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne** (shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다. 
