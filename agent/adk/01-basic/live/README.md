@@ -36,11 +36,11 @@ gcloud auth application-default login
 ```
 
 ### SSL 인증서 설정
-일반적으로 인터넷에서 데이터를 주고받을 때(특히 Video Communication처럼 민감한 데이터를 다룰 때)는 HTTPS나 가상 보안 터미널을 사용합니다. 이때 내 컴퓨터는 상대방 서버가 진짜 구글 서버가 맞는지 확인해야 합니다.
-그래서 비디오 통신(ADK를 통한 Vertex AI 또는 Gemini 연결 등)은 실시간으로 대용량 데이터를 주고받는 고도로 보안된 연결을 요구합니다.
-그래서 certifi 를 통해서 최신 보안 인증서들을 모아놓은 Python 패키지를 활용합니다.
-cacert.pem 파일의 핵심 역할은 웹사이트에서 제공하는 SSL/TLS 인증서가 정품이며 신뢰할 수 있는 기관(CA, 인증 기관)에서 발급되었는지 확인하는 것입니다.
-export SSL_CERT_FILE=$(python3 -m certifi) 명령어는 한마디로 **"내 컴퓨터가 인터넷상의 서버(Google 등)를 안전하다고 믿어도 되는지 확인하는 '인증서 목록'이 어디 있는지 알려주는 설정"**입니다.
+* 일반적으로 인터넷에서 데이터를 주고받을 때(특히 Video Communication처럼 민감한 데이터를 다룰 때)는 HTTPS나 가상 보안 터미널을 사용합니다. 이때 내 컴퓨터는 상대방 서버가 진짜 구글 서버가 맞는지 확인해야 합니다.  
+* 그래서 비디오 통신(ADK를 통한 Vertex AI 또는 Gemini 연결 등)은 실시간으로 대용량 데이터를 주고받는 고도로 보안된 연결을 요구합니다.  
+* 그래서 certifi 를 통해서 최신 보안 인증서들을 모아놓은 Python 패키지를 활용합니다.  
+* cacert.pem 파일의 핵심 역할은 웹사이트에서 제공하는 SSL/TLS 인증서가 정품이며 신뢰할 수 있는 기관(CA, 인증 기관)에서 발급되었는지 확인하는 것입니다.  
+* export SSL_CERT_FILE=$(python3 -m certifi) 명령어는 한마디로 "내 컴퓨터가 인터넷상의 서버(Google 등)를 안전하다고 믿어도 되는지 확인하는 '인증서 목록'이 어디 있는지 알려주는 설정"입니다.  
 
 ```
 adk_workshop/adk/01-agent$ export SSL_CERT_FILE=$(python3 -m certifi) 
