@@ -21,35 +21,35 @@ from google.adk.agents.callback_context import CallbackContext
 def callback_before_agent(callback_context: CallbackContext) -> Optional[types.Content]:
 
     """
-    Pre-processing callback invoked before agent execution.
+    에이전트 실행 전에 호출되는 전처리 콜백입니다.
 
-    This function inspects the current state from the CallbackContext. If the state's
-    'skip_agent' flag is set to True, it aborts agent execution and returns a custom
-    response to the user. Otherwise it returns None to allow the agent to run normally.
+    이 함수는 CallbackContext에서 현재 상태를 검사합니다. 상태의
+    'skip_agent' 플래그가 True로 설정된 경우 에이전트 실행을 중단하고 사용자에게
+    맞춤 응답을 반환합니다. 그렇지 않으면 None을 반환하여 에이전트가 정상적으로 실행되도록 합니다.
 
     Args:
-        callback_context (CallbackContext): Context containing agent info and state
+        callback_context (CallbackContext): 에이전트 정보 및 상태를 포함하는 컨텍스트
     Returns:
-        Optional[types.Content]: Custom Content response when skipping the agent, or None to continue.
+        Optional[types.Content]: 에이전트를 건너뛸 때의 사용자 정의 Content 응답 또는 계속하려면 None.
     """
 
-    # Retrieve context information from CallbackContext.
+    # CallbackContext에서 컨텍스트 정보를 검색합니다.
     agent_name = callback_context.agent_name
     current_state = callback_context.state.to_dict()
 
-    # Control pre-execution flow based on state information.
+    # 상태 정보에 따라 실행 전 흐름을 제어합니다.
     if current_state.get("skip_agent", False):
-        print(f"[Before Agent] Condition met: skipping agent execution due to state flag - Agent: {agent_name} : Current State: {current_state}")
+        print(f"[Before Agent] 조건 충족: 상태 플래그로 인해 에이전트 실행 건너뜀 - Agent: {agent_name} : Current State: {current_state}")
 
-        # Create a Content response to return to the user without calling the agent.
+        # 에이전트를 호출하지 않고 사용자에게 반환할 Content 응답을 생성합니다.
         return_content = types.Content(
-            parts=[types.Part(text=f"Agent {agent_name} was skipped by before_agent_callback due to the user's state flag.")],
-            role="model"  # set the role of the response to 'model'
+            parts=[types.Part(text=f"사용자 상태 플래그로 인해 before_agent_callback에서 에이전트 {agent_name} 실행을 건너뛰었습니다.")],
+            role="model"  # 응답의 역할을 'model'로 설정
         )
         return return_content
-    else:  # Return None to allow the agent to execute normally.
-        print(f"[Before Agent] Executing agent - {agent_name} in progress.")
-        return None  # Returning None lets the LlmAgent run as normal.
+    else:  # None을 반환하여 에이전트가 정상적으로 실행되도록 합니다.
+        print(f"[Before Agent] 에이전트 실행 중 - {agent_name} 진행 중.")
+        return None  # None을 반환하면 LlmAgent가 정상적으로 실행됩니다.
 
 
 
@@ -57,35 +57,35 @@ def callback_before_agent(callback_context: CallbackContext) -> Optional[types.C
 
 def callback_after_agent(callback_context: CallbackContext) -> Optional[types.Content]:
     """
-    Post-processing callback invoked after agent execution.
+    에이전트 실행 후 호출되는 후처리 콜백입니다.
 
-    This function inspects the current state from the CallbackContext. If the state's
-    'check_response' flag is set, it returns a custom response to the user and halts
-    further processing. Otherwise it returns None to continue normal post-agent flow.
+    이 함수는 CallbackContext에서 현재 상태를 검사합니다. 상태의
+    'check_response' 플래그가 설정된 경우 사용자에게 맞춤 응답을 반환하고
+    추가 처리를 중단합니다. 그렇지 않으면 None을 반환하여 정상적인 사후 에이전트 흐름을 계속합니다.
 
     Args:
-        callback_context (CallbackContext): Context containing agent info and state
+        callback_context (CallbackContext): 에이전트 정보 및 상태를 포함하는 컨텍스트
     Returns:
-        Optional[types.Content]: Custom Content response for post-processing, or None to continue.
+        Optional[types.Content]: 후처리를 위한 사용자 정의 Content 응답 또는 계속하려면 None.
     """
     
-    # Retrieve context information from CallbackContext.
+    # CallbackContext에서 컨텍스트 정보를 검색합니다.
     agent_name = callback_context.agent_name
     current_state = callback_context.state.to_dict()
 
     print(f"[After Agent] current_state : Current State: {current_state}")
 
-    # Control post-execution flow based on state information.
+    # 상태 정보에 따라 실행 후 흐름을 제어합니다.
     if current_state.get("check_response"):
-        print(f"[After Agent] Condition met: handling post-agent response - {agent_name} : Current State: {current_state}")
+        print(f"[After Agent] 조건 충족: 사후 에이전트 응답 처리 - {agent_name} : Current State: {current_state}")
 
         print(f"## Callback context info : {callback_context}")
-        # Stop further processing after agent call and create a notification Content for the user.
+        # 에이전트 호출 후 추가 처리를 중단하고 사용자를 위한 알림 Content를 생성합니다.
         return types.Content(
-            parts=[types.Part(text=f"The agent {agent_name}'s callback was executed after the agent call due to the state flag.")],
-            role="model"  # set the role of the response to 'model'
+            parts=[types.Part(text=f"상태 플래그로 인해 에이전트 호출 후 에이전트 {agent_name}의 콜백이 실행되었습니다.")],
+            role="model"  # 응답의 역할을 'model'로 설정
         )
     
     else:
-        print(f"[After Agent] Condition not met: continuing agent {agent_name}.")
-        return None  # Returning None lets the LlmAgent continue as normal
+        print(f"[After Agent] 조건 미충족: 에이전트 {agent_name} 계속 진행.")
+        return None  # None을 반환하면 LlmAgent가 정상적으로 계속됩니다.

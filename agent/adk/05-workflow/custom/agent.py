@@ -24,14 +24,14 @@ from .critic import CriticAgent
 
 load_dotenv()
 
-# Module purpose:
-# This module defines a custom CriticAgent that composes three sub-agents:
-# - positive_critic_agent: produces positive feedback and highlights strengths
-# - negative_critic_agent: produces constructive negative feedback or weaknesses
-# - review_critic_agent: aggregates critiques and produces a final review
+# 모듈 목적:
+# 이 모듈은 세 가지 하위 에이전트를 구성하는 사용자 지정 CriticAgent를 정의합니다.
+# - positive_critic_agent: 긍정적인 피드백을 생성하고 강점을 강조합니다.
+# - negative_critic_agent: 건설적인 부정적인 피드백 또는 약점을 생성합니다.
+# - review_critic_agent: 비평을 집계하고 최종 검토를 생성합니다.
 #
-# The CriticAgent coordinates these sub-agents to produce structured critiques
-# and an overall evaluation for a given input or document.
+# CriticAgent는 이러한 하위 에이전트를 조정하여 구조화된 비평을 생성하고
+# 주어진 입력 또는 문서에 대한 전체 평가를 제공합니다.
 
 root_agent = CriticAgent(
     name = "critic_agent",
@@ -40,5 +40,5 @@ root_agent = CriticAgent(
     review_critic_agent = review_critic,        
 )
 
-# The `root_agent` can be used directly by the ADK runtime or wired into
-# higher-level workflows where a combined critique and review is required.
+# `root_agent`는 ADK 런타임에서 직접 사용하거나
+# 결합된 비평 및 검토가 필요한 상위 수준 워크플로에 연결할 수 있습니다.

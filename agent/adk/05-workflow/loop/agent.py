@@ -13,8 +13,8 @@
 # limitations under the License.
 
 """
-This module provides an example workflow composition using agents.
-The workflow includes research, critique, refinement, and conclusion steps.
+이 모듈은 에이전트를 사용한 예제 워크플로 구성을 제공합니다.
+워크플로에는 조사, 비평, 개선 및 결론 단계가 포함됩니다.
 """
 
 from dotenv import load_dotenv
@@ -28,21 +28,21 @@ from .sub_agent import conclusion_agent
 
 load_dotenv()
 
-# Loop workflow example: `critics_loop` performs iterative critique and refinement.
-# The loop alternates between a critic step and a refine step to improve outputs.
+# 루프 워크플로 예제: `critics_loop`는 반복적인 비평 및 개선을 수행합니다.
+# 루프는 비평 단계와 개선 단계를 번갈아 가며 출력을 개선합니다.
 critics_loop = LoopAgent(
     name="critics_loop",
     sub_agents=[
         critic_agent,
         refine_agent,
     ],
-    max_iterations=3  # Maximum number of iterations for the critique/refinement loop
+    max_iterations=3  # 비평/개선 루프의 최대 반복 횟수
 )
 
-# Root agent composes the workflow as a sequence of steps:
-# 1) research_agent: gathers or generates initial content
-# 2) critics_loop: iteratively critiques and refines the content
-# 3) conclusion_agent: produces the final output based on refined results
+# 루트 에이전트는 워크플로를 일련의 단계로 구성합니다:
+# 1) research_agent: 초기 콘텐츠 수집 또는 생성
+# 2) critics_loop: 콘텐츠를 반복적으로 비평하고 개선
+# 3) conclusion_agent: 개선된 결과를 바탕으로 최종 출력 생성
 root_agent = SequentialAgent(
     name="confirmation_agent",
     sub_agents=[
@@ -50,5 +50,5 @@ root_agent = SequentialAgent(
         critics_loop,
         conclusion_agent
     ],
-    description="Agent that runs the research agent, then an iterative critics/refinement loop, and finally a conclusion agent.",
+    description="조사 에이전트를 실행한 다음 반복적인 비평/개선 루프를 실행하고 마지막으로 결론 에이전트를 실행하는 에이전트입니다.",
 )

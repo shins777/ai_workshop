@@ -25,7 +25,7 @@ def buid_rag_tool():
     rag_engine_tool = VertexAiRagRetrieval(
         name='retrieve_rag_documentation',
         description=(
-            'Use this tool to search for documents and references related to questions in the RAG Engine corpus.'
+            'RAG Engine 코퍼스의 질문과 관련된 문서 및 참조를 검색하려면 이 도구를 사용하세요.'
         ),
         rag_resources=[
             rag.RagResource(
@@ -38,15 +38,15 @@ def buid_rag_tool():
     return rag_engine_tool
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user asks a question, you must use the rag_engine_tool to provide an answer based on the results.
-    When providing an answer, you must strictly follow the format below:
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 질문을 하면 rag_engine_tool을 사용하여 결과를 바탕으로 답변을 제공해야 합니다.
+    답변을 제공할 때는 다음 형식을 엄격히 준수해야 합니다:
 
-    1. Identify the user's question intent:
-    2. Reference documents:
-    3. Answer summary:
+    1. 사용자 질문 의도 파악:
+    2. 참조 문서:
+    3. 답변 요약:
 
-    Note: Always respond in the same language as the user's question.
+    참고: 항상 사용자의 질문과 동일한 언어로 답변하세요.
 """
 
 rag_engine_tool = buid_rag_tool()
@@ -54,7 +54,7 @@ rag_engine_tool = buid_rag_tool()
 root_agent = Agent(
     name = "search_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agent that answers user queries",
+    description = "사용자 쿼리에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[rag_engine_tool],
 )

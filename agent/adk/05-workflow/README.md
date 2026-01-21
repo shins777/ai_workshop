@@ -1,35 +1,35 @@
-# ADK 05-workflow Guide
+# ADK 05-workflow 가이드
 
-This directory demonstrates several workflow patterns built with the Agent Development Kit (ADK). Depending on your business scenario, you can combine multiple agents and tools in various ways. The examples below illustrate common workflow agent types and how to use them.
+이 디렉토리는 ADK(Agent Development Kit)로 구축된 여러 워크플로 패턴을 보여줍니다. 비즈니스 시나리오에 따라 여러 에이전트와 도구를 다양한 방식으로 결합할 수 있습니다. 아래 예제는 일반적인 워크플로 에이전트 유형과 사용 방법을 보여줍니다.
 
 ![agent types](https://google.github.io/adk-docs/assets/agent-types.png)
-Image source: https://google.github.io/adk-docs/agents/#agents
+이미지 출처: https://google.github.io/adk-docs/agents/#agents
 
-## Example workflows by folder
+## 폴더별 예제 워크플로
 
 ### 1. custom
-- Purpose: CriticAgent workflow demonstrating positive, negative, and aggregated reviews.
-- Description: Sub-agents produce positive, negative, and combined reviews; results are aggregated to complete the full workflow.
+- 목적: 긍정적, 부정적, 종합적 검토를 시연하는 CriticAgent 워크플로.
+- 설명: 하위 에이전트가 긍정적, 부정적, 결합된 검토를 생성합니다. 결과를 집계하여 전체 워크플로를 완료합니다.
 
 ### 2. general
-- Purpose: General workflow agent example.
-- Description: A flexible workflow that can be extended or customized for a variety of business scenarios.
+- 목적: 일반적인 워크플로 에이전트 예제.
+- 설명: 다양한 비즈니스 시나리오에 맞게 확장하거나 사용자 지정할 수 있는 유연한 워크플로입니다.
 
 ### 3. loop
-- Purpose: Loop-based workflow agent example.
-- Description: Processes user input iteratively, suitable for iterative improvement, multi-turn questioning, and multi-step tasks.
+- 목적: 루프 기반 워크플로 에이전트 예제.
+- 설명: 사용자 입력을 반복적으로 처리하며 반복적 개선, 멀티턴 질문, 다단계 작업에 적합합니다.
 
 ### 4. parallel
-- Purpose: Parallel workflow agent example.
-- Description: Runs multiple tasks or sub-agents in parallel to achieve faster completion or enable multi-agent collaboration.
+- 목적: 병렬 워크플로 에이전트 예제.
+- 설명: 더 빠른 완료를 달성하거나 다중 에이전트 협업을 가능하게 하기 위해 여러 작업 또는 하위 에이전트를 병렬로 실행합니다.
 
 ### 5. sequencial
-- Purpose: Sequential workflow agent example.
-- Description: Processes multiple stages or sub-agents in a fixed order, suitable when steps must be executed sequentially (step-by-step reasoning or staged processing).
+- 목적: 순차적 워크플로 에이전트 예제.
+- 설명: 단계가 순차적으로 실행되어야 할 때(단계별 추론 또는 단계적 처리) 적합한 고정된 순서로 여러 단계 또는 하위 에이전트를 처리합니다.
 
-## How to run
+## 실행 방법
 
-Check the README and source files inside each workflow subfolder for details about that example and how to run the specific agent or server.
+해당 예제 및 특정 에이전트 또는 서버를 실행하는 방법에 대한 자세한 내용은 각 워크플로 하위 폴더 내의 README 및 소스 파일을 확인하세요.
 
-## License
-This project is licensed under the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+## 라이선스
+이 프로젝트는 Apache License 2.0 라이선스를 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.

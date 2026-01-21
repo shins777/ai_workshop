@@ -1,50 +1,50 @@
-# Toolbox Agent Example (ADK)
+# Toolbox 에이전트 예제 (ADK)
 
-This folder provides an example of a toolbox agent in the ADK (Agent Development Kit) environment, using ToolboxSyncClient for database integration to connect with external data sources such as BigQuery.
+이 폴더는 ADK(Agent Development Kit) 환경에서 ToolboxSyncClient를 사용하여 BigQuery와 같은 외부 데이터 소스와 연결하는 Toolbox 에이전트의 예제를 제공합니다.
 
-Before running the example, you need to understand and install MCP Toolbox for Database.
+이 예제를 실행하기 전에 데이터베이스용 MCP Toolbox를 이해하고 설치해야 합니다.
 
-* MCP Toolbox for Databases
+* 데이터베이스용 MCP Toolbox
     * https://googleapis.github.io/genai-toolbox/getting-started/introduction/
 
-* MCP Toolbox Installation
-    * For installation instructions, refer to the MCP Toolbox GitHub:
+* MCP Toolbox 설치
+    * 설치 지침은 MCP Toolbox GitHub를 참조하세요:
     * https://github.com/googleapis/genai-toolbox
 
     ```
-    # For MacOS users
+    # MacOS 사용자용
     brew install mcp-toolbox
     ```
 
-## .env Configuration
+## .env 구성
 
-The `.env` file should be located in the parent folder (`04-mcp`). For details on what to include in the environment file, refer to the following URL:
+`.env` 파일은 상위 폴더(`04-mcp`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
 
-The following environment settings are examples for using ADK with Vertex AI in an enterprise environment:
+다음 환경 설정은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제입니다:
 
 ```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # Use Vertex AI for enterprise.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # Change to your own Project ID.
-GOOGLE_CLOUD_LOCATION="global"                  # Use the global endpoint.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # Latest Gemini model.
+GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
+GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
+GOOGLE_CLOUD_LOCATION="global"                  # 글로벌 엔드포인트 사용.
+GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 모델.
 
-# Toolbox configuration
+# Toolbox 구성
 TOOLBOX_SYNC_CLIENT = "http://127.0.0.1:5000"
 
 ```
 
-For regular users using `AI Studio`, set the GOOGLE_API_KEY as follows:
+`AI Studio`를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
 ```
 GOOGLE_GENAI_USE_VERTEXAI=FALSE
 GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
 
 ```
 
-## Example tools.yaml
+## tools.yaml 예제
 
-To set up tools in the toolbox, create a yaml file as shown below. The filename is typically `tools.yaml`.
-For BigQuery configuration, refer to the following URL:
+toolbox에서 도구를 설정하려면 아래와 같이 yaml 파일을 생성하세요. 파일 이름은 일반적으로 `tools.yaml`입니다.
+BigQuery 구성에 대한 자세한 내용은 다음 URL을 참조하세요:
 * https://googleapis.github.io/genai-toolbox/samples/bigquery/mcp_quickstart/
 
 
@@ -65,34 +65,34 @@ tools:
     description: "Query the number of BBC news articles by category."
 
 toolsets:
- my_bq_toolset:
-   - query_bbc
+  my_bq_toolset:
+    - query_bbc
 ```
 
-## Example Execution
+## 예제 실행
 
-Set up Google Cloud authentication using the following gcloud command:
+다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
 ```
 gcloud auth application-default login
 ```
 
-### Run MCP Toolbox
-Open a new console window and start the toolbox as follows:
+### MCP Toolbox 실행
+새 콘솔 창을 열고 다음과 같이 toolbox를 시작하세요:
 ```
 toolbox --tools-file "tools.yaml"
 ```
 
-### Run Agent
-Similarly, GCP authentication is required in the shell:
+### 에이전트 실행
+마찬가지로 셸에서 GCP 인증이 필요합니다:
 ```
 gcloud auth application-default login
 ```
-Run the Toolbox agent example with the following command:
+다음 명령어로 Toolbox 에이전트 예제를 실행하세요:
 ```
 adk_workshop/adk/04-mcp $ adk web
 ```
-After selecting the toolbox agent, try asking "Show me the BBC table."
+toolbox 에이전트를 선택한 후 "Show me the BBC table."이라고 질문해 보세요.
 
-## License
+## 라이선스
 
-This project follows the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.

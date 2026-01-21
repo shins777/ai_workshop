@@ -1,51 +1,51 @@
-# ADK 03-tools Complete Guide
+# ADK 03-tools 완벽 가이드
 
-This directory hosts a collection of tool and agent examples for the Agent Development Kit (ADK). Each subfolder demonstrates a particular integration pattern or toolset you can use within ADK agents (e.g., MCP servers, search tools, code execution, BigQuery access). The summaries below describe the purpose and key files for each example.
+이 디렉터리는 ADK(에이전트 개발 키트)를 위한 도구 및 에이전트 예제 모음을 호스팅합니다. 각 하위 폴더는 ADK 에이전트 내에서 사용할 수 있는 특정 통합 패턴이나 도구 세트(예: MCP 서버, 검색 도구, 코드 실행, BigQuery 액세스)를 보여줍니다. 아래 요약은 각 예제의 목적과 주요 파일을 설명합니다.
 
-## Folder and Feature Summary
+## 폴더 및 기능 요약
 
 ### agent_tool
-- Purpose: Example showing how to register and use an Agent as a tool within ADK.
-- Key files: `agent.py`, supporting sub-agents and examples.
-- Description: Demonstrates the differences between using a full Agent vs a Sub-Agent as a callable tool, and shows how to wire that tool into another agent's workflow.
+- 목적: 에이전트를 ADK 내에서 도구로 등록하고 사용하는 방법을 보여주는 예제입니다.
+- 주요 파일: `agent.py`, 지원 하위 에이전트 및 예제.
+- 설명: 전체 에이전트를 사용하는 것과 하위 에이전트를 호출 가능한 도구로 사용하는 것의 차이점을 보여주고, 해당 도구를 다른 에이전트의 워크플로에 연결하는 방법을 보여줍니다.
 
 ### bigquery
-- Purpose: BigQuery integration example for ADK.
-- Key files: agent and tool wrappers that demonstrate how to query BigQuery programmatically.
-- Description: Shows how to search dataset and table metadata, and how to run natural-language driven queries against BigQuery.
+- 목적: ADK를 위한 BigQuery 통합 예제입니다.
+- 주요 파일: 프로그래밍 방식으로 BigQuery를 쿼리하는 방법을 보여주는 에이전트 및 도구 래퍼입니다.
+- 설명: 데이터 세트 및 테이블 메타데이터를 검색하는 방법과 BigQuery에 대해 자연어 기반 쿼리를 실행하는 방법을 보여줍니다.
 
 ### code_execution
-- Purpose: Code execution tool example.
-- Key files: example agents and an execution tool that can write and run Python code.
-- Description: Demonstrates automated code generation and execution flows (e.g., compute results, run small programs) and how to return outputs to agents.
+- 목적: 코드 실행 도구 예제입니다.
+- 주요 파일: Python 코드를 작성하고 실행할 수 있는 예제 에이전트 및 실행 도구입니다.
+- 설명: 자동화된 코드 생성 및 실행 흐름(예: 결과 계산, 작은 프로그램 실행)과 결과를 에이전트에 반환하는 방법을 보여줍니다.
 
 ### function_call
-- Purpose: Multi-function tool examples.
-- Key files: wrappers for small function-based tools (exchange rates, stock prices, etc.).
-- Description: Shows how to expose and use multiple function-call style tools from agents and how to configure API keys in `.env` for external services.
+- 목적: 다중 함수 도구 예제입니다.
+- 주요 파일: 작은 함수 기반 도구(환율, 주가 등)를 위한 래퍼입니다.
+- 설명: 에이전트에서 함수 호출 스타일 도구를 노출하고 사용하는 방법과 `.env`에서 외부 서비스에 대한 API 키를 구성하는 방법을 보여줍니다.
 
 ### google_search
-- Purpose: Google Search integration example.
-- Key files: agent examples and tool wrappers for web search.
-- Description: Demonstrates using the built-in Google Search tool to answer user queries using live web search results (requires appropriate API credentials configured in `.env`).
+- 목적: Google 검색 통합 예제입니다.
+- 주요 파일: 웹 검색을 위한 에이전트 예제 및 도구 래퍼입니다.
+- 설명: 내장된 Google 검색 도구를 사용하여 실시간 웹 검색 결과를 사용하여 사용자 쿼리에 답변하는 방법을 보여줍니다(`.env`에 적절한 API 자격 증명 구성 필요).
 
 ### langchain_tavily
-- Purpose: Integrating LangChain/Tavily search.
-- Key files: example connectors and agent wrappers.
-- Description: Shows how to wire a LangChain-based search (Tavily) into ADK agents and combine web/corpus search and exchange-rate lookups where applicable.
+- 목적: LangChain/Tavily 검색 통합.
+- 주요 파일: 예제 커넥터 및 에이전트 래퍼.
+- 설명: LangChain 기반 검색(Tavily)을 ADK 에이전트에 연결하고 웹/코퍼스 검색 및 환율 조회를 결합하는 방법을 보여줍니다(해당되는 경우).
 
 ### rag_engine
-- Purpose: RAG (Retrieval-Augmented Generation) engine examples.
-- Key files: agents and connectors for Vertex AI RAG retrieval.
-- Description: Demonstrates how to configure a RAG pipeline using Vertex AI and ADK, including guidance for preparing a corpus and configuring datastore IDs.
+- 목적: RAG(검색 증강 생성) 엔진 예제입니다.
+- 주요 파일: Vertex AI RAG 검색을 위한 에이전트 및 커넥터입니다.
+- 설명: 코퍼스 준비 및 데이터 저장소 ID 구성을 포함하여 Vertex AI 및 ADK를 사용하여 RAG 파이프라인을 구성하는 방법을 보여줍니다.
 
 ### vertexai_search
-- Purpose: Vertex AI Search integration example.
-- Key files: agent examples and configuration to query Vertex AI Search datastores.
-- Description: Shows how to answer user queries from documents indexed into Vertex AI Search. Requires VAIS-related environment variables for authentication.
+- 목적: Vertex AI Search 통합 예제입니다.
+- 주요 파일: Vertex AI Search 데이터 저장소를 쿼리하기 위한 에이전트 예제 및 구성입니다.
+- 설명: Vertex AI Search에 인덱싱된 문서에서 사용자 쿼리에 답변하는 방법을 보여줍니다. 인증을 위해 VAIS 관련 환경 변수가 필요합니다.
 
-## How to use these examples
-- Each subfolder contains a `README.md` with detailed instructions about required environment variables, how to run the example, and any additional setup steps.
+## 이 예제 사용 방법
+- 각 하위 폴더에는 필요한 환경 변수, 예제 실행 방법 및 추가 설정 단계에 대한 자세한 지침이 포함된 `README.md`가 있습니다.
 
-## License
-This project follows the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.

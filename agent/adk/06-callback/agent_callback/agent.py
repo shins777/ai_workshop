@@ -22,14 +22,14 @@ from .callback import callback_after_agent
 load_dotenv()
 
 INSTRUCTION = """
-You are an AI agent answering users' questions.
-When providing answers, explain your understanding of the question and respond concisely and clearly in 3 lines.
+당신은 사용자의 질문에 답변하는 AI 에이전트입니다.
+답변할 때는 질문에 대한 이해를 설명하고 3줄로 간결하고 명확하게 응답하세요.
 """
 
 root_agent = Agent(
     name = "root_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer user questions",
+    description = "사용자 질문에 답변하는 에이전트",
     instruction = INSTRUCTION,
     output_key="agent_response",
     before_agent_callback=callback_before_agent,

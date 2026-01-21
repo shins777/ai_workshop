@@ -20,21 +20,20 @@ from .sub_agent import positive_critic, negative_critic, review_critic
 
 load_dotenv()
 
-# `parallel_research_agent` runs multiple research-style sub-agents concurrently
-# (positive_critic and negative_critic) to collect diverse perspectives or data
-# in parallel. Use ParallelAgent when independent subtasks can be executed
-# simultaneously to speed up information gathering.
+# `parallel_research_agent`는 여러 연구 스타일의 하위 에이전트(positive_critic 및 negative_critic)를
+# 동시에 실행하여 다양한 관점이나 데이터를 병렬로 수집합니다.
+# 독립적인 하위 작업을 동시에 실행하여 정보 수집 속도를 높이려면 ParallelAgent를 사용하세요.
 parallel_research_agent = ParallelAgent(
     name="parallel_research_agent",
     sub_agents=[positive_critic, negative_critic],
-    description="An agent that collects information by running multiple research agents in parallel."
+    description="여러 연구 에이전트를 병렬로 실행하여 정보를 수집하는 에이전트입니다."
 )
 
-# `root_agent` composes a simple pipeline: first run the parallel research step,
-# then run a review/critic agent. SequentialAgent enforces ordered execution of
-# its sub_agents so later steps can depend on outputs from earlier ones.
+# `root_agent`는 간단한 파이프라인을 구성합니다. 먼저 병렬 연구 단계를 실행한 다음
+# 검토/비평 에이전트를 실행합니다. SequentialAgent는 sub_agents의 순차적 실행을 강제하므로
+# 이후 단계는 이전 단계의 출력에 의존할 수 있습니다.
 root_agent = SequentialAgent(
     name="pipeline_agent",
     sub_agents=[parallel_research_agent, review_critic],
-    description="This is an agent that sequentially executes parallel_research_agent and review_critic.",
+    description="parallel_research_agent와 review_critic을 순차적으로 실행하는 에이전트입니다.",
 )

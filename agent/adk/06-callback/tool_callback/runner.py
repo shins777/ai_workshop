@@ -62,11 +62,11 @@ if __name__ == "__main__":
     import asyncio
     import argparse
 
-    print("Start to run the agent...")
-    print(""" Usage : uv run -m tool_callback.runner --query 'What is the capital city of Korea?' """)
+    print("에이전트 실행을 시작합니다...")
+    print(""" 사용법 : uv run -m tool_callback.runner --query 'What is the capital city of Korea?' """)
 
-    parser = argparse.ArgumentParser(description="Run the ADK agent with a user query.")
-    parser.add_argument("--query",type=str,help="The application name of this agent.",)
+    parser = argparse.ArgumentParser(description="사용자 쿼리로 ADK 에이전트 실행.")
+    parser.add_argument("--query",type=str,help="에이전트를 실행할 쿼리",)
 
     args = parser.parse_args()
     asyncio.run(run_agent(user_query=args.query))

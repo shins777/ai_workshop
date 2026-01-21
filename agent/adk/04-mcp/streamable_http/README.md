@@ -1,29 +1,29 @@
-# MCP Server Exchange Rate Agent Example (ADK)
+# MCP Server 환율 에이전트 예제 (ADK)
 
-This directory contains an example ADK (Agent Development Kit) setup that demonstrates how to expose a simple tool via the Model Context Protocol (MCP) using a Streamable HTTP transport. The example provides a small MCP server that returns exchange rate information by calling the Frankfurter API.
+이 디렉토리는 Streamable HTTP 전송을 사용하여 MCP(Model Context Protocol)를 통해 간단한 도구를 노출하는 방법을 보여주는 예제 ADK(Agent Development Kit) 설정을 포함하고 있습니다. 이 예제는 Frankfurter API를 호출하여 환율 정보를 반환하는 작은 MCP 서버를 제공합니다.
 
-## .env Configuration
+## .env 구성
 
-The example expects environment configuration to be available in a `.env` file in the repository root or the parent `04-mcp` directory. See the ADK quickstart for recommended variables and authentication steps:
+예제는 환경 구성이 저장소 루트 또는 상위 `04-mcp` 디렉토리의 `.env` 파일에 있을 것으로 예상합니다. 권장 변수 및 인증 단계는 ADK 빠른 시작을 참조하세요:
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
 
-Typical environment variables used in the ADK examples:
+ADK 예제에서 사용되는 일반적인 환경 변수:
 ```
 GOOGLE_GENAI_USE_VERTEXAI=TRUE
 GOOGLE_CLOUD_PROJECT=your-project-id
 GOOGLE_CLOUD_LOCATION=global
 GOOGLE_GENAI_MODEL=gemini-2.5-flash
 
-# OR for AI Studio usage:
+# 또는 AI Studio 사용 시:
 GOOGLE_GENAI_USE_VERTEXAI=FALSE
 GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
 ```
 
-## How to run the MCP server locally
+## 로컬에서 MCP 서버 실행 방법
 
-### Streamable MCP 서버 Cloud run 기반으로 기동.
+### Cloud Run 기반으로 Streamable MCP 서버 기동.
 
-Similarly, GCP authentication is required in the shell:
+마찬가지로 셸에서 GCP 인증이 필요합니다:
 ```
 gcloud auth application-default login
 ```
@@ -39,18 +39,18 @@ adk/04-mcp/streamable_http/mcp_server $ . ./deploy.sh
 
 ### ADK agent 에서 Streamable MCP 서버 접속 및 실행.
 
-Similarly, GCP authentication is required in the shell:
+마찬가지로 셸에서 GCP 인증이 필요합니다:
 ```
 gcloud auth application-default login
 ```
 
-Run the ADK agent example with the following command:
+다음 명령어로 ADK 에이전트 예제를 실행하세요:
 ```
 adk/04-mcp $ adk web
 ```
 
-Ask "Show me the won-dollar exchange rate on August 14, 2025."
+"2025년 8월 14일의 원-달러 환율을 보여줘."라고 질문해 보세요.
 
-## License
+## 라이선스
 
-This project follows the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.

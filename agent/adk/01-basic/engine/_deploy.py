@@ -17,10 +17,11 @@ from dotenv import load_dotenv
 import argparse
 
 import vertexai
-from vertexai.preview.reasoning_engines import AdkApp
+from vertexai import agent_engines
+#from vertexai.preview.reasoning_engines import AdkApp
+from vertexai.agent_engines import AdkApp
 
 from .agent import root_agent
-from operation import util
 
 load_dotenv()
 
@@ -33,21 +34,23 @@ if __name__ == "__main__":
     args = parser.parse_args()
     agent_name = args.agent_name
 
-    # 1. 등록된 모든 에이전트 출력
-    util.show_agents()
+    env_vars = {
+        "GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY": "true",
+        "OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT": "true",
+    }
 
-    # 2. Vertex AI 환경 초기화
+    # Vertex AI 환경 초기화 : Agent Engine을 배포하기 위한 환경 설정
+    # Agent Engine 과 Gemini 모델을 사용하기 위한 리전을 다르게 할 수 있음.
     vertexai.init(
         project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-        location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+        location=os.getenv("AGENT_ENGINE_LOCATION"),
         staging_bucket=os.getenv("AGENT_ENGINE_BUCKET"),
     )
 
-    # 3. adk_app 생성
-
+    # adk_app 생성
     adk_app = AdkApp(agent=root_agent)
 
-    # 4. Agent Engine 환경 설정
+    # Agent Engine 환경 설정
     display_name = agent_name
     gcs_dir_name = os.getenv("AGENT_ENGINE_BUCKET")
     description = "사용자 질문에 대한 AI 정보 검색 어시스턴트"
@@ -58,10 +61,11 @@ if __name__ == "__main__":
         "python-dotenv",
     ]
 
-    # 5. 에이전트 엔진 배포
-    remote_agent = util.deploy_agent(agent = adk_app, 
-                                display_name = display_name, 
-                                gcs_dir_name = gcs_dir_name,
-                                description = description,
-                                requirements = requirements,
-                                extra_packages = [])
+    remote_agent = agent_engines.create(
+                    adk_app,
+                    display_name=display_name,
+                    gcs_dir_name = gcs_dir_name,
+                    description=description,
+                    requirements=requirements,
+                    extra_packages = []
+    )

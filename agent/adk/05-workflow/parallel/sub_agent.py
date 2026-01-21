@@ -24,10 +24,10 @@ load_dotenv()
 positive_critic = Agent(
     name = "positive_critic",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent that answers only the positive aspects of a user's questions.",
-    instruction = """You are an agent who writes positive reviews on the topic of a user's inquiry. 
-                      When providing your response, be as concise and clear as possible in 3 lines.
-                      and always begin with the phrase "Positive review results:" """,
+    description = "사용자 질문의 긍정적인 측면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 문의 주제에 대해 긍정적인 리뷰를 작성하는 에이전트입니다. 
+                      응답을 제공할 때 가능한 한 간결하고 명확하게 3줄로 작성해야 합니다.
+                      그리고 항상 "긍정적 리뷰 결과:"라는 문구로 시작하세요. """,
     tools=[google_search],
     output_key="positive_critic_output",                      
 )    
@@ -36,10 +36,10 @@ positive_critic = Agent(
 negative_critic = Agent(
     name = "negative_critic",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent who answers only the negative aspects of user questions.",
-    instruction = """You are an agent writing a negative review on the topic of a user's question.
-                      When providing your response, be as concise and clear as possible in 3 lines.
-                      and always begin with the phrase "Negative review results:" """,
+    description = "사용자 질문의 부정적인 측면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 질문 주제에 대해 부정적인 리뷰를 작성하는 에이전트입니다.
+                      응답을 제공할 때 가능한 한 간결하고 명확하게 3줄로 작성해야 합니다.
+                      그리고 항상 "부정적 리뷰 결과:"라는 문구로 시작하세요. """,
     tools=[google_search],
     output_key="negative_critic_output",                       
 )    
@@ -48,15 +48,15 @@ negative_critic = Agent(
 review_critic = Agent(
     name = "review_critic",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent that reviews the positive and negative aspects of a user's question and summarizes it overall.",
+    description = "사용자 질문의 긍정적 측면과 부정적 측면을 검토하고 전반적으로 요약하는 에이전트입니다.",
     instruction = f"""
-            You are an agent who provides a final summary and conclusion based on positive and negative criticism of a given topic.
-            Your response must be based on the following two pieces of information:
+            당신은 주어진 주제에 대한 긍정적 비판과 부정적 비판을 바탕으로 최종 요약 및 결론을 제공하는 에이전트입니다.
+            응답은 다음 두 가지 정보를 기반으로 해야 합니다:
 
-            * Positive aspects: ```{{positive_critic_output}}```
-            * Negative aspects: ```{{negative_critic_output}}```
+            * 긍정적 측면: ```{{positive_critic_output}}```
+            * 부정적 측면: ```{{negative_critic_output}}```
 
-            When responding, always state ### Final Summary:.
-            When providing your response, be as concise and clear as possible in 3 lines.   
+            응답할 때 항상 ### 최종 요약: 이라고 명시하세요.
+            응답을 제공할 때 가능한 한 간결하고 명확하게 3줄로 작성해야 합니다.   
         """,
 )  

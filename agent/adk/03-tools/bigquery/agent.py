@@ -30,42 +30,42 @@ load_dotenv()
 
 def get_bigquery_toolset() -> BigQueryToolset:
     """
-    Configure and return a BigQuery toolset.
+    BigQuery 도구 세트를 구성하고 반환합니다.
 
-    This function loads BigQuery authentication information, initializes the BigQuery toolset,
-    and configures it using BigQueryToolConfig. This toolset is used to interact with the BigQuery database.
+    이 함수는 BigQuery 인증 정보를 로드하고, BigQuery 도구 세트를 초기화하며,
+    BigQueryToolConfig를 사용하여 구성합니다. 이 도구 세트는 BigQuery 데이터베이스와 상호 작용하는 데 사용됩니다.
 
     Returns:
-        BigQueryToolset: Configured BigQuery toolset instance
+        BigQueryToolset: 구성된 BigQuery 도구 세트 인스턴스
     """
-    # Define tool configuration to block all write operations.
+    # 모든 쓰기 작업을 차단하도록 도구 구성을 정의합니다.
     tool_config = BigQueryToolConfig(write_mode=WriteMode.BLOCKED)
 
-    # Define credentials configuration. This example uses application default credentials.
+    # 자격 증명 구성을 정의합니다. 이 예제에서는 애플리케이션 기본 자격 증명을 사용합니다.
     # https://cloud.google.com/docs/authentication/provide-credentials-adc
     application_default_credentials, _ = google.auth.default()
     credentials_config = BigQueryCredentialsConfig(
         credentials=application_default_credentials
     )
 
-    # Instantiate a BigQuery toolset
+    # BigQuery 도구 세트 인스턴스화
     bigquery_toolset = BigQueryToolset(
         credentials_config=credentials_config, bigquery_tool_config=tool_config
     )
     return bigquery_toolset
 
-# Get the bigquery toolset, This will be used in the agent to interact with BigQuery
+# BigQuery 도구 세트를 가져옵니다. 이것은 에이전트에서 BigQuery와 상호 작용하는 데 사용됩니다.
 bigquery_toolset = get_bigquery_toolset()
 
 INSTRUCTION = """
-        You are a data science agent that answers questions about BigQuery data and models and executes SQL queries. 
-        Retrieve information from the BigQuery database, write SQL queries, execute them, and provide answers to various user questions.
+        당신은 BigQuery 데이터 및 모델에 대한 질문에 답변하고 SQL 쿼리를 실행하는 데이터 과학 에이전트입니다.
+        BigQuery 데이터베이스에서 정보를 검색하고, SQL 쿼리를 작성 및 실행하고, 다양한 사용자 질문에 답변을 제공하세요.
         """
 
 root_agent = Agent(
     name = "search_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Data science agent that answers questions about BigQuery data and models and runs SQL queries.",
+    description = "BigQuery 데이터 및 모델에 대한 질문에 답변하고 SQL 쿼리를 실행하는 데이터 과학 에이전트입니다.",
     instruction = INSTRUCTION,
     tools=[bigquery_toolset],
 )

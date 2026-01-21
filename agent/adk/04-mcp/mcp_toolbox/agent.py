@@ -21,12 +21,12 @@ load_dotenv()
 
 def get_toolbox():
     """
-    Creates and configures a ToolboxSyncClient instance.
-    This function loads environment variables and initializes the ToolboxSyncClient.
-    The client is used to manage synchronization with the toolbox.
+    ToolboxSyncClient 인스턴스를 생성하고 구성합니다.
+    이 함수는 환경 변수를 로드하고 ToolboxSyncClient를 초기화합니다.
+    클라이언트는 툴박스와의 동기화를 관리하는 데 사용됩니다.
 
     Returns:
-        ToolboxSyncClient: A client instance ready to manage synchronization with the toolbox.
+        ToolboxSyncClient: 툴박스와의 동기화를 관리할 준비가 된 클라이언트 인스턴스입니다.
     """
     toolbox = ToolboxSyncClient(    
         os.getenv("TOOLBOX_SYNC_CLIENT"),
@@ -43,15 +43,15 @@ def get_toolbox():
 tools = get_toolbox()
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user asks a question, you must use the relevant tool to generate an answer.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 질문을 하면 관련 도구를 사용하여 답변을 생성해야 합니다.
 
 """
 
 root_agent = Agent(
     name = "search_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agent that answers user queries",
+    description = "사용자 쿼리에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=tools,
 )

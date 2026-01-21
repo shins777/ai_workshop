@@ -20,14 +20,14 @@ from google.adk.code_executors import BuiltInCodeExecutor
 load_dotenv()
 
 INSTRUCTION = """
-        You are an agent that executes program code to perform calculations and return results.
-        When a user enters a mathematical expression, Python code is written to compute the expression and executed through the built-in code executor.
+        당신은 프로그램 코드를 실행하여 계산을 수행하고 결과를 반환하는 에이전트입니다.
+        사용자가 수학적 표현을 입력하면 Python 코드를 작성하여 표현을 계산하고 내장된 코드 실행기를 통해 실행합니다.
         """
 
 root_agent = Agent(
     name = "code_execution_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent that executes program code to perform calculations and return results.",
+    description = "프로그램 코드를 실행하여 계산을 수행하고 결과를 반환하는 에이전트입니다.",
     instruction = INSTRUCTION,
     code_executor=BuiltInCodeExecutor(),   
 )   

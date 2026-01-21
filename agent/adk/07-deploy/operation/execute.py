@@ -23,12 +23,12 @@ load_dotenv()
 
 if __name__ == "__main__":
 
-    print(""" Usage : uv run -m operation.execute --agent_engine_id 1384109217509539840 --user_id forus --query 'What is the Generative AI?' """)
+    print(""" 사용법 : uv run -m operation.execute --agent_engine_id 1384109217509539840 --user_id forus --query 'What is the Generative AI?' """)
     
-    parser = argparse.ArgumentParser(description="Run the ADK agent with a user query.")
-    parser.add_argument("--agent_engine_id",type=str,help="The engin id of agent",)
-    parser.add_argument("--user_id",type=str,help="The user id",)
-    parser.add_argument("--query",type=str,help="The application name of this agent.",)
+    parser = argparse.ArgumentParser(description="사용자 쿼리로 ADK 에이전트 실행.")
+    parser.add_argument("--agent_engine_id",type=str,help="에이전트 엔진 ID",)
+    parser.add_argument("--user_id",type=str,help="사용자 ID",)
+    parser.add_argument("--query",type=str,help="에이전트 실행 쿼리",)
     
     args = parser.parse_args()
     agent_engine_id = args.agent_engine_id.strip()
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     remote_agent_engine = util.get_agent_engine(resource_name = resource_name)
 
     #3. 쿼리를 실행합니다.
-    print("### Agent REMOTE unit test")
+    print("### Agent 원격 단위 테스트")
 
     if remote_agent_engine is not None:
         
@@ -64,4 +64,4 @@ if __name__ == "__main__":
             response = event['content']['parts'][0]['text']
             print(f"\n 🤖 AI Assistant: {response}\n")
     else:
-        print("None of agent found.")
+        print("에이전트를 찾을 수 없습니다.")

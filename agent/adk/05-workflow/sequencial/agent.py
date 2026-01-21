@@ -19,14 +19,14 @@ from .sub_agent import positive_critic, negative_critic, review_critic
 
 load_dotenv()
 
-# `root_agent` defines a simple pipeline where each sub-agent runs in order.
-# Use SequentialAgent when later steps depend on outputs produced by earlier steps.
-# In this pipeline:
-#  - `positive_critic` runs first to provide a positive critique,
-#  - `negative_critic` runs next to provide a negative critique,
-#  - `review_critic` runs last to review combined outputs and produce a final evaluation.
+# `root_agent`는 각 하위 에이전트가 순서대로 실행되는 간단한 파이프라인을 정의합니다.
+# 이후 단계가 이전 단계에서 생성된 출력에 의존하는 경우 SequentialAgent를 사용하세요.
+# 이 파이프라인에서:
+#  - `positive_critic`이 먼저 실행되어 긍정적인 비평을 제공합니다.
+#  - `negative_critic`이 다음에 실행되어 부정적인 비평을 제공합니다.
+#  - `review_critic`이 마지막으로 실행되어 결합된 결과를 검토하고 최종 평가를 생성합니다.
 root_agent = SequentialAgent(
     name="pipeline_agent",
     sub_agents=[positive_critic, negative_critic, review_critic],
-    description="This is an agent that sequentially executes agents(positive_critic, negative_critic, review_critic)",
+    description="이것은 에이전트(positive_critic, negative_critic, review_critic)를 순차적으로 실행하는 에이전트입니다.",
 )

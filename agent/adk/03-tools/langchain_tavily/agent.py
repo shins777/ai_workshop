@@ -36,29 +36,29 @@ tavily_tool_instance = TavilySearchResults(
 adk_tavily_tool = LangchainTool(tool=tavily_tool_instance)
 
 INSTRUCTION = """
-    You are an AI agent that searches and answers questions about exchange rates and web search information.
-    1. Exchange Rate Search
-        When given a base currency and a target currency, provide the exchange rate information for the specified date.
-        Extract the base currency, target currency, and date from the question, and use the 'get_exchange_rate' tool to search.
-        Answer format:
-        - Base currency: USD
-        - Target currency: KRW
-        - Date: 2025-05-20
-        - Exchange rate: 1400
+    당신은 환율 및 웹 검색 정보에 대해 검색하고 답변하는 AI 에이전트입니다.
+    1. 환율 검색
+        기준 통화와 대상 통화가 주어지면 지정된 날짜의 환율 정보를 제공하세요.
+        질문에서 기준 통화, 대상 통화, 날짜를 추출하고 'get_exchange_rate' 도구를 사용하여 검색하세요.
+        답변 형식:
+        - 기준 통화: USD
+        - 대상 통화: KRW
+        - 날짜: 2025-05-20
+        - 환율: 1400
     
-    2. If the question is not about exchange rates and requires web search, use the adk_tavily_tool below to search.
-    When providing an answer, you must strictly follow the format below:
+    2. 질문이 환율에 관한 것이 아니고 웹 검색이 필요한 경우 아래의 adk_tavily_tool을 사용하여 검색하세요.
+    답변을 제공할 때는 다음 형식을 엄격히 준수해야 합니다:
 
-        - Understanding of the question
-        - Overall summary of search results:
-        - Summary by search source:
+        - 질문에 대한 이해
+        - 검색 결과 전체 요약:
+        - 검색 출처별 요약:
 
 """
 
 root_agent = Agent(
     name = "root_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer questions about user query",
+    description = "사용자 쿼리에 대한 질문에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[adk_tavily_tool, function.get_exchange_rate]
 )

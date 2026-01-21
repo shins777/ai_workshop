@@ -21,22 +21,22 @@ from .sub_agent import positive_critic, negative_critic
 load_dotenv()
 
 SYSTEM_INSTRUCTION = """
-    You are an agent that faithfully answers the user's various questions. 
+    당신은 사용자의 다양한 질문에 충실하게 답변하는 에이전트입니다.
 """
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    Follow the flow below when composing responses:
-        1. When the user submits a question, first summarize the user's intent. Begin the summary with the phrase "Question intent:" followed by the intent.
-        2. Depending on the user's request, use the sub-agents as follows to produce the response:
-            - If the user requests a positive critique, use the `positive_critic` sub-agent.
-            - If the user requests a negative critique, use the `negative_critic` sub-agent.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    응답을 작성할 때 아래 흐름을 따르세요:
+        1. 사용자가 질문을 제출하면 먼저 사용자의 의도를 요약합니다. 요약은 "질문 의도:"라는 문구로 시작하고 그 뒤에 의도를 적습니다.
+        2. 사용자의 요청에 따라 다음과 같이 하위 에이전트를 사용하여 응답을 생성합니다:
+            - 사용자가 긍정적인 비평을 요청하면 `positive_critic` 하위 에이전트를 사용합니다.
+            - 사용자가 부정적인 비평을 요청하면 `negative_critic` 하위 에이전트를 사용합니다.
 """
 
 root_agent = Agent(
     name = "Search_agent",  
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent that responds to user queries.",
+    description = "사용자 검색어에 응답하는 에이전트입니다.",
     global_instruction = SYSTEM_INSTRUCTION,
     instruction = INSTRUCTION,
     sub_agents = [positive_critic, negative_critic],

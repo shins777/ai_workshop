@@ -16,8 +16,10 @@ import os
 from dotenv import load_dotenv
 import argparse
 
-from .util import get_agent_engine
-from .util import show_agents
+from vertexai import agent_engines
+
+# from .util import get_agent_engine
+# from .util import show_agents
 
 load_dotenv()
 
@@ -35,19 +37,37 @@ if __name__ == "__main__":
     user_id = args.user_id.strip()
     query = args.query.strip()
 
-    #1. 등록된 모든 에이전트를 인쇄하세요.
-    show_agents()
-
-    #2. 원격 에이전트 엔진 인스턴스를 가져옵니다.
+    #원격 에이전트 엔진 인스턴스를 가져옵니다.
     
     # resource name example : PROJECT_NUMBER와 LOCATION 환경 변수를 설정해야 합니다.
     project_number = os.getenv("AGENT_ENGINE_PROJECT_NUMBER")
     location = os.getenv("GOOGLE_CLOUD_LOCATION")
     resource_name = f"projects/{project_number}/locations/{location}/reasoningEngines/{engine_id}"
 
-    remote_agent_engine = get_agent_engine(resource_name = resource_name)
+    # remote_agent_engine = get_agent_engine(resource_name = resource_name)
 
-    #3. 쿼리를 실행합니다.
+    try:
+        for agent in agent_engines.list():
+            
+            print(f"Agents List : {agent.display_name}:{agent.resource_name}")
+            
+            if agent.display_name != None and agent.display_name == display_name:
+                print(f"Agent found a engine with {display_name}")
+
+                return agent_engines.get(agent.name)
+
+            elif agent.resource_name != None and agent.resource_name == resource_name:
+                print(f"Agent found a engine with resource name {resource_name}")
+
+                return agent_engines.get(agent.resource_name)
+
+            else:
+                print("No such reasoning engine or invalid display name or resouce name")
+    except Exception as e:
+        print(e)
+
+
+    #쿼리를 실행합니다.
     print("### Agent REMOTE unit test")
 
     if remote_agent_engine is not None:

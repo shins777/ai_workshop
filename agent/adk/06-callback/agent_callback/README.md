@@ -6,7 +6,7 @@
 
 ## .env 환경 설정.
 
-상위 폴더(`adk/05-callback/`)에 아래와 같이 `.env` 파일을 생성하세요. 
+상위 폴더(`adk/06-callback/`)에 아래와 같이 `.env` 파일을 생성하세요. 
 
 환경파일내 들어갈 내용은 아래 URL을 참고하세요.    
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model 

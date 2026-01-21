@@ -22,9 +22,9 @@ load_dotenv()
 positive_critic = Agent(
     name = "positive_critic",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent that answers only the positive aspects of a user's questions.",
-    instruction = """You are an agent who writes positive reviews on the topic of a user's inquiry. 
-                      When providing your response, be as concise and clear as possible, and always begin with the phrase "Positive review results:" """,
+    description = "사용자 질문의 긍정적인 측면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 문의 주제에 대해 긍정적인 리뷰를 작성하는 에이전트입니다. 
+                      응답을 제공할 때 가능한 한 간결하고 명확하게 작성해야 하며, 항상 "긍정적 리뷰 결과:"라는 문구로 시작하세요. """,
     output_key="positive_critic_output",
 )    
 
@@ -32,8 +32,8 @@ positive_critic = Agent(
 negative_critic = Agent(
     name = "negative_critic",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "An agent who answers only the negative aspects of user questions.",
-    instruction = """You are an agent writing a negative review on the topic of a user's question.
-                      When providing your response, be as concise and clear as possible, and always begin with the phrase "Negative review results:" """,
+    description = "사용자 질문의 부정적인 측면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 질문 주제에 대해 부정적인 리뷰를 작성하는 에이전트입니다.
+                      응답을 제공할 때 가능한 한 간결하고 명확하게 작성해야 하며, 항상 "부정적 리뷰 결과:"라는 문구로 시작하세요. """,
     output_key="negative_critic_output",                      
 )    

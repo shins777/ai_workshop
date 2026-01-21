@@ -1,36 +1,36 @@
-# ADK Built-in Code Execution Agent
+# ADK 내장 코드 실행 에이전트
 
-This folder demonstrates how to build and operate an ADK (Agent Development Kit) agent with built-in code execution capabilities. The agent writes and executes Python code to solve mathematical expressions, returning both the code and results as plain text.
+이 폴더는 내장 코드 실행 기능을 갖춘 ADK(에이전트 개발 키트) 에이전트를 구축하고 운영하는 방법을 보여줍니다. 이 에이전트는 Python 코드를 작성하고 실행하여 수학적 표현을 해결하고, 코드와 결과를 모두 일반 텍스트로 반환합니다.
 
-The code execution agent provides the following features:
-- Receives mathematical expressions from the user.
-- Writes and executes Python code to solve the expressions.
-- Returns both the code and results as plain text.
-- Responds in the same language as the user input.
+코드 실행 에이전트는 다음과 같은 기능을 제공합니다:
+- 사용자로부터 수학적 표현을 받습니다.
+- 표현을 해결하기 위해 Python 코드를 작성하고 실행합니다.
+- 코드와 결과를 모두 일반 텍스트로 반환합니다.
+- 사용자 입력과 동일한 언어로 응답합니다.
 
-## .env Setup
+## .env 설정
 
-The `.env` file should be located in the parent folder (`03-tools`). For details on what to include in the environment file, refer to the following URL:
+`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
 
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
 
-Below is an example configuration for using ADK with Vertex AI in an enterprise environment:
+다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
 
 ```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # Use Vertex AI for enterprise.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # Change to your own Project ID.
-GOOGLE_CLOUD_LOCATION="global"                  # Use Global Endpoint.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # Latest Gemini version.
+GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
+GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
+GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
+GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전.
 ```
 
-For general users using AI Studio, set the GOOGLE_API_KEY as follows:
+AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
 
 ```
 GOOGLE_GENAI_USE_VERTEXAI=FALSE
 GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
 ```
 
-## Folder Structure
+## 폴더 구조
 
 ```
 adk/03-tools/code_execution/
@@ -39,22 +39,22 @@ adk/03-tools/code_execution/
 ├── README.md
 ```
 
-## How to Run the Source Code
-Set up Google Cloud authentication using the following gcloud command:
+## 소스 코드 실행 방법
+다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
 ```
 gcloud auth application-default login
 ```
 
-Run the sub-agent tool example with the following command:
+다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
 ```
 adk_workshop/adk/03-tools$ adk web
 ```
 
-In the UI, select code_execution and run the following command:
+UI에서 code_execution을 선택하고 다음 명령을 실행하세요:
 ```
-Write and execute a program to find and sum all prime numbers from 1 to 100.
+1부터 100까지의 모든 소수를 찾아서 합산하는 프로그램을 작성하고 실행하세요.
 ```
 
-## License
+## 라이선스
 
-This project follows the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.

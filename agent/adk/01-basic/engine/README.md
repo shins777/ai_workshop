@@ -40,7 +40,7 @@ gcloud auth application-default login
 `deploy.py`를 실행하여 에이전트를 Vertex AI Agent Engine에 배포합니다.
 
 ```bash
-uv run -m runtime.deploy --agent_name 'basic_agent_v1'
+uv run -m engine.deploy --agent_name 'engine_0120'
 ```
 
 배포가 성공하면 Agent Engine ID 또는 리소스 이름이 출력됩니다. 이를 다음 단계에서 사용합니다.
@@ -50,7 +50,7 @@ uv run -m runtime.deploy --agent_name 'basic_agent_v1'
 배포된 Agent Engine ID를 사용하여 원격으로 질의를 수행합니다.
 
 ```bash
-uv run -m runtime.run --engine_id <ENGINE_ID> --user_id test_user --query '생성형 AI란 무엇인가요?'
+uv run -m engine.run --engine_id <ENGINE_ID> --user_id test_user --query '생성형 AI란 무엇인가요?'
 ```
 
 ### 4. 코드 설명

@@ -1,4 +1,4 @@
-# ADK 06-deploy 전체 가이드
+# ADK 07-deploy 전체 가이드
 
 이 디렉토리는 ADK(Agent Development Kit)에서 에이전트 엔진 및 배포 관련 기능을 제공합니다. 각 서브 폴더는 에이전트 엔진의 구축, 관리, 배포, 운영에 필요한 예제와 스크립트를 포함하고 있습니다.
 
@@ -11,7 +11,7 @@ ADK와 Vertex AI Agent Engine을 활용하여 멀티 에이전트 파이프라�
 Agent Engine을 다양한 형태로 생성하고 업데이트하는 예제입니다. 배포 후 운영, 실행, 관리에 필요한 스크립트와 유틸리티가 포함되어 있습니다.
 
 ## 공통 환경설정 (.env)
-모든 배포 예제는 상위 폴더(06-deploy)에 `.env` 파일을 위치시키고, 아래 URL의 가이드를 참고하여 환경설정을 진행해야 합니다.
+모든 배포 예제는 상위 폴더(07-deploy)에 `.env` 파일을 위치시키고, 아래 URL의 가이드를 참고하여 환경설정을 진행해야 합니다.
 
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
 

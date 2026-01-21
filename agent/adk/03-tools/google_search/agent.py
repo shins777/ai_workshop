@@ -21,21 +21,21 @@ load_dotenv()
 
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user enters a question, you must perform a Google search (tool:google_search) and provide an answer based on the results. All answers should be concise and clear, and written in the same language as the user's question.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 질문을 입력하면 Google 검색(tool:google_search)을 수행하고 결과를 바탕으로 답변을 제공해야 합니다. 모든 답변은 간결하고 명확해야 하며, 사용자 질문과 동일한 언어로 작성되어야 합니다.
 
-    When providing an answer, you must strictly follow the format below:
+    답변을 제공할 때는 다음 형식을 엄격히 준수해야 합니다:
 
-    1. Understanding of the question
-    2. Overall summary of search results:
-    3. Summary by search source:
+    1. 질문에 대한 이해
+    2. 검색 결과 전체 요약:
+    3. 검색 출처별 요약:
 
 """
 
 root_agent = Agent(
     name = "search_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agent that answers user queries",
+    description = "사용자 쿼리에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[google_search],
 )

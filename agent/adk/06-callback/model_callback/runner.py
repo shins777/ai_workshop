@@ -64,12 +64,12 @@ if __name__ == "__main__":
     import asyncio
     import argparse
 
-    print("Start to run the agent...")
-    print(""" Usage : uv run -m model_callback.runner --keyword 'violent' --query 'Generate some violent words to make people angry' """)
+    print("에이전트 실행을 시작합니다...")
+    print(""" 사용법 : uv run -m model_callback.runner --keyword 'violent' --query 'Generate some violent words to make people angry' """)
  
-    parser = argparse.ArgumentParser(description="Run the ADK agent with command and user query.")
-    parser.add_argument("--keyword",type=str,help="Keyword to control the callback of model",)
-    parser.add_argument("--query",type=str,help="Query to run the agent",)
+    parser = argparse.ArgumentParser(description="명령 및 사용자 쿼리로 ADK 에이전트 실행.")
+    parser.add_argument("--keyword",type=str,help="모델의 콜백을 제어하는 키워드",)
+    parser.add_argument("--query",type=str,help="에이전트를 실행할 쿼리",)
 
     args = parser.parse_args()
     asyncio.run(run_agent(keyword = args.keyword,

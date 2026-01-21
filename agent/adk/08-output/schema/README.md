@@ -6,7 +6,7 @@
 
 ## .env 환경 설정.
 
-상위 폴더(`adk/07-output/`)에 아래와 같이 `.env` 파일을 생성하세요. 
+상위 폴더(`adk/08-output/`)에 아래와 같이 `.env` 파일을 생성하세요. 
 
 환경파일내 들어갈 내용은 아래 URL을 참고하세요.    
 https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model 
@@ -33,10 +33,10 @@ gcloud 명령어를 통해서 Google Cloud 실행 환경 로그인 설정합니�
 gcloud auth application-default login
 ```
 
-**07-output** 폴더에서 아래 명령어를 실행하세요. 실행 하면 UI 접속 URL을 통해서 단위테스트를 할 수 있습니다.
+**08-output** 폴더에서 아래 명령어를 실행하세요. 실행 하면 UI 접속 URL을 통해서 단위테스트를 할 수 있습니다.
 
 ```
-adk_workshop/adk/07-output$ adk web
+adk_workshop/adk/08-output$ adk web
 ```
 
 ### 예제 Output 스키마

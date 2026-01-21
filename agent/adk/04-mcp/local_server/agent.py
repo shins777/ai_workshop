@@ -21,11 +21,11 @@ load_dotenv()
 
 def mcp_toolset():
     """
-    Creates and configures an MCPToolset for exchange rate operations using Model Context Protocol (MCP).
-    This function sets up an MCPToolset instance that connects to a custom exchange rate server using the specified command and arguments. This allows the agent to query exchange rate information.
+    MCP(Model Context Protocol)를 사용하여 환율 작업을 위한 MCPToolset을 생성하고 구성합니다.
+    이 함수는 지정된 명령과 인수를 사용하여 사용자 지정 환율 서버에 연결하는 MCPToolset 인스턴스를 설정합니다. 이를 통해 에이전트가 환율 정보를 쿼리할 수 있습니다.
 
     Returns:
-        MCPToolset: A configured MCPToolset instance for exchange rate operations.
+        MCPToolset: 환율 작업을 위해 구성된 MCPToolset 인스턴스.
     """
 
     mcp_toolset = MCPToolset(
@@ -42,8 +42,8 @@ def mcp_toolset():
     return mcp_toolset
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user asks a exchange rates to the specific currency, you must use the 'exchange_rate_tool' to provide an answer based on the results.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 특정 통화에 대한 환율을 물러보면 'exchange_rate_tool'을 사용하여 결과를 바탕으로 답변을 제공해야 합니다.
 """
 
 exchange_rate_tool = mcp_toolset()
@@ -51,7 +51,7 @@ exchange_rate_tool = mcp_toolset()
 root_agent = LlmAgent(
     name = "Exchange_Rate_Agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer exchange rates",
+    description = "환율에 대해 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[exchange_rate_tool],
 )

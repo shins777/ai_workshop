@@ -20,18 +20,18 @@ def get_exchange_rate(
     currency_to: str = "KRW",
     currency_date: str = "latest", )->dict:
     """
-    Retrieves the exchange rate between two currencies for a specified date.
-    Uses the Frankfurter API (https://api.frankfurter.app/) to fetch exchange rate data.
+    지정된 날짜의 두 통화 간 환율을 검색합니다.
+    Frankfurter API(https://api.frankfurter.app/)를 사용하여 환율 데이터를 가져옵니다.
 
     Args:
-        currency_from: Base currency (3-letter currency code). Default is "USD" (US Dollar).
-        currency_to: Target currency (3-letter currency code). Default is "KRW" (Korean Won).
-        currency_date: Date to query the exchange rate for. Default is "latest" for the most recent rate.
-            For historical rates, specify in YYYY-MM-DD format.
+        currency_from: 기준 통화(3글자 통화 코드). 기본값은 "USD"(미국 달러)입니다.
+        currency_to: 대상 통화(3글자 통화 코드). 기본값은 "KRW"(한국 원)입니다.
+        currency_date: 환율을 조회할 날짜입니다. 기본값은 가장 최근 환율인 "latest"입니다.
+            과거 환율의 경우 YYYY-MM-DD 형식으로 지정하세요.
 
     Returns:
-        dict: Dictionary containing exchange rate information.
-            Example: {"amount": 1.0, "base": "USD", "date": "2023-11-24", "rates": {"EUR": 0.95534}}
+        dict: 환율 정보를 포함하는 딕셔너리입니다.
+            예: {"amount": 1.0, "base": "USD", "date": "2023-11-24", "rates": {"EUR": 0.95534}}
     """
 
     import requests
@@ -44,13 +44,13 @@ def get_exchange_rate(
 #--------------------------[get_stock_price]-----------------------------
 def get_stock_price(symbol: str)->dict:
     """
-    Retrieves the stock price for the given symbol.
-    Uses the Alphavantage API (https://www.alphavantage.co/) to fetch stock price information for the symbol.
+    주어진 심볼에 대한 주가를 검색합니다.
+    Alphavantage API(https://www.alphavantage.co/)를 사용하여 심볼에 대한 주가 정보를 가져옵니다.
 
     Args:
-        symbol: Stock symbol name
+        symbol: 주식 심볼 이름
     Returns:
-        dict: Dictionary containing stock price information
+        dict: 주가 정보를 포함하는 딕셔너리
     """
 
     import requests

@@ -13,10 +13,10 @@ ANTHROPIC_API_KEY=your_anthropic_key
 
 ## 실행 방법
 
-`08-model` 폴더에서 아래 명령어를 실행후 adk web 실행 후 화면에서 테스트를 진행하시면 됩니다. 
+`09-model` 폴더에서 아래 명령어를 실행후 adk web 실행 후 화면에서 테스트를 진행하시면 됩니다. 
 
 ```
-adk_workshop/adk/08-model$ adk web
+adk_workshop/adk/09-model$ adk web
 ```
 
 `llm.py` 파일을 수정하여 사용할 모델(`gpt` 또는 `claude`)을 선택할 수 있습니다.

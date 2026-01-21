@@ -22,18 +22,18 @@ from .sub_agent import positive_critic, negative_critic
 load_dotenv()
 
 INSTRUCTION = """
-    You are an agent who answers users' questions.
-    You must provide answers using the following tools, depending on the user's question:
-    - If the user requests positive criticism, use the positive_critic tool to write the positive critique.
-    - If the user requests negative criticism, use the negative_critic tool to write the negative critique.
-    - If the user requests both positive and negative criticism, use both tools (positive_critic and negative_critic) to write each critique.
+    당신은 사용자의 질문에 답변하는 에이전트입니다.
+    사용자의 질문에 따라 다음 도구를 사용하여 답변을 제공해야 합니다:
+    - 사용자가 긍정적인 비평을 요청하면 positive_critic 도구를 사용하여 긍정적인 비평을 작성하세요.
+    - 사용자가 부정적인 비평을 요청하면 negative_critic 도구를 사용하여 부정적인 비평을 작성하세요.
+    - 사용자가 긍정적인 비평과 부정적인 비평을 모두 요청하면 두 도구(positive_critic 및 negative_critic)를 모두 사용하여 각각의 비평을 작성하세요.
         
     """
 
 root_agent = Agent(
     name = "root_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer user questions",
+    description = "사용자의 질문에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools = [AgentTool(agent=positive_critic),
             AgentTool(agent=negative_critic)]

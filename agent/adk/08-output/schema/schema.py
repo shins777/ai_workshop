@@ -24,9 +24,9 @@ class SearchResult(BaseModel):
         result (str): 질의에 해당하는 결과 또는 답변.
     """
     # ...existing code...
-    query: str = Field(..., title="query", description="user's query")
-    intention: str = Field(..., title="intention", description="user's intention to ask")
-    result: str = Field(..., title="result", description="results")
+    query: str = Field(..., title="query", description="사용자 질의")
+    intention: str = Field(..., title="intention", description="사용자 질문 의도")
+    result: str = Field(..., title="result", description="답변 결과")
 
 
 """ JSON Format of schema. 

@@ -22,13 +22,14 @@ load_dotenv()
 
 def get_vertex_search_tool():
     """
-    Creates and configures a Vertex AI Search tool instance.
+    Vertex AI Search 도구 인스턴스를 생성하고 구성합니다.
 
-    This function loads the required environment variables for project, location, project number, and datastore ID,
-    initializes the Vertex AI environment, constructs the datastore resource path, and returns a VertexAiSearchTool instance linked to the specified datastore.
+    이 함수는 프로젝트, 위치, 프로젝트 번호 및 데이터 스토어 ID에 필요한 환경 변수를 로드하고,
+    Vertex AI 환경을 초기화하고, 데이터 스토어 리소스 경로를 구성하고,
+    지정된 데이터 스토어에 연결된 VertexAiSearchTool 인스턴스를 반환합니다.
 
     Returns:
-        VertexAiSearchTool: An instance connected to the specified Vertex AI Search datastore.
+        VertexAiSearchTool: 지정된 Vertex AI Search 데이터 스토어에 연결된 인스턴스입니다.
     """
 
     # Vertex AI Search is available in the global location, so set VERTEXAI_LOCATION to "global".
@@ -47,8 +48,8 @@ def get_vertex_search_tool():
 
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user asks a question, you must use the 'vertex_search_tool' to perform a search and provide an answer based on the results.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 질문을 하면 'vertex_search_tool'을 사용하여 검색을 수행하고 결과를 바탕으로 답변을 제공해야 합니다.
 """
 
 vertex_search_tool = get_vertex_search_tool()
@@ -57,7 +58,7 @@ print("Vertex AI Search : vertex_search_tool : \n", vertex_search_tool)
 root_agent = Agent(
     name = "vertexai_search",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agent that answers user queries",
+    description = "사용자 쿼리에 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[vertex_search_tool],
 )

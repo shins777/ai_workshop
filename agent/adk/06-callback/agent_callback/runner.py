@@ -23,14 +23,14 @@ from agent_callback import agent
 async def run_agent(command: str):
     
     """
-    Run the AI agent asynchronously with a specified command and user query.
+    지정된 명령과 사용자 쿼리로 AI 에이전트를 비동기적으로 실행합니다.
 
-    This function sets up a session including the given command in the session state,
-    initializes the agent runner, and processes the user query. It prints the user input,
-    streams the agent's response events, and prints the final response.
+    이 함수는 세션 상태에 주어진 명령을 포함하여 세션을 설정하고,
+    에이전트 러너를 초기화하고, 사용자 쿼리를 처리합니다. 사용자 입력을 출력하고,
+    에이전트의 응답 이벤트를 스트리밍하고, 최종 응답을 출력합니다.
 
     Args:
-        command (str): Command to control agent callback behavior (e.g., 'skip_agent', 'check_response')
+        command (str): 에이전트 콜백 동작을 제어하는 명령 (예: 'skip_agent', 'check_response')
 
     Returns:
         None
@@ -44,7 +44,7 @@ async def run_agent(command: str):
     session_service = InMemorySessionService()
     session = await session_service.create_session(app_name=APP_NAME,
                                             user_id=USER_ID,
-                                            # Note: include the command passed as an argument into the session state here.
+                                            # 참고: 인수로 전달된 명령을 여기서 세션 상태에 포함합니다.
                                             state={command: True})  
 
     runner = Runner(agent=agent.root_agent,
@@ -69,11 +69,11 @@ if __name__ == "__main__":
     import asyncio
     import argparse
 
-    print("Start to run the agent...")
-    print(""" Usage : uv run -m agent_callback.runner --command [skip_agent|check_response]""")
+    print("에이전트 실행을 시작합니다...")
+    print(""" 사용법 : uv run -m agent_callback.runner --command [skip_agent|check_response]""")
  
-    parser = argparse.ArgumentParser(description="Run the ADK agent with command and user query.")
-    parser.add_argument("--command",type=str,help="Command to control the callback of agent",)
+    parser = argparse.ArgumentParser(description="명령 및 사용자 쿼리로 ADK 에이전트 실행.")
+    parser.add_argument("--command",type=str,help="에이전트의 콜백을 제어하는 명령",)
 
     args = parser.parse_args()
     asyncio.run(run_agent(command = args.command))

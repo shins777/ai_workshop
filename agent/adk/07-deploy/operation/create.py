@@ -22,10 +22,10 @@ load_dotenv()
 
 if __name__ == "__main__":
 
-    print(""" Usage : uv run -m operation.create --display_name adk_agent_20250728 """)
+    print(""" 사용법 : uv run -m operation.create --display_name adk_agent_20250728 """)
     
-    parser = argparse.ArgumentParser(description="Create a new Agent Engine.")
-    parser.add_argument("--display_name",type=str,help="The display name of agent",)
+    parser = argparse.ArgumentParser(description="새로운 에이전트 엔진 생성.")
+    parser.add_argument("--display_name",type=str,help="에이전트 표시 이름",)
     args = parser.parse_args()
     
     DISPLAY_NAME = args.display_name.strip()

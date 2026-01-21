@@ -33,10 +33,10 @@ that can perform tasks that typically require human intelligence.
 
 ## 예제 실행
 
-`08-model` 폴더에서 아래 명령어를 실행후 adk web 실행 후 화면에서 테스트를 진행하시면 됩니다. 
+`09-model` 폴더에서 아래 명령어를 실행후 adk web 실행 후 화면에서 테스트를 진행하시면 됩니다. 
 
 ```
-adk_workshop/adk/08-model$ adk web
+adk_workshop/adk/09-model$ adk web
 ```
 
 `agent.py` 파일을 수정하여 사용할 모델(`gemma` 또는 `llama`)을 선택할 수 있습니다.

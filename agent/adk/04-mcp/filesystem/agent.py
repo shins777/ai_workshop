@@ -21,16 +21,16 @@ load_dotenv()
 
 def mcp_toolset(target_folder_path: str):
     """
-    Creates and configures an MCPToolset for file system operations via Model Context Protocol (MCP).
-    This function sets up an MCPToolset instance using the given target folder path,
-    allowing the agent to interact with the file system through an MCP server.
-    The server is configured to connect using npx and the @modelcontextprotocol/server-filesystem package.
+    MCP(Model Context Protocol)를 통한 파일 시스템 작업을 위한 MCPToolset을 생성하고 구성합니다.
+    이 함수는 주어진 대상 폴더 경로를 사용하여 MCPToolset 인스턴스를 설정하여,
+    에이전트가 MCP 서버를 통해 파일 시스템과 상호 작용할 수 있도록 합니다.
+    서버는 npx 및 @modelcontextprotocol/server-filesystem 패키지를 사용하여 연결하도록 구성됩니다.
 
     Args:
-        target_folder_path (str): Absolute path to the target folder for file system operations
+        target_folder_path (str): 파일 시스템 작업을 위한 대상 폴더의 절대 경로
 
     Returns:
-        MCPToolset: Configured MCPToolset instance for file management operations
+        MCPToolset: 파일 관리 작업을 위해 구성된 MCPToolset 인스턴스
     """
 
     file_system_toolset = MCPToolset(
@@ -54,8 +54,8 @@ def mcp_toolset(target_folder_path: str):
 
 
 INSTRUCTION = """
-    You are an agent that helps manage files within a given folder.
-    When a user enters a question, you must use 'file_system_toolset' to provide an answer based on the results.
+    당신은 주어진 폴더 내의 파일을 관리하는 것을 돕는 에이전트입니다.
+    사용자가 질문을 입력하면 'file_system_toolset'을 사용하여 결과를 바탕으로 답변을 제공해야 합니다.
 """
 
 target_folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/")
@@ -64,7 +64,7 @@ file_system_toolset = mcp_toolset(target_folder_path=target_folder_path)
 root_agent = LlmAgent(
     name = "search_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer questions about user query",
+    description = "사용자 쿼리에 대해 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[file_system_toolset],
 )

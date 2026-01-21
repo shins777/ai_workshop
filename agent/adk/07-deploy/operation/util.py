@@ -49,7 +49,7 @@ def deploy_agent(agent: Agent,
         agent_engines.AgentEngine: 배포된 AgentEngine 인스턴스
     """
 
-    print("\n\n### Start to deploy agent engine. \n\n")
+    print("\n\n### 에이전트 엔진 배포를 시작합니다. \n\n")
     remote_agent = agent_engines.create(
                 agent,
                 display_name=display_name,
@@ -87,17 +87,17 @@ def get_agent_engine(display_name = None,
             print(f"Agents List : {agent.display_name}:{agent.resource_name}")
             
             if agent.display_name != None and agent.display_name == display_name:
-                print(f"Agent found a engine with {display_name}")
+                print(f"디스플레이 이름 {display_name}으로 엔진을 찾았습니다.")
 
                 return agent_engines.get(agent.name)
 
             elif agent.resource_name != None and agent.resource_name == resource_name:
-                print(f"Agent found a engine with resource name {resource_name}")
+                print(f"리소스 이름 {resource_name}으로 엔진을 찾았습니다.")
 
                 return agent_engines.get(agent.resource_name)
 
             else:
-                print("No such reasoning engine or invalid display name or resouce name")
+                print("추론 엔진이 없거나 디스플레이 이름 또는 리소스 이름이 유효하지 않습니다.")
     except Exception as e:
         print(e)
 
@@ -114,11 +114,11 @@ def show_agents():
         None
     """
 
-    print("\n\n### Show agent engines. \n\n")
+    print("\n\n### 에이전트 엔진 목록을 표시합니다. \n\n")
 
     try:
         if not agent_engines.list():
-            print("No reasoning engines")
+            print("추론 엔진이 없습니다.")
 
         for idx, agent in enumerate(agent_engines.list()):
             print(f"Agent {idx}: \n\tDisplay Name [{agent.display_name}] \n\tName [{agent.name}] \n\tCreation Time [{agent.create_time}] \n\tResource Name [{agent.resource_name}]\n")
@@ -180,12 +180,12 @@ def delete_agent(name):
         None
     """
 
-    print("\n\n### Delete agent engines. \n\n")
+    print("\n\n### 에이전트 엔진을 삭제합니다. \n\n")
 
     try:
         re = agent_engines.get(name)
         re.delete()
-        print(f"Agent Engine deleted {name}")
+        print(f"에이전트 엔진 {name} 삭제됨")
     except Exception as e:
         print(e)
 

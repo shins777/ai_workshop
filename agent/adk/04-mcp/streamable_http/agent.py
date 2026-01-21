@@ -21,14 +21,13 @@ load_dotenv()
 
 def mcp_streamable_http_tool():
     """
-    Create and configure an MCPToolset that connects to a remote MCP Streamable HTTP server.
+    원격 MCP Streamable HTTP 서버에 연결하는 MCPToolset을 생성하고 구성합니다.
 
-    This helper constructs an MCPToolset using StreamableHTTPConnectionParams with the
-    provided service URL. The returned toolset can be used by an LLM agent to call
-    remote MCP tools exposed by the Streamable HTTP server.
+    이 헬퍼는 제공된 서비스 URL과 함께 StreamableHTTPConnectionParams를 사용하여 MCPToolset을 구성합니다.
+    반환된 도구 세트는 LLM 에이전트가 Streamable HTTP 서버에 의해 노출된 원격 MCP 도구를 호출하는 데 사용할 수 있습니다.
 
     Returns:
-        MCPToolset: a configured MCPToolset instance using Streamable HTTP connection parameters.
+        MCPToolset: Streamable HTTP 연결 매개변수를 사용하여 구성된 MCPToolset 인스턴스.
     """
 
     mcp_toolset = MCPToolset(
@@ -40,8 +39,8 @@ def mcp_streamable_http_tool():
     return mcp_toolset
 
 INSTRUCTION = """
-    You are an agent that provides answers to user questions.
-    When a user asks a question related to exchange rate, you must use the 'get_exchange_rate' to provide an answer based on the results.
+    당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
+    사용자가 환율과 관련된 질문을 하면 'get_exchange_rate'를 사용하여 결과를 바탕으로 답변을 제공해야 합니다.
 """
 
 get_exchange_rate = mcp_streamable_http_tool()
@@ -49,7 +48,7 @@ get_exchange_rate = mcp_streamable_http_tool()
 root_agent = LlmAgent(
     name = "get_exchange_rate_agent",
     model = os.getenv("GOOGLE_GENAI_MODEL"),
-    description = "Agents that answer questions about user query",
+    description = "사용자 쿼리에 대해 답변하는 에이전트",
     instruction = INSTRUCTION,
     tools=[get_exchange_rate],
 )
