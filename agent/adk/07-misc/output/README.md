@@ -1,57 +1,35 @@
-# Schema 기반 Output 예제
+# ADK 구조화된 출력 예제 - Pydantic 스키마 (07-misc/output)
 
-## 예제 개요
-이 폴더는 ADK(Agent Development Kit)에서 Pydantic 기반의 output schema를 활용하여, 에이전트가 구조화된 형태로 답변을 생성하는 방법을 보여줍니다.  
-검색 결과, 질의 의도, 답변 등 명확한 필드를 갖는 JSON 스키마를 통해 일관된 결과를 제공합니다.
+이 예제는 에이전트가 단순히 텍스트를 반환하는 것을 넘어, 미리 정의된 **Pydantic 스키마(Schema)**에 따라 구조화된 데이터(JSON 등)를 생성하는 방법을 보여줍니다.
 
-## .env 환경 설정.
+## 주요 개념
 
-상위 폴더(`adk/08-output/`)에 아래와 같이 `.env` 파일을 생성하세요. 
+- **Structured Output**: 에이전트의 응답 형식을 강제하여 프로그램에서 후처리가 용이하게 만듭니다.
+- **Pydantic Schema**: Python의 표준 데이터 검증 라이브러리인 Pydantic을 사용하여 에이전트가 생성해야 할 데이터 구조를 정의합니다.
 
-환경파일내 들어갈 내용은 아래 URL을 참고하세요.    
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model 
+## 주요 구성 요소
 
-아래 환경설정은 기업에서 `Vertex AI`기반에서 ADK를 사용할때 적용되는 예제입니다.    
+### 1. 스키마 정의 (`schema.py`)
+- **`SearchResult` 클래스**: `BaseModel`을 상속받아 `query`(질문), `intention`(의도), `result`(답변) 필드를 정의합니다. 각 필드는 `Field`를 통해 상세 설명을 포함할 수 있습니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 기업용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 각자 Project ID 를 참고해서 변경.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 현재 Gemini 최신 버전.
-```
+### 2. 에이전트 정의 (`agent.py`)
+- **`output_schema`**: `Agent` 인스턴스 생성 시 `output_schema=SearchResult`를 지정합니다. 
+- 이를 통해 모델은 지시문에 따른 단순 텍스트가 아닌, 정의된 클래스의 구조를 갖춘 JSON 형태로 응답을 생성합니다.
 
-참고로 `AI Studio`를 사용하는 일반 사용자 버전은 아래와 같이 GOOGLE_API_KEY 를 셋팅해야 합니다.  
+## 사전 준비 사항
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+- 이 예제는 일반적으로 구글의 **Gemini** 모델을 사용하여 가장 정확한 구조화된 출력을 제공합니다.
+- `.env` 파일에 유효한 `GOOGLE_API_KEY` 또는 Vertex AI 관련 프로젝트 설정이 필요합니다.
 
-## 소스 코드 실행 방법
-gcloud 명령어를 통해서 Google Cloud 실행 환경 로그인 설정합니다.
-```
-gcloud auth application-default login
-```
+## 실행 및 테스트 방법
 
-**08-output** 폴더에서 아래 명령어를 실행하세요. 실행 하면 UI 접속 URL을 통해서 단위테스트를 할 수 있습니다.
+1. `07-misc` 폴더에서 `adk web`을 실행합니다.
+2. `output` 에이전트를 선택하여 질문을 던집니다. (예: "서울의 오늘 날씨에 대해 알려줘")
+3. 에이전트의 응답이 단순한 문장이 아닌, 쿼리, 의도, 결과가 명확히 분리된 구조체(JSON) 형태로 출력되는 것을 확인하세요.
 
-```
-adk_workshop/adk/08-output$ adk web
-```
+## 특징
+- **높은 신뢰성**: 응답 형식이 고정되어 있어 시스템 통합 시 파싱 오류를 줄여줍니다.
+- **데이터 분석 용이**: 사용자의 질문 의도를 별도로 추출하여 머신러닝 학습 데이터나 통계 데이터로 활용하기 좋습니다.
 
-### 예제 Output 스키마
-```json
-{
-  "query": "검색어 또는 질문",
-  "intention": "질문 의도",
-  "result": "검색 결과 또는 답변"
-}
-```
-
-### 예제 기능
-- 사용자의 질의와 의도를 명확히 분리하여 구조화된 답변 제공
-- output_schema를 활용한 일관된 JSON 결과 반환
-- 다양한 검색/질의 응답 시나리오에 확장 가능
-
-## 라이센스
-이 프로젝트는 Apache License 2.0을 따르며, 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

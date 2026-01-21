@@ -1,58 +1,39 @@
-# ADK Observability 예제 - AgentOps 설정
+# ADK Observability 예제 - AgentOps 통합 (07-misc/agentops)
 
-이 폴더는 ADK(에이전트 개발 키트) 프레임워크로 구축된 AI 에이전트에서 관측성(observability)을 위해 AgentOps를 사용하는 방법에 대한 예제를 제공합니다.
-이 코드를 실행하려면 AgentOps 사이트에 가입하고 토큰을 발급받아야 합니다:
-* https://app.agentops.ai/
+이 예제는 ADK(Agent Development Kit)로 구축된 AI 에이전트의 실행 과정을 모니터링하고 분석하기 위해 **AgentOps**를 통합하는 방법을 보여줍니다.
 
-API_KEY를 받으면 아래와 같이 .env 파일에 설정하세요.
+## 주요 개념
 
-## .env 설정
+- **Observability (관측성)**: 에이전트의 내부 동작(LLM 호출, 도구 실행, 지연 시간 등)을 실시간으로 추적하여 성능을 최적화하고 문제를 디버깅합니다.
+- **AgentOps**: 에이전트 개발자를 위한 특화된 모니터링 플랫폼으로, 세션 추적, 비용 분석, 성공률 측정 등의 기능을 제공합니다.
 
-`.env` 파일은 상위 폴더(`10-observability`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+## 주요 구성 요소
 
-다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
+### 1. 에이전트 정의 (`agent.py`)
+- **`agentops.init`**: 에이전트 실행 전에 AgentOps SDK를 초기화하고 API 키를 설정합니다. `adk-app-trace`와 같은 추적 이름을 지정할 수 있습니다.
+- **자동 추적**: `agentops.init`이 호출되면 ADK 내부에서 발생하는 LLM 상호작용이 AgentOps 대시보드로 자동 전송됩니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI = TRUE
-GOOGLE_CLOUD_PROJECT = "YOUR_PROJECT_ID"
-GOOGLE_CLOUD_LOCATION = "YOUR_PROJECT_LOCATION"
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"
+## 사전 준비 사항
 
-AGENTOPS_API_KEY="0000000-0000-0000-0000-000000" # AgentOps 키
-```
+1. [AgentOps](https://app.agentops.ai/)에 가입하고 프로젝트 API 키를 발급받으세요.
+2. `.env` 파일에 다음과 같이 키를 설정합니다:
+   ```env
+   AGENTOPS_API_KEY="your-agentops-api-key"
+   ```
 
-AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
+## 실행 및 테스트 방법
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+1. `07-misc` 폴더 내에 `.env` 파일이 있는지 확인합니다.
+2. `07-misc` 폴더에서 명령어를 실행합니다:
+   ```bash
+   adk web
+   ```
+3. 웹 UI에서 `agentops` 에이전트를 선택하고 질문을 던집니다.
+4. [AgentOps 대시보드](https://app.agentops.ai/)에 접속하여 실시간으로 생성되는 트레이스(Trace)와 세션 정보를 확인하세요.
 
-## 에이전트 파일 구조
-```
-adk/10-observability/agentops/
-├── __init__.py
-├── agent.py
-└── README.md
-```
-
-- `agent.py`: AgentOps가 설정된 에이전트의 빌드 코드를 포함합니다.
-- `__init__.py`: 폴더를 Python 패키지로 표시합니다.
-
-## 예제 실행
-
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-
-```
-gcloud auth application-default login
-```
-
-`10-observability` 폴더에서 아래 명령어를 실행하고 adk 웹 인터페이스에서 테스트하세요:
-
-```
-adk_workshop/adk/10-observability$ adk web
-```
+## 특징
+- **에이전트 수명 주기 추적**: 세션 시작부터 종료까지의 모든 이벤트를 한 화면에서 볼 수 있습니다.
+- **LLM 성능 분석**: 토큰 사용량, 응답 시간, 모델별 성능 지표를 제공합니다.
 
 ## 라이선스
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne** (shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

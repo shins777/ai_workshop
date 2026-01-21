@@ -1,52 +1,32 @@
-# Google BigQuery 도구 예제
+# ADK BigQuery 도구 예제 (03-tools/bigquery)
 
-이 폴더는 ADK 에이전트 프레임워크의 내장 BigQuery 도구를 사용하여 다양한 메타데이터를 검색하고 BigQuery 내에서 SQL 쿼리를 실행하는 방법을 보여줍니다.
+이 예제는 에이전트가 구글 클라우드의 **BigQuery** 데이터베이스와 직접 상호작용하여 데이터를 쿼리하고 분석하는 방법을 보여줍니다.
 
-## .env 설정
+## 주요 개념
 
-`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
+- **BigQueryToolset**: BigQuery 데이터 탐색, SQL 생성 및 실행을 위한 도구 모음입니다.
+- **Write Mode Control**: 에이전트가 데이터를 수정하거나 삭제하는 것을 방지하기 위해 쓰기 모드를 제한할 수 있습니다.
 
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+## 주요 구성 요소
 
-다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
+### 1. 도구 세트 구성 (`agent.py`)
+- **`BigQueryToolConfig`**: `write_mode=WriteMode.BLOCKED` 설정을 통해 안전하게 조회용으로만 도구를 구성합니다.
+- **인증 설정**: `google.auth.default()`를 사용하여 애플리케이션 기본 자격 증명(ADC)을 자동으로 로드합니다.
+- **`BigQueryToolset`**: 데이터 세트 목록 조회, 테이블 스키마 확인, SQL 실행 등의 기능을 에이전트에게 부여합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전.
-```
+### 2. 에이전트 정의
+- **`root_agent`**: BigQuery 도구 세트를 사용하여 자연어 질문을 SQL로 변환하고 결과를 분석하여 답변합니다.
 
-AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
+## 사전 준비 사항
+- **GCP 인증**: 터미널에서 `gcloud auth application-default login`을 실행하여 로컬 환경에 인증 정보를 설정하세요.
+- **권한**: 사용 중인 GCP 프로젝트의 BigQuery 데이터에 대해 `BigQuery Data Viewer` 및 `BigQuery Job User` 권한이 필요합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
-
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/03-tools$ adk web
-```
-
-UI에서 bigquery를 선택하고 다음 명령을 실행하세요:
-
-1. 메타데이터 검색
-```
-ai-hangsik 프로젝트에 등록된 데이터 세트를 설명해주세요.
-```
-
-2. 자연어 검색 (NL2SQL)
-```
-bbc_news.fulltext의 카테고리 그룹별 개수를 알려주세요. 또한 사용된 SQL 쿼리도 보여주세요.
-```
+## 실행 방법
+1. `.env` 파일에 관련 GCP 프로젝트 설정이 되어 있는지 확인합니다.
+2. `03-tools` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `bigquery`를 선택하여 다음과 같이 질문하세요:
+   - "내 프로젝트에 있는 데이터 세트 목록을 알려줘."
+   - "특정 테이블의 상위 5개 행을 보여줘."
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

@@ -1,60 +1,29 @@
-# ADK 내장 코드 실행 에이전트
+# ADK 코드 실행기 예제 (03-tools/code_execution)
 
-이 폴더는 내장 코드 실행 기능을 갖춘 ADK(에이전트 개발 키트) 에이전트를 구축하고 운영하는 방법을 보여줍니다. 이 에이전트는 Python 코드를 작성하고 실행하여 수학적 표현을 해결하고, 코드와 결과를 모두 일반 텍스트로 반환합니다.
+이 예제는 에이전트가 Python 코드를 작성하고 이를 로컬 환경에서 실행하여 복잡한 계산이나 데이터 처리를 수행하는 방법을 보여줍니다.
 
-코드 실행 에이전트는 다음과 같은 기능을 제공합니다:
-- 사용자로부터 수학적 표현을 받습니다.
-- 표현을 해결하기 위해 Python 코드를 작성하고 실행합니다.
-- 코드와 결과를 모두 일반 텍스트로 반환합니다.
-- 사용자 입력과 동일한 언어로 응답합니다.
+## 주요 개념
 
-## .env 설정
+- **BuiltInCodeExecutor**: 에이전트가 생성한 코드를 안전하게 실행할 수 있는 내장 실행 환경입니다. 수학적 연산이나 모델의 추정 범위를 넘어서는 정확한 계산이 필요할 때 활용됩니다.
 
-`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
+## 주요 구성 요소
 
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+### 1. 에이전트 정의 (`agent.py`)
+- **`code_executor`**: `BuiltInCodeExecutor()`를 에이전트 인스턴스에 직접 할당합니다.
+- **Instruction**: 에이전트에게 정확한 계산이 필요할 때 Python 코드를 작성해서 실행하라는 지침을 명시합니다.
 
-다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
+## 워크플로우 동작 방식
+1. 사용자가 "12345의 제곱근에 567을 곱한 값은 얼마야?"와 같은 복잡한 수학 문제를 질문합니다.
+2. 에이전트는 이를 처리하기 위한 Python 코드를 작성합니다.
+3. ADK 내부의 코드 실행기가 해당 코드를 실행하고 결과를 에이전트에게 반환합니다.
+4. 에이전트가 실행 결과를 바탕으로 최종 답변을 구성합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전.
-```
+## 실행 방법
+`03-tools` 폴더에서 `adk web`을 실행한 후, 에이전트 목록에서 `code_execution`을 선택하여 테스트하세요.
 
-AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
-
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
-
-## 폴더 구조
-
-```
-adk/03-tools/code_execution/
-├── __init__.py
-├── agent.py
-├── README.md
-```
-
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/03-tools$ adk web
-```
-
-UI에서 code_execution을 선택하고 다음 명령을 실행하세요:
-```
-1부터 100까지의 모든 소수를 찾아서 합산하는 프로그램을 작성하고 실행하세요.
-```
+## 주의 사항
+- 코드 실행은 에이전트가 구동되는 로컬 환경의 자원을 사용합니다.
+- 보안이 중요한 환경에서는 코드 실행 범위를 제한하거나 샌드박스 환경을 고려해야 합니다.
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

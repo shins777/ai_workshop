@@ -1,47 +1,30 @@
-# Tavily 검색 도구 예제 (ADK)
+# ADK LangChain & Tavily 검색 도구 예제 (03-tools/langchain_tavily)
 
-이 폴더는 ADK(에이전트 개발 키트)에서 LangChain 기반 Tavily 검색 도구와 환율 조회 기능을 통합하여 에이전트가 웹 검색 및 환율 정보를 모두 조회할 수 있도록 하는 예제를 제공합니다. 또한 필요에 따라 다른 함수를 호출하는 방법을 보여줍니다.
+이 예제는 ADK의 **LangChain 연동 기능**을 사용하여 에이전트가 Tavily Search API를 웹 검색 도구로 활용하는 방법을 보여줍니다.
 
-## .env 설정
+## 주요 개념
 
-`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+- **LangchainTool Wrapper**: 기존에 작성된 수많은 LangChain 도구들을 ADK 환경에서 바로 사용할 수 있도록 감싸주는 유틸리티입니다.
+- **Tavily Search**: AI 에이전트 친화적인 검색 결과를 제공하는 Tavily API를 사용하여 더욱 정교한 웹 검색을 수행합니다.
 
-다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
+## 주요 구성 요소
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전.
+### 1. LangChain 도구 초기화 (`agent.py`)
+- **`TavilySearchResults`**: 검색 깊이, 이미지 포함 여부, 최대 결과 수 등을 설정하여 LangChain 도구 인스턴스를 생성합니다.
+- **`LangchainTool`**: `adk_tavily_tool = LangchainTool(tool=tavily_tool_instance)` 와 같이 ADK 호환 도구로 변환합니다.
 
-# Tavily API 키
-TAVILY_API_KEY = "TAVILY_API_KEY"
+### 2. 하이브리드 도구 에이전트
+- **병합 활용**: 자체 정의한 Python 함수(`get_exchange_rate`)와 LangChain 기반 도구(`adk_tavily_tool`)를 동시에 에이전트에 등록하여 사용합니다.
 
-```
+## 사전 준비 사항
+- **TAVILY_API_KEY**: [Tavily AI](https://tavily.com/)에서 발급받은 API 키를 `.env` 파일에 설정해야 합니다.
 
-AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
+## 실행 방법
+1. `.env` 파일에 `TAVILY_API_KEY`를 설정합니다.
+2. `03-tools` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `langchain_tavily`를 선택하여 다음과 같이 질문하세요:
+   - "현재 달러 환율 알려줘." (Python 함수 도구 사용)
+   - "최근 AI 트렌드에 대해 조사해줘." (Tavily 검색 도구 사용)
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
-
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/03-tools$ adk web
-```
-
-UI에서 langchain_tavily를 선택하고 다음 명령을 실행하세요:
-```
-이번주 대한민국 사회적 이슈에 대해서 설명해주고, 가장 최신 원달러 환율도 체크해줘.
-```
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

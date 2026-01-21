@@ -1,52 +1,39 @@
-# ADK 에이전트 콜백 예제
+# ADK 에이전트 콜백 예제 (06-callback/agent_callback)
 
-## 1. 예제 개요
-이 폴더는 ADK(Agent Development Kit) 에이전트에서 에이전트 레벨의 전/후처리 콜백을 구현하는 방법을 보여줍니다.   
-메인 에이전트 로직 실행 전후에 흐름을 가로채고 수정할 수 있어 고급 제어, 맞춤 응답, 상태 기반 로직 구현이 가능합니다.
+이 예제는 에이전트의 전체 실행 수명 주기(Life Cycle) 중 에이전트 실행 전후에 특정 로직을 삽입하는 **Agent Level Callback** 패턴을 보여줍니다.
 
-## .env 환경 설정.
+## 주요 개념
 
-상위 폴더(`adk/06-callback/`)에 아래와 같이 `.env` 파일을 생성하세요. 
+- **Agent Callback**: 에이전트가 호출되기 직전(`before_agent_callback`)과 응답을 생성한 직후(`after_agent_callback`)에 실행됩니다.
+- **Workflow Control**: 콜백 내에서 특정 조건에 따라 에이전트 실행을 건너뛰거나(Skip), 즉시 사용자 지정 응답을 반환할 수 있습니다.
 
-환경파일내 들어갈 내용은 아래 URL을 참고하세요.    
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model 
+## 주요 구성 요소
 
-아래 환경설정은 기업에서 `Vertex AI`기반에서 ADK를 사용할때 적용되는 예제입니다.    
+### 1. 콜백 함수 정의 (`callback.py`)
+- **`callback_before_agent`**: 에이전트 실행 전, 세션 상태(`current_state`)를 확인하여 `skip_agent` 플래그가 True이면 에이전트 호출 없이 바로 응답을 반환합니다.
+- **`callback_after_agent`**: 에이전트 실행 후, 상태에 따라 응답 결과에 추가적인 알림을 포함하거나 흐름을 제어합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 기업용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 각자 Project ID 를 참고해서 변경.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 현재 Gemini 최신 버전.
-```
+### 2. 에이전트 정의 (`agent.py`)
+- `Agent` 인스턴스 생성 시 `before_agent_callback`과 `after_agent_callback` 인자에 정의한 함수를 등록합니다.
 
-참고로 `AI Studio`를 사용하는 일반 사용자 버전은 아래와 같이 GOOGLE_API_KEY 를 셋팅해야 합니다.  
+### 3. 실행기 (`runner.py`)
+- `--command` 인자를 통해 세션 상태에 플래그를 주입하고, 에이전트의 동작이 콜백에 의해 어떻게 변화하는지 확인합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+## 워크플로우 동작 방식
+1. 사용자가 질문을 합니다.
+2. 에이전트가 실행되기 전 `callback_before_agent`가 호출됩니다. 
+3. 만약 `skip_agent` 플래그가 있다면, LLM을 호출하지 않고 콜백이 정의한 메시지가 반환됩니다.
+4. 그렇지 않으면 LLM이 답변을 생성하고, 이후 `callback_after_agent`가 실행되어 최종 수정을 거칩니다.
 
-## 소스 코드 실행 방법
-gcloud 명령어를 통해서 Google Cloud 실행 환경 로그인 설정합니다.
-```
-gcloud auth application-default login
-```
-callback function 에서는 state 내에 `skip_agent` 또는 `check_response` 가 있을때 처리하는 로직을 구현했습니다.   
-실제 로직상으로는 처리 과정중에서 변화되는 state 정보에 따라서 다양하게 callback처리를 할 수 있도록 구현하면 됩니다. 
+## 실행 방법
+`06-callback` 폴더에서 명령어를 입력하여 테스트합니다:
+```bash
+# 에이전트 실행 건너뛰기 테스트
+uv run -m agent_callback.runner --command skip_agent
 
-Agent `실행 전` callback 함수 호출을 위해서 아래 명령어 실행 해주세요.
-이 예제는 command로 skip_agent를 지정하면 agent를 호출하지 않고 종료를 하게 됩니다.
-```
-adk_workshop/adk/04-workflow$ uv run -m agent_callback.runner --command skip_agent --query 'Explain about Generative AI'
+# 응답 후처리 테스트
+uv run -m agent_callback.runner --command check_response
 ```
 
-Agent `실행 후` callback 함수 호출을 위해서 아래 명령어 실행 해주세요.
-이 예제는 command 로 check_response 정보를 넣으면 Agent 호출 이후에 처리결과 내용을 검토하는 과정을 처리하게 됩니다.
-```
-adk_workshop/adk/04-workflow$ uv run -m agent_callback.runner --command check_response --query 'Explain about Generative AI'
-```
-   
-
-## 라이센스
-이 프로젝트는 Apache License 2.0을 따르며, 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

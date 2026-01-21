@@ -1,26 +1,46 @@
-# ADK 08-output 전체 가이드
+# ADK 기타 기능 및 모델 연동 예제 (07-misc)
 
-이 디렉토리는 ADK(Agent Development Kit)에서 출력 결과의 구조화 및 스키마 기반 결과 생성 예제를 제공합니다. 각 서브 폴더는 다양한 출력 방식과 스키마(Pydantic 등)를 활용한 결과 생성 방법을 안내합니다.
+이 디렉토리는 ADK(Agent Development Kit)의 핵심 기능 외에도 관측성(Observability), 다중 모델 지원, 로컬 모델 연동, 그리고 구조화된 출력 등 에이전트의 완성도를 높여주는 다양한 부가 기능 예제를 제공합니다.
 
-## 폴더 및 기능 요약
+## 포함된 주요 예제
 
-### schema
-Pydantic 기반 output schema를 활용하여 에이전트가 구조화된 형태(JSON 등)로 답변을 생성하는 예제입니다. 검색 결과, 질의 의도, 답변 등 명확한 필드를 갖는 스키마를 통해 일관된 결과를 제공합니다.
+### 1. [AGENTOPS (관측성 및 모니터링)](./agentops/README.md)
+- **핵심**: AgentOps를 활용한 에이전트 실행 추적.
+- **내용**: 에이전트의 LLM 호출 및 도구 사용 과정을 시각화하고 성능을 분석하는 방법을 다룹니다.
 
-## 공통 환경설정 (.env)
-모든 출력 예제는 상위 폴더(08-output)에 `.env` 파일을 위치시키고, 아래 URL의 가이드를 참고하여 환경설정을 진행해야 합니다.
+### 2. [LITELLM (다중 외부 모델 연동)](./litellm/README.md)
+- **핵심**: OpenAI, Anthropic 등 타사 LLM 통합.
+- **내용**: LiteLLM 라이브러리를 통해 다양한 상용 AI 모델을 ADK 에이전트의 두뇌로 교체하여 사용하는 방법을 보여줍니다.
 
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+### 3. [MODEL (모델 연동 종합 가이드)](./model/README.md)
+- **핵심**: ADK의 모델 지원 아키텍처 이해.
+- **내용**: 외부 모델(LiteLLM)과 로컬 모델(Ollama) 중 상황에 맞는 최적의 모델 연동 방식을 선택하기 위한 가이드를 제공합니다.
 
-각 예제별 환경설정 예시는 각 서브 폴더의 README.md에 상세히 안내되어 있습니다. 주요 환경 변수 예시는 다음과 같습니다:
+### 4. [OLLAMA_AGENT (로컬 모델 연동)](./ollama_agent/README.md)
+- **핵심**: 보안과 비용 효율을 위한 Local-first 에이전트.
+- **내용**: PC에 설치된 Ollama(Llama 3, Gemma 등)를 사용하여 인터넷 연결 없이 에이전트를 구동하는 예제입니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 기업용 Vertex AI 사용
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 각자 Project ID 참고
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전
-# 각 예제별 추가 환경 변수는 각 README.md 참고
-```
+### 5. [OUTPUT (구조화된 출력)](./output/README.md)
+- **핵심**: Pydantic을 활용한 명확한 데이터 반환.
+- **내용**: 에이전트의 응답을 단순 텍스트가 아닌, 미리 정의된 JSON 스키마 구조로 강제하여 시스템 통합을 용이하게 합니다.
 
-## 참고
-각 서브 폴더의 README.md를 참고하여 상세 사용법, 예제 코드, 환경설정 방법을 확인하세요.
+---
+
+## 공통 실행 및 테스트 방법
+
+ADK는 모든 예제를 하나의 웹 인터페이스에서 통합 테스트할 수 있는 기능을 제공합니다.
+
+1. `07-misc` 폴더에서 명령어를 실행합니다:
+   ```bash
+   adk web
+   ```
+2. 웹 UI가 열리면, 왼쪽 에이전트 목록에서 테스트하고 싶은 예제(예: `agentops`, `output`, `ollama_agent` 등)를 선택합니다.
+3. 질문을 던지고, 각 기능이 어떻게 작동하는지 실시간 피드백을 통해 확인하세요.
+
+## 학습 권장 순서
+1. **output**을 통해 에이전트 응답을 구조화하는 기본기를 익히세요.
+2. **litellm** 또는 **ollama_agent**를 통해 다양한 모델 환경을 구축해 보세요.
+3. **agentops**를 연동하여 실제 서비스 운영 시 필요한 모니터링 체계를 경험해 보세요.
+
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

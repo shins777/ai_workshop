@@ -1,28 +1,46 @@
-# ADK 09-model 전체 가이드
+# ADK 모델 연동 전체 가이드 (07-misc/model)
 
-이 디렉토리는 ADK(Agent Development Kit)에서 다양한 LLM(대형 언어 모델) 연동 예제를 제공합니다. 각 서브 폴더는 외부 또는 로컬 LLM을 ADK와 연동하는 방법을 안내합니다.
+이 디렉토리는 ADK(Agent Development Kit)에서 지원하는 다양한 LLM(대형 언어 모델) 연동 방식에 대한 종합적인 가이드와 설정 방법을 제공합니다. ADK는 구글의 Gemini뿐만 아니라, LiteLLM과 Ollama를 통해 외부 및 로컬의 다양한 모델을 지원합니다.
 
-## 폴더 및 기능 요약
+## 지원 모델 연동 방식
 
-### litellm
-외부 LLM(OpenAI GPT-4o, Anthropic Claude 등)을 LiteLLM을 통해 연동하는 예제입니다. 환경설정(.env) 및 API 키 등록 방법, 실행 방법이 포함되어 있습니다.
+### 1. [LITELLM (외부 상용 모델)](../litellm/README.md)
+- **대상**: OpenAI (GPT-4o), Anthropic (Claude), Mistral 등.
+- **특징**: 상용 AI API를 ADK 에이전트에 즉시 통합.
 
-### ollama_agent
-로컬 Ollama 모델(Llama 3, Gemma 등)을 LLM 에이전트로 연동하는 예제입니다. 환경설정(.env) 및 Ollama API 연동 방법, 실행 및 테스트 방법이 포함되어 있습니다.
+### 2. [OLLAMA (로컬 설치 모델)](../ollama_agent/README.md)
+- **대상**: Llama 3, Gemma, Mistral 등 로컬 PC에 설치된 모델.
+- **특징**: 보안이 중요하거나 인터넷 연결 없이 에이전트를 구동해야 하는 경우 활용.
 
-## 공통 환경설정 (.env)
-모든 모델 예제는 상위 폴더(09-model)에 `.env` 파일을 위치시키고, 각 서브 폴더의 README.md에 안내된 환경 변수(API 키, 엔드포인트 등)를 등록해야 합니다.
+---
+
+## 공통 환경 설정 (.env)
+
+모든 모델 예제는 `07-misc` 폴더 내의 `.env` 파일을 참조합니다. 모델별로 필요한 환경 변수를 적절히 설정해야 합니다.
 
 ### 주요 환경 변수 예시
-```
+```env
+# LiteLLM (OpenAI/Anthropic)
 OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
+
+# Ollama (Local)
 OLLAMA_API_BASE=http://localhost:11434
-# 각 모델별 추가 환경 변수는 각 README.md 참고
+
+# Google Gemini (Default)
+GOOGLE_API_KEY=your_google_key
+# 또는 Vertex AI 사용 시
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+GOOGLE_CLOUD_PROJECT=your_project_id
 ```
 
-## 실행 방법
-각 모델 예제는 폴더 내 명령어(adk web, ollama list 등)와 함께 실행 및 테스트할 수 있습니다. 상세 사용법은 각 서브 폴더의 README.md를 참고하세요.
+## 적합한 모델 선택 가이드
 
-## 라이센스
-이 프로젝트는 Apache License 2.0을 따르며, 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+| 연동 방식 | 추천 사용 사례 | 장점 |
+| :--- | :--- | :--- |
+| **Gemini (Vertex AI)** | 기업용 보안 및 엔터프라이즈 앱 | 엔터프라이즈급 성능 및 GCP 통합 |
+| **LiteLLM** | 다양한 글로벌 모델 비교 및 활용 | 방대한 모델 라이브러리 지원 |
+| **Ollama** | 로컬 개발 및 데이터 프라이버시 | 비용 없음, 로컬 자원 활용 |
+
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

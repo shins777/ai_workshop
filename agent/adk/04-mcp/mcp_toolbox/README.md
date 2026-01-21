@@ -1,98 +1,42 @@
-# Toolbox 에이전트 예제 (ADK)
+# ADK MCP Toolbox 연동 예제 (04-mcp/mcp_toolbox)
 
-이 폴더는 ADK(Agent Development Kit) 환경에서 ToolboxSyncClient를 사용하여 BigQuery와 같은 외부 데이터 소스와 연결하는 Toolbox 에이전트의 예제를 제공합니다.
+이 예제는 ADK가 **Toolbox (구 Toolbox-Core)**와 연동하여 도구를 중앙에서 관리하고 MCP로 확장하는 고급 기능을 보여줍니다.
 
-이 예제를 실행하기 전에 데이터베이스용 MCP Toolbox를 이해하고 설치해야 합니다.
+## 주요 개념
 
-* 데이터베이스용 MCP Toolbox
-    * https://googleapis.github.io/genai-toolbox/getting-started/introduction/
+- **Toolbox Integration**: `toolbox_core` 라이브러리를 사용하여 YAML 형식으로 정의된 도구들을 동적으로 로드합니다.
+- **BigQuery 연동**: MCP를 통해 BigQuery SQL 쿼리를 실행하는 도구를 구성하는 예시를 포함합니다.
 
-* MCP Toolbox 설치
-    * 설치 지침은 MCP Toolbox GitHub를 참조하세요:
-    * https://github.com/googleapis/genai-toolbox
+## 주요 구성 요소
 
-    ```
-    # MacOS 사용자용
-    brew install mcp-toolbox
-    ```
+### 1. 도구 정의 (`tools.yaml`)
+- **소스(Sources)**: BigQuery 프로젝트 정보를 정의합니다.
+- **도구(Tools)**: `query_bbc`와 같이 실제 실행될 SQL 문과 설명을 정의합니다.
+- **툴셋(Toolsets)**: 관련 도구들을 묶어 관리합니다.
 
-## .env 구성
+### 2. 에이전트 정의 (`agent.py`)
+- **`get_toolbox` 함수**: `ToolboxSyncClient`를 사용하여 `tools.yaml`에 정의된 툴셋이나 개별 도구를 동적으로 로드합니다.
+- **`root_agent`**: 로드된 Toolbox 도구들을 사용하여 사용자의 데이터 질의 요청을 처리합니다.
 
-`.env` 파일은 상위 폴더(`04-mcp`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+## 워크플로우 동작 방식
+1. 에이전트가 시작될 때 Toolbox 클라이언트가 구성 파일을 읽습니다.
+2. 사용자가 데이터 분석이나 통계 질문을 하면 `query_bbc` 도구가 활성화됩니다.
+3. Toolbox는 정의된 BigQuery 소스에 쿼리를 실행하고 결과를 에이전트에 전달합니다.
 
-다음 환경 설정은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제입니다:
+## 사전 준비 사항
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # 글로벌 엔드포인트 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 모델.
+- **Toolbox 라이브러리**: `toolbox-core` 패키지가 설치되어 있어야 합니다.
+- **BigQuery 권한**: 도구에서 사용되는 GCP 프로젝트의 BigQuery 데이터에 접근할 수 있는 인증(Credentials)이 필요합니다.
 
-# Toolbox 구성
-TOOLBOX_SYNC_CLIENT = "http://127.0.0.1:5000"
+## 실행 방법
 
-```
+1. `tools.yaml` 내의 프로젝트명 등을 관리 중인 환경에 맞게 수정합니다.
+2. `04-mcp` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `mcp_toolbox`를 선택하여 테스트합니다.
+   - 예: "BBC 뉴스 카테고리별 뉴스가 몇 개인지 알려줘."
 
-`AI Studio`를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-
-```
-
-## tools.yaml 예제
-
-toolbox에서 도구를 설정하려면 아래와 같이 yaml 파일을 생성하세요. 파일 이름은 일반적으로 `tools.yaml`입니다.
-BigQuery 구성에 대한 자세한 내용은 다음 URL을 참조하세요:
-* https://googleapis.github.io/genai-toolbox/samples/bigquery/mcp_quickstart/
-
-
-```yaml
-sources:
-  bigquery-bbc:
-    kind: "bigquery"
-    project: "ai-hangsik"
-
-tools:
-  query_bbc:
-    kind: "bigquery-sql"
-    source: "bigquery-bbc"
-    statement:
-      SELECT category, count(*) 
-      FROM `ai-hangsik.bbc_news.fulltext` 
-      group by category
-    description: "Query the number of BBC news articles by category."
-
-toolsets:
-  my_bq_toolset:
-    - query_bbc
-```
-
-## 예제 실행
-
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-### MCP Toolbox 실행
-새 콘솔 창을 열고 다음과 같이 toolbox를 시작하세요:
-```
-toolbox --tools-file "tools.yaml"
-```
-
-### 에이전트 실행
-마찬가지로 셸에서 GCP 인증이 필요합니다:
-```
-gcloud auth application-default login
-```
-다음 명령어로 Toolbox 에이전트 예제를 실행하세요:
-```
-adk_workshop/adk/04-mcp $ adk web
-```
-toolbox 에이전트를 선택한 후 "Show me the BBC table."이라고 질문해 보세요.
+## 기술적 참고 사항
+- 이 방식은 대규모 조직에서 수많은 도구를 중앙에서 관리하고, 이를 여러 에이전트가 공유하여 사용하는 엔터프라이즈 시나리오에 적합합니다.
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

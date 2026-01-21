@@ -1,47 +1,29 @@
-# Vertex AI Search 도구 예제 (ADK)
+# ADK Vertex AI Search 도구 예제 (03-tools/vertexai_search)
 
-이 폴더는 ADK 에이전트와 내장된 Vertex AI Search 도구를 사용하여 Vertex AI Search 데이터 스토어를 기반으로 사용자 쿼리에 답변하는 방법을 보여줍니다.
+이 예제는 에이전트가 구글 클라우드의 **Vertex AI Search (Enterprise Search)** 데이터 스토어를 사용하여 방대한 비정형 데이터나 웹사이트 정보를 검색하는 방법을 보여줍니다.
 
-## .env 설정
+## 주요 개념
 
-`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+- **VertexAiSearchTool**: Vertex AI Search 데이터 스토어(Data Store)와 연결되어 엔터프라이즈급 검색 기능을 에이전트 도구로 제공합니다.
+- **Search-as-a-Service**: 강력한 구글 검색 엔진 기술을 기업 내부 데이터에 그대로 적용합니다.
 
-다음 환경 설정은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제입니다:
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # 글로벌 엔드포인트 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 모델.
+## 주요 구성 요소
 
-# Vertex AI Search 구성
-VAIS_PROJECT_NUMBER = "700000000000"
-VAIS_LOCATION = "global"
-VAIS_DATASTORE_ID = "alphabet-contracts-id2"
-```
+### 1. 도구 구성 (`agent.py`)
+- **`data_store_id`**: 프로젝트 번호, 위치, 데이터 스토어 ID를 조합한 완전한 리소스 경로를 사용하여 데이터 스토어를 지정합니다.
+- **자동 검색**: 사용자의 자연어 질문을 에이전트가 받아 내부적으로 검색 쿼리를 실행합니다.
 
-`AI Studio`를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+## 사전 준비 사항
+- **Vertex AI Search 데이터 스토어**: [GCP Search & Conversation](https://console.cloud.google.com/gen-app-builder)에서 데이터 스토어 및 앱을 먼저 구축해야 합니다.
+- **환경 변수 설정**: 
+    - `VAIS_PROJECT_NUMBER`: 구글 클라우드 프로젝트 번호
+    - `VAIS_LOCATION`: 데이터 스토어 위치 (기본 "global")
+    - `VAIS_DATASTORE_ID`: 생성한 데이터 스토어 ID
 
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/03-tools$ adk web
-```
-
-UI에서 vertexai_search를 선택하고 Vertex AI Search에 등록된 정보를 조회하세요.
-```
-구글의 2024년 매출 현황을 알려주세요.
-```
+## 실행 방법
+1. `.env` 파일에 위 3가지 환경 변수를 설정합니다.
+2. `03-tools` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `vertexai_search`를 선택하여 데이터 스토어에 업로드된 내용에 대해 질문하세요.
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

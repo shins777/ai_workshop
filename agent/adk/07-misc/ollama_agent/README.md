@@ -1,51 +1,44 @@
-# Ollama 에이전트 예제 (ADK)
+# ADK 로컬 모델 예제 - Ollama 연동 (07-misc/ollama_agent)
 
-## 예제 개요
-이 예제는 ADK 프레임워크에서 로컬 Ollama 모델(Llama 3, Gemma 등)을 LLM 에이전트로 연동하는 방법을 보여줍니다.
+이 예제는 ADK(Agent Development Kit)에서 **Ollama**를 사용하여 로컬 환경에 설치된 LLM(예: Llama 3, Gemma)을 에이전트의 두뇌로 활용하는 방법을 보여줍니다.
 
-## 환경 설정
-`.env` 파일에 아래와 같이 키를 설정하세요.
+## 주요 개념
 
-```
-OLLAMA_API_BASE=http://localhost:11434
-```
+- **Ollama**: 로컬 PC에서 대규모 언어 모델을 쉽게 실행하고 관리할 수 있게 해주는 오픈소스 프로젝트입니다.
+- **Local-first Agent**: 외부 클라우드 API 호출 없이 로컬 자원만으로 에이전트를 구동하여 뛰어난 보안성과 데이터 프라이버시를 보장합니다.
 
+## 주요 구성 요소
 
-## 실행 방법
+### 1. 에이전트 빌더 (`agent.py`)
+- **`LiteLlm(model="ollama/...")`**: ADK의 LiteLLM 통합 기능을 통해 로컬 Ollama 엔드포인트와 통신합니다. (`llama3.2`, `gemma3` 등 지원)
+- **`build_agent`**: 지정된 모델 이름을 기반으로 로컬 에이전트 인스턴스를 생성하는 함수입니다.
 
-ollama 설치 후 간단한 단위테스트 
+### 2. 단위 테스트 (`ollama_unittest.py`)
+- 에이전트가 로컬 모델과 정상적으로 통신하는지 확인하기 위한 간단한 스크립트입니다.
 
-```
-/Users/hangsik$ ollama list
-NAME               ID              SIZE      MODIFIED     
-gemma3:latest      a2af6cc3eb7f    3.3 GB    3 weeks ago     
-llama3.2:latest    a80c4f17acd5    2.0 GB    2 months ago    
-gemma3:4b          a2af6cc3eb7f    3.3 GB    2 months ago    
-/Users/hangsik$ ollama run gemma3
->>> 
->>> what is the generative ai ?
-Okay, let's break down what Generative AI is. It's a really hot topic 
-right now, and it's evolving rapidly, but here's a clear explanation:
-**1. What is AI (Artificial Intelligence)?**
-First, let's quickly recap AI in general. AI refers to computer systems 
-that can perform tasks that typically require human intelligence.
-```
+## 사전 준비 사항
 
-## 예제 실행
+1. [Ollama 공식 홈페이지](https://ollama.com/)에서 설치 파일을 다운로드하고 설치하세요.
+2. 원하는 모델을 다운로드합니다:
+   ```bash
+   ollama pull llama3.2
+   ollama pull gemma3
+   ```
+3. `.env` 파일에 Ollama API 주소를 설정합니다 (기본값: `http://localhost:11434`):
+   ```env
+   OLLAMA_API_BASE=http://localhost:11434
+   ```
 
-`09-model` 폴더에서 아래 명령어를 실행후 adk web 실행 후 화면에서 테스트를 진행하시면 됩니다. 
+## 실행 및 테스트 방법
 
-```
-adk_workshop/adk/09-model$ adk web
-```
+1. Ollama 서비스가 실행 중인지 확인합니다 (`ollama list` 명령어로 확인).
+2. `07-misc` 폴더에서 `adk web`을 실행합니다.
+3. `ollama_agent`를 선택하고 질문을 던집니다.
+4. (선택 사항) 터미널에서 `python ollama_unittest.py`를 실행하여 직접 통신을 확인합니다.
 
-`agent.py` 파일을 수정하여 사용할 모델(`gemma` 또는 `llama`)을 선택할 수 있습니다.
+## 특징
+- **비용 절감**: API 호출당 비용이 발생하지 않습니다.
+- **오프라인 동작**: 인터넷 연결이 없어도 기본적인 에이전트 기능을 사용할 수 있습니다.
 
-python 코드로 단위테스트는 
-```
-python ollama_unittest.py
-
-```
-
-## 라이센스
-이 프로젝트는 Apache License 2.0을 따르며, 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

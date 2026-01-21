@@ -1,53 +1,31 @@
-# 다중 함수 도구 예제 (ADK)
+# ADK 함수 호출 도구 예제 (03-tools/function_call)
 
-이 폴더는 ADK(에이전트 개발 키트)에서 함수 도구(예: 환율, 주가)를 사용하는 방법을 보여줍니다.
+이 예제는 일반적인 Python 함수를 에이전트가 호출할 수 있는 도구(Tool)로 등록하고 사용하는 방법을 보여줍니다.
 
-## .env 설정
+## 주요 개념
 
-`.env` 파일은 상위 폴더(`03-tools`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
+- **Function Calling**: LLM이 질문에 답변하기 위해 외부 API 호출이나 특정 로직 실행이 필요하다고 판단하면, 등록된 Python 함수의 인자를 생성하여 호출을 요청하는 방식입니다.
 
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+## 주요 구성 요소
 
-다음은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제 구성입니다:
+### 1. 함수 정의 (`function.py`)
+- **`get_exchange_rate`**: Frankfurter API를 연동하여 실시간 환율을 가져오는 비즈니스 로직입니다.
+- **`get_stock_price`**: Alpha Vantage API를 사용하여 주가 정보를 조회하는 로직입니다.
+- **Docstring**: 함수의 역할, 인자, 반환값에 대한 상세한 독스트링은 LLM이 이 함수를 언제 어떻게 사용할지 판단하는 핵심 데이터가 됩니다.
 
-환율 정보를 얻으려면 https://api.frankfurter.app/ 을 무료로 사용할 수 있습니다.
-하지만 "https://www.alphavantage.co/"에 액세스하려면 서비스 사용을 위한 적절한 액세스 키가 있어야 합니다.
-API 키를 얻으려면 https://www.alphavantage.co/ 를 방문하세요.
+### 2. 에이전트 정의 (`agent.py`)
+- **`tools`**: 정의된 함수 리스트를 에이전트에게 제공합니다 (`tools=[function.get_exchange_rate, ...]`).
+- **상세 지침**: 각 도구를 언제 사용해야 하는지, 결과 형식을 어떻게 유지해야 하는지에 대한 가이드를 포함합니다.
 
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전.
+## 사전 준비 사항
+- **STOCK_API_KEY**: 주가 조회를 위해 [Alpha Vantage](https://www.alphavantage.co/)에서 발급받은 API 키를 `.env` 파일에 설정해야 합니다.
 
-# Stock API 키
-STOCK_API_KEY = "STOCK_API_KEY"
-
-```
-
-AI Studio를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
-
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
-
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/03-tools$ adk web
-```
-
-UI에서 function_call을 선택하고 다음 명령을 실행하세요:
-```
-최신 원달러 환율과 구글 주가를 알려주세요.
-```
+## 실행 방법
+1. `.env` 파일에 `STOCK_API_KEY`를 설정합니다.
+2. `03-tools` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `function_call`을 선택하여 다음과 같이 질문하세요:
+   - "오늘 달러 대비 원화 환율이 얼마야?"
+   - "구글(GOOGL) 주가 알려줘."
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

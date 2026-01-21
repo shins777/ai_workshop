@@ -1,35 +1,41 @@
-# ADK 06-callback 전체 가이드
+# ADK 콜백(Callback) 시스템 가이드 (06-callback)
 
-이 디렉토리는 ADK(Agent Development Kit)에서 에이전트, 모델(LLM), 툴 실행 전후에 콜백을 활용하는 다양한 예제와 구현 방법을 제공합니다. 각 서브 폴더는 특정 콜백 유형별로 분리되어 있으며, 아래에 각 기능의 개요와 환경설정 방법을 안내합니다.
+이 디렉토리는 ADK(Agent Development Kit)의 강력한 확장 기능인 **콜백(Callback) 시스템**의 활용 예제를 제공합니다. 콜백을 사용하면 에이전트의 실행 과정 곳곳에 개입하여 데이터를 검증하고, 흐름을 제어하며, 응답을 동적으로 수정할 수 있습니다.
 
-## 폴더 및 기능 요약
+## 콜백 아키텍처 개요
 
-### agent_callback
-에이전트 실행 전/후에 콜백을 적용하는 예제입니다. 에이전트의 상태에 따라 실행을 건너뛰거나, 맞춤 응답을 반환하는 등 고급 제어가 가능합니다.
+ADK는 세 가지 수준의 콜백 지점을 제공하여 개발자에게 유연한 제어권을 부여합니다.
 
-### model_callback
-모델(LLM) 실행 전/후에 콜백을 적용하는 예제입니다. LLM 호출 전후에 흐름을 제어하거나, 키워드 필터링, 상태 기반 로직 구현 등이 가능합니다.
+### 1. [AGENT_CALLBACK (에이전트 수준)](./agent_callback/README.md)
+- **목적**: 에이전트 실행 전체 수명 주기 관리.
+- **활용**: 특정 조건에서 에이전트 실행 건너뛰기, 에이전트 단위 보안 정책 적용 등.
 
-### tool_callback
-툴 실행 전/후에 콜백을 적용하는 예제입니다. 툴 실행 전/후에 콜백을 적용하는 예제입니다. 입력 및 결과 조작, 맞춤 툴 흐름 구현 등 고급 제어가 가능합니다.
+### 2. [MODEL_CALLBACK (모델 수준)](./model_callback/README.md)
+- **목적**: LLM과 직접 주고받는 원본 메시지(Request/Response) 제어.
+- **활용**: 부적절한 질문 입력 차단(Guardrail), 모델의 부적절한 답변 출력 방지(Filtering).
 
-## 공통 환경설정 (.env)
-모든 콜백 예제는 상위 폴더(06-callback)에 `.env` 파일을 위치시키고, 아래 URL의 가이드를 참고하여 환경설정을 진행해야 합니다.
+### 3. [TOOL_CALLBACK (도구 수준)](./tool_callback/README.md)
+- **목적**: 에이전트와 도구 간의 상호작용 최적화.
+- **활용**: 도구 인자(Arguments) 전처리 및 보정, 도구 실행 결과(Response) 후처리 및 부가 정보 삽입.
 
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+---
 
-각 콜백별 환경설정 예시는 각 서브 폴더의 README.md에 상세히 안내되어 있습니다. 주요 환경 변수 예시는 다음과 같습니다:
+## 콜백 시스템의 장점
 
+- **관심사 분리**: 에이전트의 페르소나(Instruction)와 전처리/검증 로직을 분리하여 코드의 가독성과 유지보수성을 높입니다.
+- **동적 가드레일**: 실시간으로 변화하는 세션 상태(State)를 바탕으로 안전한 AI 응답 시스템을 구축할 수 있습니다.
+- **데이터 보정**: 모델이 생성한 인자가 도구의 요구사항과 미세하게 다를 때 이를 자동으로 수정하여 실행 성공률을 높입니다.
+
+## 실행 및 테스트 방법
+
+각 폴더 내의 `runner.py`를 실행하여 각 콜백 패턴의 구체적인 동작을 확인할 수 있습니다. 공통적으로 아래와 같은 명령 체계를 따릅니다.
+
+```bash
+# 해당 폴더로 이동 후
+uv run -m [패턴이름].runner [인자...]
 ```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 기업용 Vertex AI 사용
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 각자 Project ID 참고
-GOOGLE_CLOUD_LOCATION="global"                  # Global Endpoint 사용
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 버전
-# 각 콜백별 추가 환경 변수는 각 README.md 참고
-```
 
-## 참고
-각 서브 폴더의 README.md를 참고하여 상세 사용법, 예제 코드, 환경설정 방법을 확인하세요.
+상세한 실행 명령어는 각 하위 폴더의 README를 참조하세요.
 
-## 라이센스
-이 프로젝트는 Apache License 2.0을 따르며, 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+## 라이선스
+이 프로젝트는 Apache License 2.0을 따릅니다.

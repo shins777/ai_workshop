@@ -1,46 +1,35 @@
-# MCP Client 파일 브라우저 에이전트 예제 (ADK)
+# ADK MCP 파일 시스템 도구 예제 (04-mcp/filesystem)
 
-이 폴더는 MCP(Model Context Protocol)를 사용하여 파일 시스템을 탐색하고 관리하는 ADK(Agent Development Kit)의 에이전트 예제를 제공합니다.
+이 예제는 **Model Context Protocol (MCP)**을 사용하여 에이전트가 로컬 파일 시스템의 파일과 디렉토리를 관리할 수 있도록 하는 방법을 보여줍니다.
 
-## .env 구성
+## 주요 개념
 
-`.env` 파일은 상위 폴더(`04-mcp`)에 위치해야 합니다. 환경 파일에 포함할 내용에 대한 자세한 내용은 다음 URL을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+- **MCP Filesystem Server**: `@modelcontextprotocol/server-filesystem` 패키지를 사용하여 표준화된 방식으로 파일 작업을 수행합니다.
+- **Stdio 전송**: 에이전트와 MCP 서버는 표준 입출력(stdio)을 통해 통신합니다.
 
-다음 환경 설정은 엔터프라이즈 환경에서 Vertex AI와 함께 ADK를 사용하기 위한 예제입니다:
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE                  # 엔터프라이즈용 Vertex AI 사용.
-GOOGLE_CLOUD_PROJECT="ai-hangsik"               # 자신의 Project ID로 변경하세요.
-GOOGLE_CLOUD_LOCATION="global"                  # 글로벌 엔드포인트 사용.
-GOOGLE_GENAI_MODEL = "gemini-2.5-flash"         # 최신 Gemini 모델.
-```
+## 주요 구성 요소
 
-`AI Studio`를 사용하는 일반 사용자의 경우 다음과 같이 GOOGLE_API_KEY를 설정하세요:
-```
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+### 1. 에이전트 정의 (`agent.py`)
+- **`mcp_toolset` 함수**: `npx`를 통해 MCP 서버를 실행하고, 에이전트가 접근할 수 있는 절대 경로를 인자로 전달하여 `MCPToolset`을 생성합니다.
+- **`file_system_toolset`**: `list_directory`, `read_file`, `write_file` 등 파일 시스템 관리에 필요한 도구들을 자동으로 포함합니다.
+- **`root_agent`**: 정의된 `file_system_toolset`을 도구로 사용하여 사용자의 파일 관리 요청을 수행합니다.
 
-## 소스 코드 실행 방법
-다음 gcloud 명령어를 사용하여 Google Cloud 인증을 설정하세요:
-```
-gcloud auth application-default login
-```
+## 사전 준비 사항
 
-다음 명령어로 하위 에이전트 도구 예제를 실행하세요:
-```
-adk_workshop/adk/04-mcp$ adk web
-```
+- **Node.js**: `npx` 명령어를 사용하기 위해 Node.js가 설치되어 있어야 합니다.
+- **권한**: 에이전트가 접근하려는 대상 폴더에 대한 읽기/쓰기 권한이 필요합니다.
 
-테스트를 위해 다음과 같은 질문을 사용하세요:
-```
-현재 폴더의 정보를 검색해줘.
-```
+## 실행 방법
 
-## 설명
-- MCP 서버와 통합되어 지정된 폴더의 파일 목록 조회, 파일 읽기 등 파일 시스템 관리 작업을 수행할 수 있습니다.
-- npx 및 @modelcontextprotocol/server-filesystem을 사용하여 MCP 서버에 연결합니다.
+1. `04-mcp/filesystem/agent.py` 파일 내의 `target_folder_path`가 에이전트가 관리할 실제 절대 경로로 설정되어 있는지 확인합니다.
+2. `04-mcp` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `filesystem`을 선택하여 다음과 같은 질문을 테스트합니다:
+   - "현재 폴더에 있는 파일 목록을 알려줘."
+   - "`test.txt` 파일을 가상의 내용으로 생성해줘."
+
+## 기술적 참고 사항
+- MCP 서버를 실행할 때 전달되는 경로는 반드시 **절대 경로(Absolute Path)**여야 합니다.
+- `MCPToolset`에서 `tool_filter` 옵션을 사용하면 에이전트가 사용할 수 있는 도구를 제한하여 보안을 강화할 수 있습니다.
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

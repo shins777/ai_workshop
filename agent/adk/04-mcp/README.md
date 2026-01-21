@@ -1,43 +1,48 @@
-# ADK 04-mcp 가이드
+# ADK MCP (Model Context Protocol) 통합 예제 (04-mcp)
 
-이 디렉토리는 다양한 전송 및 서버 스타일을 사용하여 모델 컨텍스트 프로토콜(MCP) 도구를 노출하고 사용하는 방법을 보여주는 예제와 유틸리티를 포함하고 있습니다. 예제에는 서버 구현(stdio 및 Streamable HTTP)과 해당 서버에 연결하는 클라이언트 측 예제가 모두 포함되어 있습니다.
+이 디렉토리는 ADK(Agent Development Kit)가 **Model Context Protocol (MCP)**을 통해 다양한 외부 도구, 데이터 소스, 그리고 원격 서비스와 어떻게 상호작용하는지에 대한 종합적인 예제를 제공합니다.
 
-## 개요
-MCP를 사용하면 에이전트와 도구가 표준화된 프로토콜을 사용하여 통신할 수 있습니다. 이 폴더는 다음 작업을 수행할 때 유용한 참조 구현을 제공합니다:
-- MCP를 통해 사용자 지정 도구(FunctionTool, 래퍼)를 원격 에이전트에 노출합니다.
-- 로컬 테스트 또는 배포(예: Cloud Run)에 적합한 다양한 전송(stdio, Streamable HTTP)을 사용하여 MCP 서버를 실행합니다.
-- 원격 도구를 사용하는 경량 MCP 클라이언트를 빌드하거나 테스트합니다.
+MCP는 LLM 어플리케이션과 외부 데이터/도구 간의 인터페이스를 표준화한 프로토콜로, ADK는 이를 활용해 에이전트의 기능을 무궁무진하게 확장할 수 있습니다.
 
-## 폴더 및 예제 요약
+## 포함된 예제 및 학습 포인트
 
-### streamable_http
-- 목적: Streamable HTTP MCP 서버 및 유틸리티 예제.
-- 주요 파일: `mcp_server/remote_server.py`, `mcp_server/Dockerfile`
-- 설명: Streamable HTTP MCP 엔드포인트(`/mcp`)를 마운트하는 Starlette + uvicorn ASGI 앱입니다. 이 예제는 `get_exchange_rate` 도구(Frankfurter API)를 광고하고 이벤트 루프 외부에서 차단 호출을 안전하게 실행하는 방법을 보여줍니다. Dockerfile은 Cloud Run에 적합한 컨테이너를 빌드하는 방법을 보여줍니다.
+### 1. [FILESYSTEM (로컬 파일 시스템 관리)](./filesystem/README.md)
+- **핵심**: 표준 Stdio MCP 서버 연동.
+- **내용**: 에이전트가 지정된 로컬 폴더 내에서 파일을 읽고, 쓰고, 목록을 조회하는 파일 매니저 기능을 구현합니다.
 
-### stdio (stdio MCP 서버 예제)
-- 목적: stdio를 통해 실행되는 MCP 서버 예제(로컬 프로세스 기반 설정 및 간단한 테스트에 유용).
-- 주요 파일: FunctionTool 래퍼를 노출하고 `list_tools` 및 `call_tool` 핸들러를 시연하는 MCP stdio 서버를 구현하는 예제입니다.
-- 설명: 하위 프로세스 기반 MCP 전송을 통해 에이전트에 도구를 노출하는 방법을 배우는 데 유용합니다.
+### 2. [GOOGLE_MAP (구글 지도 인텔리전스)](./google_map/README.md)
+- **핵심**: 외부 API 기반의 표준 MCP 서버 활용.
+- **내용**: Google Maps Platform의 기능을 에이전트에 통합하여 장소 검색 및 길찾기 서비스를 제공합니다.
 
-### mcp_client
-- 목적: MCP 서버에 연결하고 프로그래밍 방식으로 도구를 호출하는 MCP 클라이언트 예제.
-- 주요 파일: MCP 기반 도구를 사용하는 클라이언트 구현 및 예제 에이전트.
-- 설명: 파일 브라우저 스타일 에이전트 및 MCP 연결 매개변수를 사용하여 stdio 또는 Streamable HTTP 서버와 통신하는 방법을 보여주는 기타 작은 클라이언트를 포함합니다.
+### 3. [LOCAL_SERVER (커스텀 MCP 서버 구축)](./local_server/README.md)
+- **핵심**: ADK 도구를 MCP 환경으로 노출.
+- **내용**: 기존의 ADK Python 도구를 MCP 서버로 래핑하여, 다른 ADK 클라이언트나 MCP 호환 앱에서 사용할 수 있게 하는 '서버-클라이언트' 구조를 실습합니다.
 
-### mcp_client_server
-- 목적: Python MCP 서버와 상호 작용하는 클라이언트 에이전트를 시연하는 종단 간 클라이언트+서버 예제.
-- 주요 파일: 클라이언트 측 에이전트 예제 및 서버 구현(환율 도구 예제).
+### 4. [MCP_TOOLBOX (중앙 집중식 도구 관리)](./mcp_toolbox/README.md)
+- **핵심**: Toolbox 프레임워크와의 통합.
+- **내용**: 수많은 도구를 YAML로 관리하고 동적으로 로드하여 BigQuery와 같은 엔터프라이즈 데이터 소스에 질의하는 고급 시나리오를 보여줍니다.
 
-### mcp_google_map
-- 목적: Google Maps 기능을 MCP 도구로 래핑하는 방법을 보여주는 예제.
-- 주요 파일: 에이전트 래퍼 및 작은 서버/런처 예제.
-- 참고: 환경에 유효한 `GOOGLE_MAPS_API_KEY`가 설정되어 있어야 합니다. 일부 구성에서는 `npx`를 사용하여 로컬 도우미를 실행할 수 있습니다. 자세한 내용 및 보안 고려 사항은 해당 하위 폴더의 README를 확인하세요.
+### 5. [STREAMABLE_HTTP (원격 및 클라우드 MCP)](./streamable_http/README.md)
+- **핵심**: 분산 시스템 및 서버리스(Cloud Run) 배포.
+- **내용**: MCP 서버를 HTTP 상에서 스트리밍 방식으로 제공하여, 물리적으로 떨어진 원격 에이전트가 도구를 호출하는 최신 아키텍처를 다룹니다.
 
+---
 
-## 예제 실행 방법
+## 공통 실행 및 테스트 방법
 
-해당 예제 및 특정 에이전트 또는 서버를 실행하는 방법에 대한 자세한 내용은 각 하위 폴더 내의 README 및 소스 파일을 확인하세요.
+ADK는 모든 MCP 예제를 하나의 웹 인터페이스에서 통합 테스트할 수 있는 기능을 제공합니다.
+
+1. `04-mcp` 폴더에서 명령어를 실행합니다:
+   ```bash
+   adk web
+   ```
+2. 웹 UI가 열리면, 왼쪽 에이전트 목록에서 테스트하고 싶은 예제(예: `google_map`, `local_server` 등)를 선택합니다.
+3. 질문을 던지고, 에이전트가 MCP 서버와 통신하며 도구를 호출하는 과정을 실시간 로고와 추적 기능을 통해 확인하세요.
+
+## 학습 순서 권장
+1. **filesystem** 또는 **google_map**을 통해 표준 MCP 서버 사용법을 먼저 익히세요.
+2. **local_server**를 통해 직접 MCP 서버를 만들어보는 과정을 학습하세요.
+3. **streamable_http**를 통해 실제 서비스로 배포하는 아키텍처를 이해하세요.
 
 ## 라이선스
-이 프로젝트는 Apache License 2.0 라이선스를 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.

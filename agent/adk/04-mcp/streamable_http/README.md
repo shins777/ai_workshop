@@ -1,56 +1,43 @@
-# MCP Server 환율 에이전트 예제 (ADK)
+# ADK MCP Streamable HTTP 원격 서버 예제 (04-mcp/streamable_http)
 
-이 디렉토리는 Streamable HTTP 전송을 사용하여 MCP(Model Context Protocol)를 통해 간단한 도구를 노출하는 방법을 보여주는 예제 ADK(Agent Development Kit) 설정을 포함하고 있습니다. 이 예제는 Frankfurter API를 호출하여 환율 정보를 반환하는 작은 MCP 서버를 제공합니다.
+이 예제는 MCP 서버를 로컬 프로세스가 아닌 **원격 HTTP 서비스(Cloud Run 등)**로 배포하고, 에이전트가 이를 호출하는 현대적인 분산 에이전트 아키텍처를 보여줍니다.
 
-## .env 구성
+## 주요 개념
 
-예제는 환경 구성이 저장소 루트 또는 상위 `04-mcp` 디렉토리의 `.env` 파일에 있을 것으로 예상합니다. 권장 변수 및 인증 단계는 ADK 빠른 시작을 참조하세요:
-https://google.github.io/adk-docs/get-started/quickstart/#set-up-the-model
+- **Streamable HTTP**: 표준 HTTP 프로토콜 위에 스트리밍 데이터 전송 기능을 더해, 지연 시간이 긴 원격 작업에서도 실시간 상호작용이 가능하게 하는 MCP 전송 방식입니다.
+- **Remote Host**: MCP 서버를 Cloud Run과 같은 서버리스 환경에 배포하여 언제 어디서나 호출 가능하게 합니다.
 
-ADK 예제에서 사용되는 일반적인 환경 변수:
-```
-GOOGLE_GENAI_USE_VERTEXAI=TRUE
-GOOGLE_CLOUD_PROJECT=your-project-id
-GOOGLE_CLOUD_LOCATION=global
-GOOGLE_GENAI_MODEL=gemini-2.5-flash
+## 주요 구성 요소
 
-# 또는 AI Studio 사용 시:
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
-```
+### 1. 에이전트(클라이언트) 정의 (`agent.py`)
+- **`mcp_streamable_http_tool` 함수**: 원격지 URL을 가리키는 `StreamableHTTPConnectionParams`를 사용하여 `MCPToolset`을 생성합니다.
+- **`root_agent`**: 웹상에 떠 있는 원격 MCP 도구들을 마치 로컬 도구처럼 활용합니다.
 
-## 로컬에서 MCP 서버 실행 방법
+### 2. 원격 MCP 서버 실체 (`mcp_server/remote_server.py`)
+- **Starlette & Uvicorn**: 비동기 웹 프레임워크를 사용하여 HTTP 인터페이스를 제공합니다.
+- **`StreamableHTTPSessionManager`**: MCP 프로토콜을 HTTP 스트림으로 변환하여 실시간 통신 세션을 관리합니다.
+- **`stateless=True`**: 서버리스(Cloud Run)의 수평 확장에 유리하도록 상태 비저장 방식으로 구동됩니다.
 
-### Cloud Run 기반으로 Streamable MCP 서버 기동.
+## 워크플로우 동작 방식
+1. 클라이언트 에이전트가 질문을 받습니다.
+2. 도구 호출이 필요하면 설정된 URL로 HTTP POST 요청을 보냅니다.
+3. 원격 서버가 요청을 받아 비동기로 로직(예: 환율 조회)을 수행합니다.
+4. 결과가 스트림을 통해 클라이언트에 전달되고, 에이전트가 최종 응답을 생성합니다.
 
-마찬가지로 셸에서 GCP 인증이 필요합니다:
-```
-gcloud auth application-default login
-```
+## 배포 및 테스트
+이 예제에는 Cloud Run에 배포할 수 있는 설정 파일들이 포함되어 있습니다.
+- **`Dockerfile`**: 서버 환경 구성.
+- **`deploy.sh`**: Cloud Run 배포 스크립트.
 
-먼저 mcp_server 안에 있는 remote_server.py 파일을 GCP Cloud run 위에 기동을 해야 합니다.
-실행 방법은 아래와 같습니다.
+## 실행 방법
 
-```
-adk/04-mcp/streamable_http/mcp_server $ . ./deploy.sh
-```
+1. 이미 배포된 서버가 있다면 `agent.py`의 `url` 주소를 해당 주소로 수정합니다.
+2. `04-mcp` 폴더에서 `adk web`을 실행합니다.
+3. 에이전트 목록에서 `streamable_http`를 선택하여 원격 도구 호출을 확인합니다.
 
-정상적으로 기동이 되었다면 GCP console 에서 확인이 가능합니다. 
-
-### ADK agent 에서 Streamable MCP 서버 접속 및 실행.
-
-마찬가지로 셸에서 GCP 인증이 필요합니다:
-```
-gcloud auth application-default login
-```
-
-다음 명령어로 ADK 에이전트 예제를 실행하세요:
-```
-adk/04-mcp $ adk web
-```
-
-"2025년 8월 14일의 원-달러 환율을 보여줘."라고 질문해 보세요.
+## 기술적 참고 사항
+- **서버리스 최적화**: `stateless` 설정과 `lifespan` 관리를 통해 Cloud Run과 같은 환경에서 효율적으로 동작하도록 설계되었습니다.
+- **보안**: 프로덕션 환경에서는 HTTP 헤더를 통한 인증 과정이 추가되어야 합니다.
 
 ## 라이선스
-
-이 프로젝트는 Apache License 2.0을 따릅니다. 모든 코드와 콘텐츠의 저작권은 **ForusOne**(shins777@gmail.com)에 있습니다.
+이 프로젝트는 Apache License 2.0을 따릅니다.
