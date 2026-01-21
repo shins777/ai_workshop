@@ -1,4 +1,4 @@
-# Copyright 2025 Forusone(shins777@gmail.com)
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-from dotenv import load_dotenv
-from google.adk.agents import Agent
-
-load_dotenv(dotenv_path="../../.env")
-
-INSTRUCTION = """
-    당신은 사용자의 질문에 답변하는 에이전트입니다.
-    가능하면 짧은 문장으로 답변해야 합니다.
-"""
-
-root_agent = Agent(
-    name = "basic_agent",
-    model = os.getenv("GOOGLE_GENAI_LIVE_MODEL"),
-    description = "사용자의 질문에 답변하는 에이전트",
-    instruction = INSTRUCTION,
-)
+from . import agent

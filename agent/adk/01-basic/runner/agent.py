@@ -16,7 +16,7 @@ import os
 from dotenv import load_dotenv
 from google.adk.agents import Agent
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 #--------------------------------[positive_critic]----------------------------------
 positive_critic = Agent(
