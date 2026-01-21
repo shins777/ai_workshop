@@ -15,9 +15,29 @@
 import os
 from dotenv import load_dotenv
 from google.adk.agents import Agent
-from .sub_agent import positive_critic, negative_critic
 
 load_dotenv()
+
+#--------------------------------[positive_critic]----------------------------------
+positive_critic = Agent(
+    name = "positive_critic",
+    model = os.getenv("GOOGLE_GENAI_MODEL"),
+    description = "사용자의 질문에 대해 긍정적인 면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 문의 주제에 대해 긍정적인 리뷰를 작성하는 에이전트입니다. 
+                      답변을 제공할 때는 가능한 간결하고 명확하게 작성하며, 항상 "긍정적인 리뷰 결과:"라는 문구로 시작하세요. """,
+
+)    
+
+#--------------------------------[negative_critic]----------------------------------
+negative_critic = Agent(
+    name = "negative_critic",
+    model = os.getenv("GOOGLE_GENAI_MODEL"),
+    description = "사용자의 질문에 대해 부정적인 면만 답변하는 에이전트입니다.",
+    instruction = """당신은 사용자 질문의 주제에 대해 부정적인 리뷰를 작성하는 에이전트입니다.
+                      답변을 제공할 때는 가능한 간결하고 명확하게 작성하며, 항상 "부정적인 리뷰 결과:"라는 문구로 시작하세요. """,
+)    
+
+#--------------------------------[root_agent]----------------------------------
 
 INSTRUCTION = """
 당신은 사용자의 질문에 답변하는 도움을 주는 에이전트입니다.

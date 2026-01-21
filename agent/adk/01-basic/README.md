@@ -10,7 +10,6 @@
 ADK를 사용하면 **단일 프로세스 내**에서 멀티 에이전트 시스템을 구축할 수 있습니다. 여러 하위 에이전트와 도구를 결합하여 멀티 에이전트 시스템을 만들 수 있지만, 모든 처리는 하나의 프로세스 내에서 모놀리식으로 처리됩니다.
 ![Agent Hierarchy](https://github.com/ForusOne/adk_agent/blob/main/images/multi-agent.png?raw=true)
 
-
 ## 01-agent 로직 및 구조
 
 `01-agent` 예제는 ADK 기반 에이전트 시스템의 기본 로직과 구조를 보여줍니다:
