@@ -1,40 +1,57 @@
-# ADK 도구 콜백 예제 (06-callback/tool_callback)
+# ADK 도구 콜백 (Tool Level Callback)
 
-이 예제는 에이전트가 도구(Tool)를 호출할 때 전달되는 인자를 수정하거나, 도구가 반환한 결과를 가공하는 **Tool Level Callback** 패턴을 보여줍니다.
+이 모듈은 에이전트가 도구(Tool)를 호출할 때 전달되는 인자를 수정하거나, 도구가 반환한 결과를 가공하는 **Tool Level Callback** 패턴을 다룹니다.
 
-## 주요 개념
+도구 수준의 콜백은 특정 도구가 실행되기 직전(`before_tool_callback`)과 실행이 완료된 후(`after_tool_callback`)에 호출됩니다. 모델이 도구 인자를 잘못 생성하거나 도구의 출력 형식이 사용자에게 불친절할 때, 이를 중간에서 보정하는 강력한 수단이 됩니다.
 
-- **Tool Callback**: 특정 도구가 실행되기 직전(`before_tool_callback`)과 실행 완료 후(`after_tool_callback`)에 호출됩니다.
-- **Dynamic Parameter Adjustment**: 사용자 질문을 도구 인자로 변환하는 과정에서 발생할 수 있는 오류를 보정하거나, 도구의 원본 출력에 부가 정보를 더할 때 사용합니다.
+## 주요 학습 포인트
 
-## 주요 구성 요소
+1.  **인자 보정 (Argument Mapping)**: 모델이 생성한 도구 인자가 실제 도구 사양과 미세하게 다를 때 이를 자동으로 수정하는 방법.
+2.  **결과 후처리 (Result Enhancement)**: 도구가 반환한 원본 데이터에 부가 설명을 추가하거나 가독성을 높이는 방법.
+3.  **동적 도구 제어**: 호출되는 도구의 이름과 인자를 실시간으로 감시하고 제어하는 방법.
 
-### 1. 도구 및 콜백 정의 (`callback.py`)
-- **`get_capital_city`**: 국가명을 입력받아 수도를 알려주는 간단한 도구 함수입니다.
-- **`callback_before_tool`**: 도구 호출 전 인자를 확인하여 'Korea'를 'South Korea'로 자동 보정하여 도구가 정확한 정보를 찾도록 돕습니다.
-- **`callback_after_tool`**: 도구 결과가 'Seoul'인 경우 "대한민국의 수도"라는 추가적인 노트를 덧붙여 사용자에게 더 풍부한 정보를 제공합니다.
+## 프로젝트 구조
 
-### 2. 에이전트 정의 (`agent.py`)
-- 에이전트가 도구를 사용할 때 `before_tool_callback`과 `after_tool_callback`이 작동하도록 설정합니다.
+- `agent.py`: `get_capital_city` 도구와 콜백이 등록된 에이전트 정의.
+- `callback.py`: 인자 수정을 위한 `before_tool_callback`과 결과 가공을 위한 `after_tool_callback` 구현.
+- `run.ipynb`: "Korea" 입력 시 "South Korea"로 자동 보정되는 시나리오를 확인하는 노트북.
 
-## 워크플로우 동작 방식
-1. 사용자가 "Korea의 수도가 어디야?"라고 묻습니다.
-2. 에이전트가 `get_capital_city(country='Korea')` 호출을 시도합니다.
-3. `callback_before_tool`이 실행되어 인자를 `South Korea`로 변경합니다.
-4. 도구가 실행되어 `Seoul`을 반환합니다.
-5. `callback_after_tool`이 실행되어 결과에 부연 설명을 추가합니다.
+## 핵심 기능 설명
 
-## 실행 방법
-`06-callback` 폴더에서 명령어를 입력하여 테스트합니다:
-```bash
-# 도구 인자 보정 및 결과 가공 테스트
-uv run -m tool_callback.runner --query 'What is the capital city of Korea?'
+### 1. 도구 호출 전 인자 보정 (`callback_before_tool`)
+도구가 실제로 실행되기 전에 호출됩니다. 모델이 넘겨준 인자(`args`)를 검사하고 수정할 수 있습니다.
+- **예제**: 사용자가 "Korea"의 수도를 물어볼 때, 모델이 `country="Korea"`로 인자를 생성하면 이를 `country="south korea"`로 자동 보정하여 도구의 조회 성공률을 높입니다.
+
+### 2. 도구 실행 후 결과 가공 (`callback_after_tool`)
+도구가 실행된 후 그 결과값(`tool_response`)을 에이전트에게 전달하기 전에 호출됩니다.
+- **예제**: 도구 결과가 "Seoul"인 경우, 단순한 텍스트 대신 "(Note: 이곳은 대한민국의 수도입니다)"라는 노트를 덧붙여 사용자에게 더 풍부한 정보를 제공합니다.
+
+## 코드 예시
+
+### 에이전트 등록 (`agent.py`)
+```python
+from callback import callback_before_tool, callback_after_tool, get_capital_city
+
+root_agent = Agent(
+    ...,
+    tools=[get_capital_city],
+    before_tool_callback=callback_before_tool,
+    after_tool_callback=callback_after_tool
+)
+```
+
+### 도구 인자 보정 로프 (`callback.py`)
+```python
+def callback_before_tool(tool: BaseTool, args: Dict[str, Any], tool_context: ToolContext) -> Optional[Dict]:
+    if tool.name == 'get_capital_city' and args.get('country') == 'Korea':
+        args['country'] = 'south korea' # 인자 직접 수정
+    return None # None 반환 시 수정된 args로 도구 실행
 ```
 
 ## 활용 사례
-- 레거시 API의 입력 형식을 에이전트가 잘 생성하지 못할 때 중간에서 보정.
-- 도구가 반환한 원본 데이터에서 민감한 정보 마스킹.
-- 도구 응답의 품질을 검증하고 필요한 경우 재시도 로직 삽입.
+- **포맷팅 맞춤**: 모델이 날짜 형식을 잘못 생성했을 때(예: '2025/01/01' ➔ '2025-01-01') 도구 실행 전 보정.
+- **보완 정보 삽입**: 날씨 도구의 결과가 '섭씨 20도'일 때 '여행하기 좋은 날씨입니다'라는 감성적 문구 추가.
+- **보안 필터링**: 도구가 반환한 SQL 쿼리 결과에서 특정 컬럼(예: 비밀번호)을 제거하여 에이전트에게 전달.
 
 ## 라이선스
-이 프로젝트는 Apache License 2.0을 따릅니다.
+Apache License 2.0. Copyright 2025 Forusone.

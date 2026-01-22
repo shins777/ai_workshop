@@ -44,6 +44,23 @@ GOOGLE_API_KEY="발급받은-API-키"
 adk web
 ```
 
+### 4. ipynb 환경에 위에서 설정한 파이썬 가상환경으로 커널 선택하는 법
+
+1. VS Code에서 Ctrl + Shift + P (Mac: Cmd + Shift + P)를 누릅니다.  
+2. 입력창에 **Python: Select Interpreter**를 입력하고 선택합니다.  
+3. 목록에서 사용하고자 하는 파이썬 버전이나 가상환경 경로를 선택합니다.
+
+만일 가상환경이 보이지 않으면, 아래와 같이 등록합니다.
+
+1. VS Code Setting 창으로 갑니다.  
+2. 검색 박스에 "Default Interpreter Path" 를 검색하면  
+   Python: Default Interpreter Path 가 보이고 해당 란에 아래와 유사하게 가상환경의 python 파일 위치를 지정합니다.   
+   ```
+   /Users/ai_user/Documents/Antigravity/ai_workshop/agent/adk/.venv/bin/python 
+   ```
+3. 위와 같이 가상환경을 설정하면 VS CODE 내의 ipynb 에서 커널 선택할때 위에서 설정한 파이썬 경로를 선택할수 있습니다.   
+
+
 ---
 
 ## 📁 디렉토리 구조 및 핵심 기능 가이드
