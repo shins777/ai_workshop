@@ -16,8 +16,8 @@ import os
 from dotenv import load_dotenv
 from google.adk.agents import Agent
 
-from .callback import callback_before_agent
-from .callback import callback_after_agent
+from callback import callback_before_agent
+from callback import callback_after_agent
 
 load_dotenv(dotenv_path="../../.env")
 
