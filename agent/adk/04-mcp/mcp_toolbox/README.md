@@ -26,13 +26,17 @@
 ## 사전 준비 사항
 
 - **Toolbox 라이브러리**: `toolbox-core` 패키지가 설치되어 있어야 합니다.
+- **Toolbox Configuration** : 환경설정에 아래 설정을 해야 합니다.   
+  TOOLBOX_SYNC_CLIENT = "http://127.0.0.1:5000"
 - **BigQuery 권한**: 도구에서 사용되는 GCP 프로젝트의 BigQuery 데이터에 접근할 수 있는 인증(Credentials)이 필요합니다.
+
 
 ## 실행 방법
 
 1. `tools.yaml` 내의 프로젝트명 등을 관리 중인 환경에 맞게 수정합니다.
-2. `04-mcp` 폴더에서 `adk web`을 실행합니다.
-3. 에이전트 목록에서 `mcp_toolbox`를 선택하여 테스트합니다.
+2. 다음 명령어를 실행합니다. : toolbox --tools-file "mcp_toolbox/tools.yaml" 
+3. `04-mcp` 폴더에서 `adk web`을 실행합니다.
+4. 에이전트 목록에서 `mcp_toolbox`를 선택하여 테스트합니다.
    - 예: "BBC 뉴스 카테고리별 뉴스가 몇 개인지 알려줘."
 
 ## 기술적 참고 사항
