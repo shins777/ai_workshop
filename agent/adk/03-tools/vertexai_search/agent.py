@@ -23,7 +23,6 @@ load_dotenv(dotenv_path="../../.env")
 def get_vertex_search_tool():
     """
     Vertex AI Search 도구 인스턴스를 생성하고 구성합니다.
-
     이 함수는 프로젝트, 위치, 프로젝트 번호 및 데이터 스토어 ID에 필요한 환경 변수를 로드하고,
     Vertex AI 환경을 초기화하고, 데이터 스토어 리소스 경로를 구성하고,
     지정된 데이터 스토어에 연결된 VertexAiSearchTool 인스턴스를 반환합니다.
@@ -46,7 +45,7 @@ def get_vertex_search_tool():
 
     return vertex_search_tool
 
-
+ 
 INSTRUCTION = """
     당신은 사용자 질문에 답변을 제공하는 에이전트입니다.
     사용자가 질문을 하면 'vertex_search_tool'을 사용하여 검색을 수행하고 결과를 바탕으로 답변을 제공해야 합니다.
