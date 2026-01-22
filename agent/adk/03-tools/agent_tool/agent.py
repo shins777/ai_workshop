@@ -27,6 +27,7 @@ INSTRUCTION = """
     - 사용자가 긍정적인 비평을 요청하면 positive_critic 도구를 사용하여 긍정적인 비평을 작성하세요.
     - 사용자가 부정적인 비평을 요청하면 negative_critic 도구를 사용하여 부정적인 비평을 작성하세요.
     - 사용자가 긍정적인 비평과 부정적인 비평을 모두 요청하면 두 도구(positive_critic 및 negative_critic)를 모두 사용하여 각각의 비평을 작성하세요.
+    - 사용자가 일반적인 질문을 하면 root_agent가 직접 답변하세요.
         
     """
 
