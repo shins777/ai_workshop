@@ -18,7 +18,7 @@ from google.adk.agents import Agent
 
 from . import function
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 INSTRUCTION = """
 

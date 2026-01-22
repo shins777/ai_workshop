@@ -26,7 +26,7 @@ from google.adk.tools.bigquery.config import WriteMode
 from google.genai import types
 import google.auth
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 def get_bigquery_toolset() -> BigQueryToolset:
     """

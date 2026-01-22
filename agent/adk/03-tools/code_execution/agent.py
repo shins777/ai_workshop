@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from google.adk.agents import Agent
 from google.adk.code_executors import BuiltInCodeExecutor
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 INSTRUCTION = """
         당신은 프로그램 코드를 실행하여 계산을 수행하고 결과를 반환하는 에이전트입니다.

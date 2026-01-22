@@ -19,7 +19,7 @@ from google.adk.tools.agent_tool import AgentTool
 
 from .sub_agent import positive_critic, negative_critic
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 INSTRUCTION = """
     당신은 사용자의 질문에 답변하는 에이전트입니다.
