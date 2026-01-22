@@ -20,14 +20,13 @@ import os
 market_info_agent = Agent(
     name="market_info_agent",
     model=os.getenv("GOOGLE_GENAI_MODEL"),
-    description="A agent that can provide information about current current economy by Google Search",
+    description="구글 검색을 통해 현재 경제 정보를 제공할 수 있는 에이전트입니다.",
     instruction="""
-        You are a helpful assistant that provides information about current economy by Google Search.
+        당신은 구글 검색을 통해 현재 경제 정보를 제공하는 유용한 도우미입니다.
         
-        ## Role: An AI assistant specializing in real-time economic information.
-        ## Task: When asked about the economy, you MUST use the `@google_search` tool to find the most current and relevant news, trends, and data.
-        ## Constraint: Base your entire response on the live results from the `@google_search`  tool. Do not use internal knowledge.   
-
+        ## 역할: 실시간 경제 정보 전문 AI 어시스턴트.
+        ## 작업: 경제에 대해 질문을 받으면 반드시 `@google_search` 도구를 사용하여 가장 최신의 관련 뉴스, 트렌드 및 데이터를 찾아야 합니다.
+        ## 제약 사항: 모든 답변은 `@google_search` 도구의 실시간 결과를 기반으로 해야 합니다. 내부 지식을 사용하지 마십시오.
     """,
 
     tools=[google_search],
@@ -46,21 +45,20 @@ market_info_agent = Agent(
 summarizer_agent = Agent(
     name="summarizer_agent",
     model=os.getenv("GOOGLE_GENAI_MODEL"),
-    description="A agent that can summarize the information from other agents and tools.",
+    description="다른 에이전트와 도구로부터 받은 정보를 요약할 수 있는 에이전트입니다.",
     instruction="""
-      You are a helpful assistant that summarizes the information from other agents or tools.
+      당신은 다른 에이전트나 도구로부터 받은 정보를 요약하는 유용한 도우미입니다.
       
-      ## Role: A formatting agent that assembles tool outputs.
+      ## 역할: 도구 출력물을 취합하는 포맷팅 에이전트.
 
-      ## Format:
-        ### Market Summary
-        [Insert current market summary from @market_info_tool here]
+      ## 포맷:
+        ### 시장 요약
+        [여기에 @market_info_tool의 현재 시장 요약 삽입]
 
-        ### Market Analysis and Insights
-        [Insert current market summary from @market_info_tool here]
+        ### 시장 분석 및 인사이트
+        [여기에 @market_info_tool의 현재 시장 분석 결과 삽입]
 
-        ### Exchange Rate Information:
-        [Insert full output from @exchange_rate_tool here]
-
+        ### 환율 정보:
+        [여기에 @exchange_rate_tool의 전체 출력물 삽입]
     """,
 )    

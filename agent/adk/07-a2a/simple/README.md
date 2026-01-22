@@ -1,117 +1,115 @@
-# A2A Basic Sample Agent
+# A2A 기본 샘플 에이전트
 
-This sample demonstrates the **Agent-to-Agent (A2A)** architecture in the Agent Development Kit (ADK), showcasing how multiple agents can work together to handle complex tasks. The sample implements an agent that can roll dice and check if numbers are prime.
+이 샘플은 에이전트 개발 키트(ADK)의 **에이전트 간 통신(Agent-to-Agent, A2A)** 아키텍처를 보여줍니다. 여러 에이전트가 협력하여 복잡한 작업을 처리하는 방법을 보여주며, 구체적으로 주사위를 굴리고 숫자가 소수인지 확인하는 에이전트를 구현합니다.
 
-## Overview
+## 개요
 
-The A2A Basic sample consists of:
+A2A 기본 샘플은 다음과 같이 구성됩니다:
 
-- **Root Agent** (`root_agent`): The main orchestrator that delegates tasks to specialized sub-agents
-- **Roll Agent** (`roll_agent`): A local sub-agent that handles dice rolling operations
-- **Prime Agent** (`prime_agent`): A remote A2A agent that checks if numbers are prime, this agent is running on a separate A2A server
+- **Root Agent** (`root_agent`): 마스터 오케스트레이터로, 사용자 요청에 따라 전문 서브 에이전트들에게 작업을 할당합니다.
+- **Roll Agent** (`roll_agent`): 로컬 서브 에이전트로, 주사위 굴리기 작업을 처리합니다.
+- **Prime Agent** (`prime_agent`): 원격 A2A 에이전트로, 숫자가 소수인지 확인합니다. 이 에이전트는 별도의 A2A 서버에서 실행됩니다.
 
-## Architecture
+## 아키텍처
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌────────────────────┐
 │   Root Agent    │───▶│   Roll Agent     │    │   Remote Prime     │
-│  (Local)        │    │   (Local)        │    │   Agent            │
+│    (로컬)       │    │    (로컬)       │    │     에이전트       │
 │                 │    │                  │    │  (localhost:8001)  │
 │                 │───▶│                  │◀───│                    │
 └─────────────────┘    └──────────────────┘    └────────────────────┘
 ```
 
-## Key Features
+## 주요 특징
 
-### 1. **Local Sub-Agent Integration**
-- The `roll_agent` demonstrates how to create and integrate local sub-agents
-- Handles dice rolling with configurable number of sides
-- Uses a simple function tool (`roll_die`) for random number generation
+### 1. **로컬 서브 에이전트 통합**
+- `roll_agent`는 로컬 서브 에이전트를 생성하고 통합하는 방법을 보여줍니다.
+- 설정 가능한 면의 수에 따라 주사위 굴리기를 처리합니다.
+- 난수 생성을 위해 간단한 함수 도구(`roll_die`)를 사용합니다.
 
-### 2. **Remote A2A Agent Integration**
-- The `prime_agent` shows how to connect to remote agent services
-- Communicates with a separate service via HTTP at `http://localhost:8001/a2a/check_prime_agent`
-- Demonstrates cross-service agent communication
+### 2. **원격 A2A 에이전트 통합**
+- `prime_agent`는 원격 에이전트 서비스에 연결하는 방법을 보여줍니다.
+- HTTP를 통해 `http://localhost:8001/a2a/check_prime_agent`에 있는 별도의 서비스와 통신합니다.
+- 서비스 간 에이전트 통신(Cross-service agent communication)을 실현합니다.
 
-### 3. **Agent Orchestration**
-- The root agent intelligently delegates tasks based on user requests
-- Can chain operations (e.g., "roll a die and check if it's prime")
-- Provides clear workflow coordination between multiple agents
+### 3. **에이전트 오케스트레이션(Orchestration)**
+- Root 에이전트는 사용자 요청에 따라 지능적으로 작업을 할당합니다.
+- 작업 체이닝을 지원합니다 (예: "주사위를 굴리고 그 결과가 소수인지 확인해줘").
+- 여러 에이전트 간의 명확한 워크플로우 조정을 제공합니다.
 
-### 4. **Example Tool Integration**
-- Includes an `ExampleTool` with sample interactions for context
-- Helps the agent understand expected behavior patterns
+### 4. **예제 도구 통합**
+- `ExampleTool`을 포함하여 에이전트가 예상되는 동작 패턴을 이해하도록 돕는 샘플 상호작용 예시를 제공합니다.
 
-## Setup and Usage
+## 설정 및 사용법
 
-### Prerequisites
+### 사전 준비 사항
 
-1. **Start the Remote Prime Agent server**:
+1. **원격 소수 판별 에이전트(Remote Prime Agent) 서버 시작**:
    ```bash
-   # Start the remote a2a server that serves the check prime agent on port 8001
-   adk api_server --a2a --port 8001 contributing/samples/a2a_basic/remote_a2a
+   # 8001 포트에서 소수 판별 에이전트를 서비스하는 원격 A2A 서버를 시작합니다.
+   adk api_server --a2a --port 8001 simple/check_prime_agent
    ```
 
-2. **Run the Main Agent**:
+2. **메인 에이전트(Main Agent) 실행**:
    ```bash
-   # In a separate terminal, run the adk web server
-   adk web contributing/samples/
+   # 별도의 터미널에서 ADK 웹 서버를 실행합니다.
+   adk web simple/client
    ```
 
-### Example Interactions
+### 상호작용 예시
 
-Once both services are running, you can interact with the root agent:
+두 서비스가 모두 실행되면 Root 에이전트와 대화할 수 있습니다:
 
-**Simple Dice Rolling:**
+**단순 주사위 굴리기:**
 ```
-User: Roll a 6-sided die
-Bot: I rolled a 4 for you.
-```
-
-**Prime Number Checking:**
-```
-User: Is 7 a prime number?
-Bot: Yes, 7 is a prime number.
+사용자: 6면체 주사위를 굴려줘
+봇: 4가 나왔습니다.
 ```
 
-**Combined Operations:**
+**소수 판별:**
 ```
-User: Roll a 10-sided die and check if it's prime
-Bot: I rolled an 8 for you.
-Bot: 8 is not a prime number.
+사용자: 7이 소수인가요?
+봇: 네, 7은 소수입니다.
 ```
 
-## Code Structure
+**복합 작업:**
+```
+사용자: 10면체 주사위를 굴리고 그 결과가 소수인지 확인해줘
+봇: 8이 나왔습니다.
+봇: 8은 소수가 아닙니다.
+```
 
-### Main Agent (`agent.py`)
+## 코드 구조
 
-- **`roll_die(sides: int)`**: Function tool for rolling dice
-- **`roll_agent`**: Local agent specialized in dice rolling
-- **`prime_agent`**: Remote A2A agent configuration
-- **`root_agent`**: Main orchestrator with delegation logic
+### 메인 에이전트 (`client/agent.py`)
 
-### Remote Prime Agent (`remote_a2a/check_prime_agent/`)
+- **`roll_die(sides: int)`**: 주사위를 굴리는 함수 도구
+- **`roll_agent`**: 주사위 굴리기에 특화된 로컬 에이전트
+- **`prime_agent`**: 원격 A2A 에이전트 설정
+- **`root_agent`**: 작업 할당 로직을 가진 메인 오케스트레이터
 
-- **`agent.py`**: Implementation of the prime checking service
-- **`agent.json`**: Agent card of the A2A agent
-- **`check_prime(nums: list[int])`**: Prime number checking algorithm
+### 원격 소수 판별 에이전트 (`check_prime_agent/`)
 
+- **`agent.py`**: 소수 판별 서비스의 구현체
+- **`agent.json`**: A2A 에이전트의 에이전트 카드(Agent Card)
+- **`check_prime(nums: list[int])`**: 소수 판별 알고리즘
 
-## Extending the Sample
+## 샘플 확장하기
 
-You can extend this sample by:
+이 샘플을 다음과 같이 확장해 볼 수 있습니다:
 
-- Adding more mathematical operations (factorization, square roots, etc.)
-- Creating additional remote agent
-- Implementing more complex delegation logic
-- Adding persistent state management
-- Integrating with external APIs or databases
+- 더 많은 수학적 연산 추가 (인수분해, 제곱근 등)
+- 추가적인 원격 에이전트 생성
+- 더 복잡한 위임 로직 구현
+- 영구 상태 관리(Persistent state management) 도입
+- 외부 API 또는 데이터베이스 통합
 
-## Deployment to Other Environments
+## 다른 환경에 배포하기
 
-When deploying the remote A2A agent to different environments (e.g., Cloud Run, different hosts/ports), you **must** update the `url` field in the agent card JSON file:
+원격 A2A 에이전트를 다른 환경(예: Cloud Run, 다른 호스트/포트)에 배포할 때는 `agent.json` 파일의 `url` 필드를 반드시 업데이트해야 합니다:
 
-### Local Development
+### 로컬 개발
 ```json
 {
   "url": "http://localhost:8001/a2a/check_prime_agent",
@@ -119,7 +117,7 @@ When deploying the remote A2A agent to different environments (e.g., Cloud Run, 
 }
 ```
 
-### Cloud Run Example
+### Cloud Run 예시
 ```json
 {
   "url": "https://your-service-abc123-uc.a.run.app/a2a/check_prime_agent",
@@ -127,7 +125,7 @@ When deploying the remote A2A agent to different environments (e.g., Cloud Run, 
 }
 ```
 
-### Custom Host/Port Example
+### 커스텀 호스트/포트 예시
 ```json
 {
   "url": "https://your-domain.com:9000/a2a/check_prime_agent",
@@ -135,19 +133,18 @@ When deploying the remote A2A agent to different environments (e.g., Cloud Run, 
 }
 ```
 
-**Important:** The `url` field in `remote_a2a/check_prime_agent/agent.json` must point to the actual RPC endpoint where your remote A2A agent is deployed and accessible.
+**중요:** `check_prime_agent/agent.json`의 `url` 필드는 원격 A2A 에이전트가 배포되어 접근 가능한 실제 RPC 엔드포인트를 가리켜야 합니다.
 
-## Troubleshooting
+## 문제 해결
 
-**Connection Issues:**
-- Ensure the local ADK web server is running on port 8000
-- Ensure the remote A2A server is running on port 8001
-- Check that no firewall is blocking localhost connections
-- **Verify the `url` field in `remote_a2a/check_prime_agent/agent.json` matches the actual deployed location of your remote A2A server**
-- Verify the agent card URL passed to RemoteA2AAgent constructor matches the running A2A server
+**연결 문제:**
+- ADK 웹 서버가 8000 포트에서 실행 중인지 확인하십시오.
+- 원격 A2A 서버가 8001 포트에서 실행 중인지 확인하십시오.
+- 방화벽이 localhost 연결을 차단하고 있지 않은지 확인하십시오.
+- **`check_prime_agent/agent.json`의 `url` 필드가 원격 A2A 서버의 실제 배포 위치와 일치하는지 확인하십시오.**
+- `RemoteA2aAgent` 생성자에 전달된 에이전트 카드 URL이 실행 중인 A2A 서버와 일치하는지 확인하십시오.
 
-
-**Agent Not Responding:**
-- Check the logs for both the local ADK web server on port 8000 and remote A2A server on port 8001
-- Verify the agent instructions are clear and unambiguous
-- **Double-check that the RPC URL in the agent.json file is correct and accessible**
+**에이전트 응답 없음:**
+- 8000 포트(로컬)와 8001 포트(원격) 서버의 로그를 확인하십시오.
+- 에이전트 지침(Instruction)이 명확하고 모호하지 않은지 확인하십시오.
+- **`agent.json` 파일의 RPC URL이 정확하고 접근 가능한지 다시 한번 확인하십시오.**

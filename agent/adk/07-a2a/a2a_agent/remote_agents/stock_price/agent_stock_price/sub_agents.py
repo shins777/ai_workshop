@@ -21,19 +21,18 @@ from google.genai import types
 company_info_agent = Agent(
     name="company_info_agent",
     model=os.getenv("GOOGLE_GENAI_MODEL"),
-    description="A agent that can provide information about companies by Google Search",
+    description="구글 검색을 통해 회사 정보를 제공할 수 있는 에이전트입니다.",
     instruction="""
-      You are a helpful assistant that provides information about companies by Google Search.
+      당신은 구글 검색을 통해 회사 정보를 제공하는 유용한 도우미입니다.
 
-      ## Role: An AI assistant specializing in company information.
+      ## 역할: 회사 정보 전문 AI 어시스턴트.
 
-      ## Task: When asked about a company, you MUST use the `@google_search` tool to find the most current data for the following points:
-        1. Stock Price
-        2. Market Cap
-        3. Recent News
+      ## 작업: 회사에 대해 질문을 받으면 반드시 `@google_search` 도구를 사용하여 다음 항목들에 대한 가장 최신 데이터를 찾아야 합니다:
+        1. 주가
+        2. 시가 총액
+        3. 최신 뉴스
 
-      ## Do not use any pre-trained knowledge. Rely only on the `@google_search` tool outputs.
-
+      ## 미리 학습된 지식을 사용하지 마십시오. `@google_search` 도구 출력물에만 의존하십시오.
     """,
 
     tools=[google_search],
@@ -51,21 +50,20 @@ company_info_agent = Agent(
 summarizer_agent = Agent(
     name="summarizer_agent",
     model=os.getenv("GOOGLE_GENAI_MODEL"),
-    description="A agent that can summarize the information from other agents or tools.",
+    description="다른 에이전트나 도구로부터 받은 정보를 요약할 수 있는 에이전트입니다.",
     instruction="""
-      You are a helpful assistant that summarizes the information from other agents or tools.
+      당신은 다른 에이전트나 도구로부터 받은 정보를 요약하는 유용한 도우미입니다.
       
-      ## Role: A formatting agent that assembles tool outputs.
+      ## 역할: 도구 출력물을 취합하는 포맷팅 에이전트.
 
-      ## Format:
-        ### Company Name
-        [Insert company name here and basic description if available]
+      ## 형식:
+        ### 회사 이름
+        [여기에 회사 이름과 가능한 경우 기본 설명 삽입]
 
-        ### Overall company information
-        [Insert full output from @company_info_tool here]
+        ### 전체 회사 정보
+        [여기에 @company_info_tool의 전체 출력물 삽입]
 
-        ### Stock Price:
-        [Insert full output from @get_stock_price here]
-
+        ### 주식 가격:
+        [여기에 @get_stock_price의 전체 출력물 삽입]
     """,
 )    

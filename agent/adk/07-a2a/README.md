@@ -1,36 +1,40 @@
-# a2a_adk (Agent-to-Agent Agent Development Kit)
+# a2a_adk (에이전트 간 통신 SDK)
 
-This directory contains modules and tools for building agent-to-agent (A2A) systems using the ADK framework. Each subfolder demonstrates a specific aspect of A2A agent development, including agent logic, reusable tools, and remote agent implementations.
+이 디렉토리는 ADK(Agent Development Kit) 프레임워크를 사용하여 에이전트 간 통신(Agent-to-Agent, A2A) 시스템을 구축하기 위한 모듈과 도구들을 포함하고 있습니다. 각 하위 폴더는 에이전트 로직, 재사용 가능한 도구, 원격 에이전트 구현 등 A2A 에이전트 개발의 특정 측면을 보여줍니다.
 
-## Directory Overview
+## 디렉토리 개요
 
-### a2a_agent
+### [simple](simple/README.md)
+가장 기본적인 A2A 통신 패턴을 보여줍니다.
+- **주요 내용**: 로컬 서브 에이전트(`roll_agent`)와 원격 서브 에이전트(`prime_agent`)를 활용하여 주사위 굴리기 및 소수 판별 작업을 수행합니다.
+- **특징**: 에이전트 간의 기본적인 위임(Delegation) 및 오케스트레이션 로직을 익히기에 적합합니다.
 
-Core logic for agent-to-agent (A2A) communication and orchestration.
+### [a2a_tool](a2a_tool/README.md)
+재사용 가능한 도구, 원격 에이전트 템플릿 및 기능 모듈을 포함합니다.
+- **주요 내용**: 환율 정보 조회 에이전트(`agent_exchange_rate`)와 이를 활용하는 클라이언트를 보여줍니다.
+- **특징**: 시장 정보 조회와 요약 에이전트를 `AgentTool`로 래핑하여 활용하는 방법을 설명합니다.
 
-- Provides agent client logic, remote agent implementations (such as a stock price agent), and sub-agent modules.
-- Supports creation, registration, and management of agents that interact with each other and external services.
-- Includes configuration examples and instructions for running remote agents and clients.
+### [a2a_agent](a2a_agent/README.md)
+A2A 통신 및 오케스트레이션의 핵심 로직을 다룹니다.
+- **주요 내용**: 주가 정보 조회 에이전트(`agent_stock_price`)를 원격 서비스로 실행하고, 클라이언트가 이를 오케스트레이션하는 과정을 보여줍니다.
+- **특징**: 복잡한 에이전트 간 상호작용 및 외부 서비스 통합 관리를 지원합니다.
 
-See [a2a_agent/README.md](a2a_agent/README.md) for architecture, configuration, and usage details.
+## 시작하기
 
-### a2a_tool
+1. 각 서브 폴더의 목적과 학습 목표를 확인한 후, 본인의 유즈케이스에 맞는 폴더를 선택하십시오.
+2. 선택한 서브 폴더의 `README.md` 파일을 참조하여 설정, 구성 및 실행 지침을 확인하십시오.
+3. `.env` 파일을 통해 필요한 환경 변수(Google GenAI 설정 등)를 구성하십시오.
+4. 권장되는 명령어를 사용하여 예제를 실행해 보십시오.
 
-Reusable tools, remote agent templates, and function modules for A2A agent systems.
+## 구성 요소 요약
 
-- Includes remote agents (e.g., stock price), modular functions, and sub-agent definitions.
-- Designed for easy integration and extension of A2A workflows.
-- Provides example commands for running remote agents and interacting with them as a client.
+| 구성 요소 | 설명 |
+| :--- | :--- |
+| **Root Agent** | 사용자 의도를 분석하고 적절한 서브 에이전트나 도구로 작업을 분배하는 마스터 에이전트입니다. |
+| **Remote Agent** | 독립적인 API 서버처럼 동작하며, 다른 에이전트의 요청을 받아 특정 도메인의 작업을 수행합니다. |
+| **Sub Agent** | 특정 기능(예: 검색, 요약)에 특화된 모듈식 에이전트입니다. |
+| **Agent Tool** | 에이전트를 도구(Tool) 형태로 래핑하여 다른 에이전트가 호출할 수 있게 만든 컴포넌트입니다. |
 
-See [a2a_tool/README.md](a2a_tool/README.md) for tool structure, configuration, and example usage.
+## 라이선스
 
-## Getting Started
-
-1. Choose a subfolder that matches your use case or learning goal.
-2. Review the README file in that subfolder for setup, configuration, and running instructions.
-3. Set up environment variables as described (typically via a `.env` file).
-4. Run the example using the recommended commands.
-
-## License
-
-This project is licensed under the Apache License 2.0. All code and content copyright **ForusOne** (shins777@gmail.com).
+본 프로젝트는 Apache License 2.0에 따라 라이선스가 부여됩니다. 

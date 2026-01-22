@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 
-load_dotenv(dotenv_path="../.env")
+load_dotenv(dotenv_path="../../.env")
 
 INSTRUCTION = """
     당신은 사용자 질문에 답변을 제공하는 에이전트입니다.

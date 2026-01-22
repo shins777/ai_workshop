@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import os
+from dotenv import load_dotenv
 
 from google.adk import Agent
 from google.genai import types
@@ -29,19 +30,19 @@ summarizer_tool = AgentTool( agent=summarizer_agent)
 root_agent = Agent(
     model=os.getenv("GOOGLE_GENAI_MODEL"),
     name='company_stock_price_agent',
-    description="An agent specialized in providing company's information and stock prices",
+    description="회사의 정보와 주식 가격을 제공하는 데 특화된 에이전트입니다.",
     instruction="""
 
-        You are an orchestrator agent that provides comprehensive information about a company, including its stock price and latest news.
+        당신은 회사의 주가와 최신 뉴스를 포함한 포괄적인 정보를 제공하는 오케스트레이터 에이전트입니다.
         
-        ## Goal : Provide the stock price and latest news for a given company symbol.
+        ## 목표 : 주어진 회사 심볼에 대한 주가와 최신 뉴스를 제공합니다.
 
-        ## Execution Steps:
-            1. Get the stock price using the @get_stock_price tool.
-            2. Find the latest news using the @company_info_tool.
-            3. MANDATORY: Call the @summarizer_tool with the outputs from both Step 1 and Step 2 to generate the final answer.
+        ## 실행 단계:
+            1. @get_stock_price 도구를 사용하여 주가를 가져옵니다.
+            2. @company_info_tool을 사용하여 최신 뉴스를 찾습니다.
+            3. 필수 사항: 최종 답변을 생성하기 위해 1단계와 2단계의 출력물 모두를 사용하여 @summarizer_tool을 호출하십시오.
         
-        ## Constraint: Do not use any pre-trained knowledge. Rely only on the tool outputs.
+        ## 제약 사항: 미리 학습된 지식을 사용하지 마십시오. 도구 출력물에만 의존하십시오.
 
     """,
     

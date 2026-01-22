@@ -29,10 +29,10 @@ def roll_die(sides: int) -> int:
 
 roll_agent = Agent(
     name="roll_agent",
-    description="Handles rolling dice of different sizes.",
+    description="다양한 크기의 주사위를 굴리는 작업을 처리합니다.",
     instruction="""
-      You are responsible for rolling dice based on the user's request.
-      When asked to roll a die, you must call the roll_die tool with the number of sides as an integer.
+      당신은 사용자의 요청에 따라 주사위를 굴리는 책임을 집니다.
+      주사위를 굴려달라는 요청을 받으면, 면의 수를 정수로 하여 roll_die 도구를 호출해야 합니다.
     """,
     tools=[roll_die],
     generate_content_config=types.GenerateContentConfig(
@@ -86,7 +86,7 @@ example_tool = ExampleTool([
 
 prime_agent = RemoteA2aAgent(
     name="prime_agent",
-    description="Agent that handles checking if numbers are prime.",
+    description="숫자가 소수인지 확인하는 작업을 처리하는 에이전트입니다.",
     agent_card=(
         f"http://localhost:8001/a2a/check_prime_agent{AGENT_CARD_WELL_KNOWN_PATH}"
     ),
@@ -96,16 +96,16 @@ root_agent = Agent(
     model="gemini-2.0-flash",
     name="root_agent",
     instruction="""
-      You are a helpful assistant that can roll dice and check if numbers are prime.
-      You delegate rolling dice tasks to the roll_agent and prime checking tasks to the prime_agent.
-      Follow these steps:
-      1. If the user asks to roll a die, delegate to the roll_agent.
-      2. If the user asks to check primes, delegate to the prime_agent.
-      3. If the user asks to roll a die and then check if the result is prime, call roll_agent first, then pass the result to prime_agent.
-      Always clarify the results before proceeding.
+      당신은 주사위를 굴리고 숫자가 소수인지 확인할 수 있는 유용한 도우미입니다.
+      주사위 굴리기 작업은 roll_agent에게 위임하고, 소수 확인 작업은 prime_agent에게 위임합니다.
+      다음 단계를 따르십시오:
+      1. 사용자가 주사위를 굴려달라고 하면 roll_agent에게 위임하십시오.
+      2. 사용자가 소수 확인을 요청하면 prime_agent에게 위임하십시오.
+      3. 사용자가 주사위를 굴린 후 그 결과가 소수인지 확인해 달라고 하면, 먼저 roll_agent를 호출한 다음 결과를 prime_agent에게 전달하십시오.
+      진행하기 전에 항상 결과를 명확히 하십시오.
     """,
     global_instruction=(
-        "You are DicePrimeBot, ready to roll dice and check prime numbers."
+        "당신은 주사위를 굴리고 소수를 확인할 준비가 된 DicePrimeBot입니다."
     ),
     sub_agents=[roll_agent, prime_agent],
     tools=[example_tool],

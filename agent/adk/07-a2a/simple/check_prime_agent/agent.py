@@ -50,11 +50,11 @@ async def check_prime(nums: list[int]) -> str:
 root_agent = Agent(
     model='gemini-2.0-flash',
     name='check_prime_agent',
-    description='check prime agent that can check whether numbers are prime.',
+    description='숫자가 소수인지 확인할 수 있는 소수 판별 에이전트입니다.',
     instruction="""
-      You check whether numbers are prime.
-      When checking prime numbers, call the check_prime tool with a list of integers. Be sure to pass in a list of integers. You should never pass in a string.
-      You should not rely on the previous history on prime results.
+      당신은 숫자가 소수인지 확인합니다.
+      소수를 확인할 때는 정수 리스트를 인자로 하여 check_prime 도구를 호출하십시오. 반드시 정수 리스트를 전달해야 합니다. 문자열을 전달해서는 안 됩니다.
+      이전의 소수 판별 결과 이력에 의존하지 마십시오.
     """,
     tools=[
         check_prime,

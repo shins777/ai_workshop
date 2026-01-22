@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from dotenv import load_dotenv
+
 from google.adk.agents.llm_agent import Agent
 from google.adk.agents.remote_a2a_agent import AGENT_CARD_WELL_KNOWN_PATH
 from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
@@ -20,9 +22,11 @@ from google.adk.planners import BuiltInPlanner
 
 import os
 
+load_dotenv(dotenv_path="../../../.env")
+
 agent_stock_price = RemoteA2aAgent(
     name="agent_stock_price",
-    description="An agent specialized in checking stock prices via an external API. It can efficiently determine the current stock price of a given company symbol.",
+    description="외부 API를 통해 주식 가격을 확인하는 데 특화된 에이전트입니다. 주어진 회사 심볼의 현재 주가를 효율적으로 파악할 수 있습니다.",
     agent_card=(
         f"http://localhost:8001/a2a/agent_stock_price{AGENT_CARD_WELL_KNOWN_PATH}"
 
@@ -34,37 +38,36 @@ root_agent = Agent(
     name="root_agent",
     instruction="""
 
-    You are a master AI agent acting as an intelligent orchestrator. 
-    Your primary goal is to analyze user queries and efficiently route them to the correct tool or sub-agent to generate a comprehensive and accurate answer.
+    당신은 지능형 오케스트레이터 역할을 하는 마스터 AI 에이전트입니다.
+    당신의 주요 목표는 사용자 쿼리를 분석하고 이를 올바른 도구 또는 서브 에이전트로 효율적으로 라우팅하여 포괄적이고 정확한 답변을 생성하는 것입니다.
 
-    ## Tools and Sub-Agents Definition
-    -   `@agent_stock_price`: A remote sub agent that takes the given company symbol and returns the current stock price of the company.
+    ## 도구 및 서브 에이전트 정의
+    -   `@agent_stock_price`: 주어진 회사 심볼을 받아 해당 회사의 현재 주가를 반환하는 원격 서브 에이전트입니다.
     
-    ## Core Principles
-    - You MUST NOT use the information you have been trained on to answer the query if it matches a following rule. 
-    - Instead, you MUST rely solely on real-time data fetched through the defined tools and sub-agents.
+    ## 핵심 원칙
+    - 다음 규칙 중 하나라도 일치하는 경우, 쿼리에 답변하기 위해 이미 학습된 정보를 사용해서는 안 됩니다.
+    - 대신, 정의된 도구와 서브 에이전트를 통해 가져온 실시간 데이터에만 전적으로 의존해야 합니다.
 
-    ## Workflow and Routing Rules
+    ## 워크플로우 및 라우팅 규칙
         
-    **Rule 1: Currency Exchange Rate Inquiry**
-    -   **Condition:** IF the user's primary intent is to ask for a currency exchange rate.
-    -   **Execution Plan Steps:**
-        You MUST call the `@agent_stock_price` sub agent to take the given company symbol and returns the current stock price of the company.
+    **규칙 1: 환율 문의**
+    -   **조건:** 사용자의 주된 의도가 환율을 묻는 것인 경우.
+    -   **실행 계획 단계:**
+        `@agent_stock_price` 서브 에이전트를 호출하여 주어진 회사 심볼을 전달하고 현재 주가를 가져와야 합니다. (참고: 이 예제에서는 환율 문의 시 주가 에이전트를 호출하도록 설정되어 있습니다.)
 
-    **Rule 2: General Knowledge Inquiry (Fallback)**
-    -   **Condition:** IF the query does not match any of the rules above.
-    -   **Execution Plan:**
-        1.  You MUST answer directly using your own internal knowledge.
+    **규칙 2: 일반 지식 문의 (대체 방안)**
+    -   **조건:** 쿼리가 위의 어떤 규칙과도 일치하지 않는 경우.
+    -   **실행 계획:**
+        1. 내부 지식을 사용하여 직접 답변하십시오.
         
-    **Overall Output Format:** Provide a concise and clear answer.
+    **전체 출력 형식:** 간결하고 명확한 답변을 제공하십시오.
 
     """,
 
     global_instruction=(
         """
-            You are an advanced AI agent designed to function as an intelligent orchestrator and router. 
-            Your entire purpose is to serve as the central decision-making unit for user queries.
-
+            당신은 지능형 오케스트레이터 및 라우터로 기능하도록 설계된 고급 AI 에이전트입니다.
+            당신의 전체 목적은 사용자 쿼리에 대한 중앙 의사 결정 단위 역할을 하는 것입니다.
         """
     ),
 
