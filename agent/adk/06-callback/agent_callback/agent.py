@@ -19,7 +19,7 @@ from google.adk.agents import Agent
 from .callback import callback_before_agent
 from .callback import callback_after_agent
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 INSTRUCTION = """
 당신은 사용자의 질문에 답변하는 AI 에이전트입니다.

@@ -20,7 +20,7 @@ from .callback import callback_before_tool
 from .callback import callback_after_tool
 from .callback import get_capital_city
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 #--------------------------------[build_agent]----------------------------------
 

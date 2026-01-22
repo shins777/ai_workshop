@@ -21,7 +21,7 @@ from langchain_community.tools import TavilySearchResults
 
 from . import function
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 # Instantiate the LangChain tool
 tavily_tool_instance = TavilySearchResults(

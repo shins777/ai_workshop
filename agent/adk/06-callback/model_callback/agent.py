@@ -19,7 +19,7 @@ from google.adk.agents import Agent
 from .callback import callback_before_model
 from .callback import callback_after_model
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 #--------------------------------[build_agent]----------------------------------
 

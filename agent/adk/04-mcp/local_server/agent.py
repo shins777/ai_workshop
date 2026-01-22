@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from google.adk.agents import LlmAgent
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 def mcp_toolset():
     """

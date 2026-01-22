@@ -18,7 +18,7 @@ from google.adk.agents import Agent
 from google.adk.tools import VertexAiSearchTool
 import vertexai
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 def get_vertex_search_tool():
     """

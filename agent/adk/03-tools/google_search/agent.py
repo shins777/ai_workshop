@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 
 INSTRUCTION = """

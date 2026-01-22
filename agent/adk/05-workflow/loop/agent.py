@@ -26,7 +26,7 @@ from .sub_agent import critic_agent
 from .sub_agent import refine_agent
 from .sub_agent import conclusion_agent
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 # 루프 워크플로 예제: `critics_loop`는 반복적인 비평 및 개선을 수행합니다.
 # 루프는 비평 단계와 개선 단계를 번갈아 가며 출력을 개선합니다.

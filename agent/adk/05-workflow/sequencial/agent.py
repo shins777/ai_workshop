@@ -17,7 +17,7 @@ from google.adk.agents import SequentialAgent
 
 from .sub_agent import positive_critic, negative_critic, review_critic
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 # `root_agent`는 각 하위 에이전트가 순서대로 실행되는 간단한 파이프라인을 정의합니다.
 # 이후 단계가 이전 단계에서 생성된 출력에 의존하는 경우 SequentialAgent를 사용하세요.

@@ -18,7 +18,7 @@ from google.adk.agents import Agent
 
 from .sub_agent import positive_critic, negative_critic
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 SYSTEM_INSTRUCTION = """
     당신은 사용자의 다양한 질문에 충실하게 답변하는 에이전트입니다.

@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from google.adk.agents import Agent
 from toolbox_core import ToolboxSyncClient
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 def get_toolbox():
     """

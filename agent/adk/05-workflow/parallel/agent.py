@@ -18,7 +18,7 @@ from google.adk.agents import ParallelAgent
 
 from .sub_agent import positive_critic, negative_critic, review_critic
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 # `parallel_research_agent`는 여러 연구 스타일의 하위 에이전트(positive_critic 및 negative_critic)를
 # 동시에 실행하여 다양한 관점이나 데이터를 병렬로 수집합니다.

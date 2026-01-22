@@ -22,7 +22,7 @@ from .sub_agent import review_critic
 
 from .critic import CriticAgent
 
-load_dotenv()
+load_dotenv(dotenv_path="../../.env")
 
 # 모듈 목적:
 # 이 모듈은 세 가지 하위 에이전트를 구성하는 사용자 지정 CriticAgent를 정의합니다.
