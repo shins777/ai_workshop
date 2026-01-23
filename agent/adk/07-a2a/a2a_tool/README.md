@@ -43,13 +43,16 @@ GOOGLE_GENAI_MODEL = "gemini-2.0-flash"
 원격 에이전트를 실행하려면 다음 명령어를 사용하십시오:
 
 ```bash
-adk api_server --a2a --port 8001 a2a_tool/remote_agents/exchange_rate
+adk api_server --a2a --port 8001 a2a_tool/remote_agents
 ```
 
 클라이언트를 실행하여 원격 에이전트와 상호작용하려면 다음 명령어를 사용하십시오:
 
 ```bash
-adk web a2a_tool/agent_client
+adk web a2a_tool
+
+이후 agent_client 선택
+
 ```
 
 에이전트에게 물어볼 수 있는 질문 예시:
