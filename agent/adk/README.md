@@ -27,15 +27,44 @@ uv sync
 ### 2. 환경 변수 설정 (.env)
 각 예제 폴더 또는 루트 폴더에 `.env` 파일을 생성하고 필요한 자격 증명을 설정하세요.
 ```env
-# Vertex AI (기업용) 사용 시
-GOOGLE_GENAI_USE_VERTEXAI=TRUE
-GOOGLE_CLOUD_PROJECT="발급받은-프로젝트-ID"
-GOOGLE_CLOUD_LOCATION="global"
-GOOGLE_GENAI_MODEL="gemini-2.5-flash"
 
-# AI Studio (일반용) 사용 시
-GOOGLE_GENAI_USE_VERTEXAI=FALSE
-GOOGLE_API_KEY="발급받은-API-키"
+####################################################
+#    Environment Variables
+####################################################
+
+# 01-basic/text
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+GOOGLE_CLOUD_PROJECT="ai-project"
+GOOGLE_CLOUD_LOCATION="us-central1"
+GOOGLE_GENAI_MODEL="gemini-2.5-flash"
+# 01-basic/live
+GOOGLE_GENAI_LIVE_MODEL = "gemini-live-2.5-flash"
+# 01-basic/engine
+AGENT_ENGINE_BUCKET = "gs://agent_engine_0120"
+
+# 02-context/memory
+MEMORY_BANK_ID = "00000000000000000"
+
+# 03-tools/function_call
+STOCK_API_KEY = "AAAAAAAAAAAAAA"
+# 03-tools/Taviliy API keys
+TAVILY_API_KEY = "AAAAAAAAAAAAAA"
+# 03-tools/RAG Engine
+RAG_CORPUS="projects/ai-project/locations/us-central1/ragCorpora/00000000000000000"
+# 03-tools/Vertex AI Search 
+VAIS_PROJECT_NUMBER = "000000000000"
+VAIS_LOCATION = "global"
+VAIS_DATASTORE_ID = "AAAAAAAAAAAAAA"
+
+# 04-mcp/ Toolbox configuration
+TOOLBOX_SYNC_CLIENT = "http://127.0.0.1:5000"
+# 04-mcp/ Google Map API key
+GOOGLE_MAPS_API_KEY = "AAAAAAAAAAAAAA"
+
+# 08-misc/model
+OLLAMA_API_BASE="http://localhost:11434"
+# 08-misc/agentops
+AGENTOPS_API_KEY = "AAAAAAAAAAAAAA"
 ```
 
 ### 3. 에이전트 실행 및 테스트
