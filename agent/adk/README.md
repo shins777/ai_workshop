@@ -2,7 +2,7 @@
 
 ADK(Agent Development Kit)는 Google Cloud Platform(GCP)과 Vertex AI를 기반으로 엔터프라이즈급 AI 에이전트를 쉽고 빠르게 구축, 테스트 및 배포할 수 있도록 설계된 프레임워크입니다. 
 
-이 리포지토리는 ADK의 핵심 기능부터 고급 워크플로우 패턴, 외부 도구 연동(MCP), 그리고 관측성 설정까지 실무에 필요한 모든 예제를 담고 있습니다.
+이 리포지토리는 ADK의 핵심 기능부터 고급 워크플로우 패턴, 외부 도구 연동(MCP), A2A 등 실무에 필요한 모든 예제를 담고 있습니다.
 
 ---
 
@@ -11,7 +11,19 @@ ADK(Agent Development Kit)는 Google Cloud Platform(GCP)과 Vertex AI를 기반�
 ADK는 `adk web` 명령어를 통해 로컬 웹 인터페이스에서 에이전트의 동작을 실시간으로 확인하고 디버깅할 수 있는 강력한 개발 환경을 제공합니다.
 
 ### 1. 가상 환경 설정
+
 이 프로젝트는 `uv` 패키지 관리자를 사용하여 빠르고 격리된 환경을 구축합니다.
+uv는 Rust로 작성된 빠르고 사용하기 쉬운 관리자입니다. 자세한 내용은 다음 프로젝트를 참조하세요. https://github.com/astral-sh/uv
+uv는 다음 방법 중 하나로 설치할 수 있습니다.
+```bash
+# curl 로 설치
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# pip 로 설치
+pip install uv
+```
+
+테스트 환경 구성을 위한 가상환경 설정은 아래와 같습니다.
 ```bash
 # 디렉토리 이동
 cd agent/adk
@@ -20,12 +32,23 @@ cd agent/adk
 uv venv --python 3.12
 source .venv/bin/activate
 
-# 의존성 설치
+# activate 처리 결과
+(adk) /Users/ai_user/Documents/Antigravity/ai_workshop/agent/adk$ 
+
+# 패키지 의존성 설치, 패키지 의존성은 pyproject.toml 참고.
 uv sync
 ```
 
+```bash
+# 모든 테스트가 끝나고 deactive 할 때는 폴더 위치 상관없이 실행
+deactivate
+
+# deactivate 실행결과
+/Users/ai_user/Documents/Antigravity/ai_workshop/agent/adk$ 
+```
+
 ### 2. 환경 변수 설정 (.env)
-각 예제 폴더 또는 루트 폴더에 `.env` 파일을 생성하고 필요한 자격 증명을 설정하세요.
+루트 폴더(ai_workshop/agent/adk) 하위에 `.env` 파일을 생성하고 필요한 자격 증명을 설정하세요.
 ```env
 
 ####################################################
@@ -41,9 +64,6 @@ GOOGLE_GENAI_MODEL="gemini-2.5-flash"
 GOOGLE_GENAI_LIVE_MODEL = "gemini-live-2.5-flash"
 # 01-basic/engine
 AGENT_ENGINE_BUCKET = "gs://agent_engine_0120"
-
-# 02-context/memory
-MEMORY_BANK_ID = "00000000000000000"
 
 # 03-tools/function_call
 STOCK_API_KEY = "AAAAAAAAAAAAAA"
